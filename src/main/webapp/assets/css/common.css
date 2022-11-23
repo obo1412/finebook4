@@ -1,0 +1,35 @@
+/** 페이지 기본 높이 */
+
+/** body 영역이 메뉴에 가려지는 부분 확보하기 */
+/* body {
+	min-height: 600px;
+}
+
+* 반응형 메뉴 영역의 높이 제한 해제
+.navbar-fixed-top .navbar-collapse {
+	max-height: 100%;
+}
+
+.navbar {
+	margin-bottom: 0px;
+} */
+.card {
+	/* max-width: 1000px; */
+}
+
+.table-sm {
+	font-size: 12px;
+}
+
+table { 
+	table-layout: fixed;
+}
+
+
+/* 필요없는 곳도 있어서 뺀다. */
+/* tr > td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+} */
+

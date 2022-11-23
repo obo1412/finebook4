@@ -1,0 +1,60 @@
+@media all {
+	
+	.color__addi__code {
+		color:white;
+		font-size:1.1rem;
+		font-family:HY견고딕;
+		white-space:nowrap;
+		text-align:center;
+	}
+	
+	.code__box {
+		font-size: 1.5rem;
+		font-family:HY견고딕;
+		font-weight:bold;
+		white-space:nowrap;
+		text-align:center;
+	}
+	
+	.lib__name__fixed {
+		color:white;
+		font-size: 1.1rem;
+		font-family: HY견고딕;
+		white-space:nowrap;
+		text-align: center;
+	}
+	
+	.text__digit__1 {
+		transform:rotate(90deg) translate(12mm,2mm);
+	}
+	
+	.text__digit__2 {
+		transform:rotate(90deg) translate(12mm,2mm);
+	}
+	
+	.text__digit__4 {
+		transform:rotate(90deg) translate(11mm,2mm);
+	}
+	
+	.text__digit__5 {
+		transform:rotate(90deg) translate(8mm,2mm);
+	}
+	
+	.barcode__on {
+		height:35%;
+		line-height:10mm;
+		font-family:'Free 3 of 9';
+		font-size: 10mm;
+		transform:scale(1,1.5);
+	}
+	
+	.author__code {
+		font-size:1.3rem;
+		letter-spacing: 0em;
+	}
+	
+}
+
+
+
+

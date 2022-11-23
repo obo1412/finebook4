@@ -1,0 +1,67 @@
+@media all {
+	:root {
+		--a4-fontsize-namelib: ${tag.a4FontSizeNamelib}mm;
+		--a4-fontsize-barcode: ${tag.a4FontSizeBarcode}mm;
+		--a4-fontsize-barcode-num: ${tag.a4FontSizeBarcodeNum}mm;
+		--a4-fontsize-code-barcode: ${tag.a4FontSizeCodeBarcode}mm;
+		--a4-fontsize-codes: ${tag.a4FontSizeCodes}mm;
+		--a4-fontsize-class-num: ${tag.a4FontSizeClassNum}mm;
+	}
+	
+	.div__empty__data {
+		visibility:hidden;
+	}
+	
+	.code__box {
+		white-space: nowrap;
+		overflow: hidden;
+		line-height: 100%;
+	}
+	
+	/*이건 사용 못할듯. 연속 용지이지만 프린터 출력시 a4기준으로
+	페이지가 끊기고 넘어갈때, 그 빈공간에 걸친 라벨 위치가 틀어지는 문제 발생.
+	그래서 flex가 문제인듯하니, 강제로 위치 조정*/
+	.call__num__box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap:nowrap;
+		
+		font-size: 8mm;
+		font-weight: bold;
+		color: white;
+	}
+	
+	/* roll default 에만 적용한 폰트 css 분리 */
+	.call__num__font {
+		font-size: 8mm;
+		font-weight: bold;
+		color: white;
+	}
+	
+	/* 3자리 대분류 번호 돌리기
+		display flex를 사용하면 알수 없는 이유로
+		페이지가 넘어갈 때 경계에 걸친 태그의
+		대분류번호가 제자리에서 튕긴다.
+		따라서 translate으로 고정 값으로 이동하는 것이다.
+		이처럼 하면, 값이 3자리 4자리일 경우
+		위치를 하나씩 잡아줘야되는 불편함이있다. */
+	.call__num__rotate__3digit {
+		transform:rotate(90deg) translate(9.5mm);
+		font-family:HY견고딕;
+		padding-top:2mm;
+	}
+	
+	/* roll default no qrcode 페이지의 대분류 css는
+	callNo call__num__box가 함께있었고,
+	
+	call__num__rotate__3digit 대신에,
+	transform:rotate(90deg);
+		font-family:HY견고딕;
+		padding-top:2mm; 
+		이렇게 배치되어있었음. 참고 */
+		
+	.left__nameLib {
+		font-size: var(--a4-fontsize-namelib);
+	}
+}

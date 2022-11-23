@@ -1,0 +1,81 @@
+/* :root {
+	--name-lib-size: ${tag.marginLeft};
+} */
+
+@media print {
+	.sidebar {
+		display: none;
+	}
+	.sticky-footer {
+		display: none;
+	}
+	.prtNone {
+		display: none;
+	}
+}
+
+@media all {
+	@page {
+		size: A4; /* A4 */
+		margin: 0;
+	}
+	html, body {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		font-family: '굴림';
+		box-sizing: border-box;
+		width: 210mm;
+	}
+	
+	.left__nameLib {
+		font-size: var(--a4-fontsize-namelib);
+	}
+	
+	.left__barcode {
+		font-size: var(--a4-fontsize-barcode);
+	}
+	
+	.left__barcode__num {
+		font-size: var(--a4-fontsize-barcode-num);
+	}
+	
+	.right__code__barcode {
+		font-size: var(--a4-fontsize-code-barcode);
+	}
+	
+	/* right__codes 청구기호 전체 */
+	.callText {
+		font-size: var(--a4-fontsize-codes);
+		line-height:100%;
+	}
+	
+	.right__class__num {
+		font-size: var(--a4-fontsize-class-num);
+		font-family : 'HY견고딕';
+		font-weight:bold;
+		color:white;
+		
+		height:100%;
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.right__class__num>div {
+		transform:rotate(90deg);
+		margin-right: 2mm;
+	}
+	
+	.code__box {
+		white-space: nowrap;
+		overflow: hidden;
+		line-height: 100%;
+	}
+	
+	.div__empty__data {
+		visibility:hidden;
+	}
+	
+}

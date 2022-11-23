@@ -1,0 +1,256 @@
+:root {
+	--white-color: #ededed;
+	--background-color: #1b2129;
+	--accent-color: #d49466;
+	--btn-color: #c9c9cf;
+	--line-color: #c8ccce;
+	--hover-color: #a09090;
+}
+
+::-webkit-scrollbar {
+	display: none;
+	/* width:2px;
+	background-color: var(--white-color);	 */
+}
+::-webkit-scrollbar-thumb {
+	background-color:#778899;
+}
+::-webkit-scrollbar-track {
+	background-color: var(--white-color);
+	
+}
+
+table thead th, table tbody td {
+	border: 1px solid var(--line-color);
+}
+
+.table__lib tr {
+	border-top: 3px solid var(--line-color);
+}
+
+/* 보유도서목록 테이블 관련 css */
+.tb__lib__num {
+	width:50px;
+}
+
+.tb__lib__publisher {
+	width: 80px;
+}
+
+.inlib__publisher {
+	width:80px;
+	height: 50px;
+}
+
+
+.tb__lib__barcode, .inlib__barcode, .tb__lib__isbn13, .inlib__isbn13 {
+	width: 110px;
+}
+
+.tb__lib__author, .tb__lib__title {
+	width: 160px;
+}
+
+.inlib__title, .inlib__author {
+	width: 160px;
+	height: 50px;
+}
+
+
+.width__fix {
+	white-space:nowrap;
+	overflow-x:hidden;
+}
+
+.width__fix__scrollable {
+	
+	overflow-x: scroll;
+}
+
+
+
+
+
+
+/* 보유도서목록 테이블 관련 css */
+
+/* 검색 바 까지 전체 감싸고 있는 놈 */
+.dup__check__box {
+	
+	margin-bottom:10px;
+	
+	width: 100%;
+	
+	display:flex;
+	flex-direction: column;
+	overflow: auto;
+}
+
+
+.search__bar__group {
+	border: 1px solid var(--line-color);
+	border-radius: 10px;
+	padding: 5px;
+	width:700px;
+	display: flex;
+	margin-left: 5px;
+	justify-content : space-around;
+}
+
+.label__width {
+	width:140px;
+	margin-left:5px;
+}
+
+/* 1차검색, 2차검색 사이 간격 띄우기 */
+.label__width>span {
+	margin-right:20px;
+}
+
+.label__author {
+	margin-left:10px;
+}
+
+.child__search__bar {
+	width: 600px;
+}
+
+.child__search__bar>input {
+	width: 140px;
+}
+
+.btn__search {
+	margin-left: 10px;
+}
+
+/* 도서 목록등 박스를 다 감싸고 있는 박스 */
+.div__content {
+	display:flex;
+	flex-direction: row;
+	flex-wrap: nowrap;	
+}
+
+/* 각각 박스 */
+.hori__box {
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.box__title {
+	padding-left: 20px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.common__box {
+	width:100%;
+	height: 310px;
+	border: 1px solid var(--line-color);
+	border-radius: 10px;
+	padding: 5px;
+	margin-bottom:10px;
+	
+	overflow: scroll;
+	
+}
+
+.inlib__book:hover, .api__book:hover {
+	background-color: var(--hover-color);
+	cursor:pointer;
+}
+
+.div__img__box__inlib, .div__img__book__api {
+	width:100px;
+	height:120px;
+	border: 1px solid var(--line-color);
+	border-radius: 5px;
+	margin:auto;
+}
+
+.img__book__inlib, .img__book__api {
+	height: 100%;
+	margin:auto;
+}
+
+.content__divider {
+	width:90%;
+	height:1px;
+	margin:auto;
+	margin-bottom:4px;
+	padding-top: 4px;
+	border-bottom: 1px solid black;
+}
+
+
+
+.book__in__lib__list {
+	width: 700px;
+}
+
+.detail__book__in__lib {
+	width: 250px;
+}
+
+.inlib__whole__box {
+	display: flex;
+}
+
+
+
+.api__whole__box {
+	display: flex;
+	position:relative;
+	top:-70px;
+}
+
+.book__api__list {
+	width: 400px;
+}
+
+.detail__book__api {
+	width:250px;
+}
+
+.api__box__height {
+	height: 380px;
+}
+
+.btn__req__book {
+	margin-top: 20px;
+	font-size: small;
+}
+
+.tb__api__num, .tb__api__publisher {
+	width: 80px;
+}
+
+.api__publisher {
+	width:80px;
+}
+
+.tb__api__title, .api__title {
+	width: 310px;
+	height:22px;
+}
+
+.tb__api__isbn13 {
+	width: 120px;
+}
+
+.api__author {
+	width:190px;
+	height:22px;
+}
+
+
+
+
+.alert__already__document {
+	color : red;
+}
+
+
+
+
+
+

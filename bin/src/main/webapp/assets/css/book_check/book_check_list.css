@@ -1,0 +1,78 @@
+.table {
+	font-size: 12px;
+}
+
+::-webkit-scrollbar {
+	display: none;
+	/* width:2px;
+	background-color: var(--white-color);	 */
+}
+
+.oppositeColor {
+	mix-blend-mode: difference;
+	color: #ffffff;
+}
+
+.check__tab__char {
+	height:380px;
+	overflow:auto;
+}
+
+.num__circle {
+	display:inline-block;
+	min-width: 20px;
+	margin: 5px;
+	padding: 2px;
+	border-radius: 5px;
+	color: white;
+	font-size: 12px;
+	text-align:center;
+}
+
+.num__circle__whole {
+	background-color: #515151;
+	color:white;
+}
+
+.num__circle__normal {
+	background-color: #248726;
+	color:white;
+}
+
+.num__circle__doubleChecked {
+	background-color: #ba9b00;
+	color:white;
+}
+
+.num__circle__rented {
+	background-color: #ad9e00;
+}
+
+.num__circle__unregistered {
+	background-color: #ea4d6a;
+	color: white;
+}
+
+.num__circle__unchecked {
+	border: 1px solid black;
+	color: black;
+}
+
+.num__circle__wholeBrwed {
+	background-color: #969393;
+}
+
+
+.board__wrap {
+	border: 1px solid black;
+	height: 300px;
+}
+
+.td__width{
+	width: 100px;
+}
+
+.board__wrap th {
+	padding-left: 10px;
+	padding-right: 5px;
+}

@@ -1,0 +1,9 @@
+.commonWidth {
+	width: 800px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.side__list__body {
+	padding-top:10px;
+}

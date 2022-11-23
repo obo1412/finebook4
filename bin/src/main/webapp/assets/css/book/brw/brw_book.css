@@ -1,0 +1,54 @@
+@media ( min-width : 768px) {
+	.upsideCard {
+		/* max-width: 500px; */
+		float: left;
+		width: 49%;
+		/* margin-right: 0.2em; */
+		min-height: 520px;
+	}
+	.bottomCard {
+		float: left;
+		width: 99%;
+		/* 페이지가 모니터 최대치일 경우, 아래칸이 위로 올라옴 */
+		clear: left;
+		min-height: 300px;
+	}
+	.table-sm {
+		font-size: 12px;
+	}
+	label {
+		margin-bottom: 0;
+		font-size: 14px;
+	}
+	.btn-sm {
+		font-size: 10px;
+	}
+}
+
+table {
+	table-layout: auto;
+}
+
+.table-fixed { 
+	table-layout: fixed;
+}
+
+tr > td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.div__img {
+	width:90%;
+	height:80%;
+	margin:auto;
+	background-color: white;
+	display:flex;
+}
+
+.div__img img {
+	max-height: 100%;
+	width:auto;
+	max-width: 100%;
+}

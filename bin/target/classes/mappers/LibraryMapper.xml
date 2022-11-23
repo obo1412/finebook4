@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LibraryMapper">
+	<resultMap id="library" type="com.gaimit.mlm.model.Library">
+		<result property="idLib" column="id_lib"/>
+		<result property="nameLib" column="name_lib"/>
+		<result property="locLib" column="loc_lib"/>
+		<result property="stringKeyLib" column="string_key_lib"/>
+		<result property="expDate" column="exp_date"/>
+		<result property="numOfDigitBarcode" column="num_of_digit_barcode"/>
+		<result property="regDateLib" column="reg_date_lib"/>
+		<result property="purpose" column="purpose"/>
+		<result property="statementDate" column="statement_date"/>
+		<result property="kioskMode" column="kiosk_mode"/>
+	</resultMap>
+	
+	<!-- 아이디 중복검사를 수행한다 -->
+	<!-- <select id="selectUserIdCount" parameterType="com.gaimit.mlm.model.Member" resultType="int">
+		SELECT count(id) FROM member WHERE user_id=#{userId}
+	</select> -->
+	
+	<!-- 이메일 중복 검사를 수행한다 -->
+	<!-- <select id="selectEmailCount" parameterType="com.gaimit.mlm.model.Member" resultType="int">
+		SELECT count(id) FROM member WHERE email=#{email}
+	</select> -->
+
+
+	<!--도서관 목록 조회 -->
+	<select id="selectLibraryList" parameterType="com.gaimit.mlm.model.Library" resultMap="library">
+		SELECT
+			id_lib, name_lib, loc_lib, string_key_lib, exp_date, reg_date_lib,
+			purpose, statement_date
+		FROM library
+		<where>
+			<if test="(nameLib != null) || (locLib != null)">
+				<if test="nameLib != null">
+					(REPLACE(name_lib,' ','')) LIKE concat('%', #{nameLib}, '%')
+								OR (name_lib LIKE concat('%', #{nameLib}, '%'))
+				</if>
+				<if test="locLib != null">
+					(REPLACE(loc_lib,' ','')) LIKE concat('%', #{locLib}, '%')
+								OR (loc_lib LIKE concat('%', #{locLib}, '%'))
+				</if>
+			</if>
+		</where>
+		ORDER BY id_lib DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- pagination을 위한 도서수 체크 -->
+	<select id="selectLibraryCountForPage" parameterType="com.gaimit.mlm.model.Library" resultType="int">
+		SELECT
+			COUNT(id_lib)
+		FROM library
+		<where>
+			<if test="(nameLib != null) || (locLib != null)">
+				<if test="nameLib != null">
+					(REPLACE(name_lib,' ','')) LIKE concat('%', #{nameLib}, '%')
+								OR (name_lib LIKE concat('%', #{nameLib}, '%'))
+				</if>
+				<if test="locLib != null">
+					(REPLACE(loc_lib,' ','')) LIKE concat('%', #{locLib}, '%')
+								OR (loc_lib LIKE concat('%', #{locLib}, '%'))
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- id_lib와 string_key로 도서관 정보 가져오기 -->
+	<select id="selectLibItemByKeys" parameterType="com.gaimit.mlm.model.Library" resultMap="library">
+		SELECT
+			id_lib, name_lib
+		FROM library
+		WHERE id_lib=#{idLib} AND string_key_lib=#{stringKeyLib}
+	</select>
+	
+	<!-- 도서관 만료일 변경 update -->
+	<update id="updateExpDateLib" parameterType="com.gaimit.mlm.model.Library">
+		UPDATE library SET
+			exp_date=#{expDate}
+		WHERE id_lib=#{idLib}
+	</update>
+	
+	<!-- 도서관 생성 쿼리 -->
+	<insert id="insertNewLib" parameterType="com.gaimit.mlm.model.Library" useGeneratedKeys="true" keyProperty="id_lib">
+		INSERT INTO library (
+			name_lib, loc_lib, string_key_lib, exp_date, reg_date_lib, purpose
+		) VALUES (
+			#{nameLib}, #{locLib}, #{stringKeyLib}, #{expDate}, now(), #{purpose}
+		)
+	</insert>
+	
+	<!-- 도서관 내용 변경 update -->
+	<update id="updateLibItem" parameterType="com.gaimit.mlm.model.Library">
+		UPDATE library SET
+			name_lib=#{nameLib}, loc_lib=#{locLib},
+			string_key_lib=#{stringKeyLib}, exp_date=#{expDate}, reg_date_lib=#{regDateLib},
+			purpose=#{purpose}, statement_date=#{statementDate}, kiosk_mode=#{kioskMode}
+		WHERE id_lib=#{idLib}
+	</update>
+	
+	<!-- 도서관 단일 조회 및 수정을 위한 select -->
+	<select id="selectLibraryItem" parameterType="com.gaimit.mlm.model.Library" resultMap="library">
+		SELECT
+			id_lib, name_lib, loc_lib, string_key_lib, exp_date, num_of_digit_barcode,
+			reg_date_lib, purpose, statement_date, kiosk_mode
+		FROM library
+		WHERE id_lib=#{idLib}
+	</select>
+	
+	<!-- 도서관 하나 삭제  -->
+	<delete id="deleteLibItem" parameterType="com.gaimit.mlm.model.Library">
+		DELETE FROM library
+		WHERE id_lib=#{idLib}
+	</delete>
+	
+	<!-- 도서관의 등록번호 자리수 불러오기 -->
+	<select id="selectNodBarcodeByIdLib" parameterType="com.gaimit.mlm.model.Library" resultType="int">
+		SELECT num_of_digit_barcode
+		FROM library
+		WHERE id_lib=#{idLib}
+	</select>
+	
+	<!-- 도서관 등록번호 자리수 변경 update -->
+	<update id="updateNodBarcodeByIdLib" parameterType="com.gaimit.mlm.model.Library">
+		UPDATE library SET
+			num_of_digit_barcode=#{numOfDigitBarcode}
+		WHERE id_lib=#{idLib}
+	</update>
+	
+	<!-- 도서관 정산일 최신일로 변경 update -->
+	<update id="updateStatementDateLatest" parameterType="com.gaimit.mlm.model.Library">
+		UPDATE library SET
+			statement_date=now()
+		WHERE id_lib=#{idLib}
+	</update>
+	
+	<!-- 도서관 정산일 원하는 날짜로 변경 update -->
+	<update id="updateStatementDate" parameterType="com.gaimit.mlm.model.Library">
+		UPDATE library SET
+			statement_date=#{statementDate}
+		WHERE id_lib=#{idLib}
+	</update>
+	
+	
+	
+	
+</mapper>

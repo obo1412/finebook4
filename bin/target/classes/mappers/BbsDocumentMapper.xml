@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 XML의 구조대로 구현될 클래스의 이름 => Impl클래스를 대체한다. -->
+<mapper namespace="BbsDocumentMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="bbs_document" type="com.gaimit.mlm.model.BbsDocument">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="id" column="id" />
+		<result property="category" column="category" />
+		<result property="writerName" column="writer_name" />
+		<result property="writerPw" column="writer_pw" />
+		<result property="email" column="email" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="hit" column="hit" />
+		<result property="regDate" column="reg_date" />
+		<result property="editDate" column="edit_date" />
+		<result property="ipAddress" column="ip_address" />
+		<result property="managerId" column="manager_id" />
+		<result property="idLibMng" column="id_lib_mng" />
+		<result property="teamDoc" column="team_doc" />
+		<result property="personDoc" column="person_doc" />
+		<!-- <result property="imagePath" column="image_path" /> -->
+	</resultMap>
+	
+	<!-- 게시글 정보 저장하기 -->
+	<insert id="insertDocument" parameterType="com.gaimit.mlm.model.BbsDocument" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO bbs_document (
+			category, writer_name, email, subject, content, hit, reg_date, edit_date,
+			ip_address,
+			team_doc, person_doc,
+			manager_id, writer_pw 
+		) VALUES (
+			#{category}, #{writerName}, #{email}, #{subject}, #{content}, 0, now(), now(),
+			#{ipAddress}, 
+			#{teamDoc}, #{personDoc},
+			<choose>
+				<when test="managerId == 0">
+					null, password(#{writerPw})
+				</when>
+				<otherwise>
+					#{managerId}, #{writerPw}
+				</otherwise>
+			</choose>
+		)
+	</insert>
+	
+	<!-- 게시물 하나에 대한 정보를 조회한다. -->
+	<select id="selectDocument" 
+		parameterType="com.gaimit.mlm.model.BbsDocument" 
+		resultMap="bbs_document">
+		SELECT id, category, writer_name, writer_pw, email, subject, content, hit, 
+			   DATE_FORMAT(reg_date, '%Y-%m-%d %H:%i:%s') as reg_date, 
+			   DATE_FORMAT(edit_date, '%Y-%m-%d %H:%i:%s') as edit_date, 
+			   ip_address, manager_id, team_doc, person_doc
+		FROM   bbs_document
+		WHERE  category=#{category} AND id=#{id}
+	</select>
+	
+	<!-- 이전글 정보를 조회한다. -->
+	<select id="selectPrevDocument" 
+		parameterType="com.gaimit.mlm.model.BbsDocument" 
+		resultMap="bbs_document">
+		SELECT id, category, writer_name, writer_pw, email, subject, content, hit,
+			   DATE_FORMAT(reg_date, '%Y-%m-%d %H:%i:%s') as reg_date, 
+			   DATE_FORMAT(edit_date, '%Y-%m-%d %H:%i:%s') as edit_date, 
+			   ip_address, manager_id
+		FROM   bbs_document d
+		INNER JOIN manager m ON d.manager_id = m.id_mng
+		WHERE  category=#{category} AND id &lt; #{id}
+		<if test="'qna'.equals(category) and idLibMng != 0">
+			AND id_lib_mng = #{idLibMng}
+		</if>
+		ORDER  BY id DESC
+		LIMIT  0, 1
+	</select>
+	
+	<!-- 다음글 정보를 조회한다. -->
+	<select id="selectNextDocument" 
+		parameterType="com.gaimit.mlm.model.BbsDocument" 
+		resultMap="bbs_document">
+		SELECT id, category, writer_name, writer_pw, email, subject, content, hit,
+			   DATE_FORMAT(reg_date, '%Y-%m-%d %H:%i:%s') as reg_date, 
+			   DATE_FORMAT(edit_date, '%Y-%m-%d %H:%i:%s') as edit_date, 
+			   ip_address, manager_id
+		FROM   bbs_document d
+		INNER JOIN manager m ON d.manager_id = m.id_mng
+		WHERE  category=#{category} AND id &gt; #{id}
+		<if test="'qna'.equals(category) and idLibMng != 0">
+			AND id_lib_mng = #{idLibMng}
+		</if>
+		ORDER  BY id ASC
+		LIMIT  0, 1
+	</select>
+	
+	<!-- 조회수 1 증가 -->
+	<update id="updateDocumentHit" parameterType="com.gaimit.mlm.model.BbsDocument">
+		UPDATE bbs_document SET hit=hit+1 WHERE category=#{category} AND id=#{id}
+	</update>
+
+	<!-- 게시물 목록을 조회한다. -->
+	<select id="selectDocumentList" parameterType="com.gaimit.mlm.model.BbsDocument" 
+		resultMap="bbs_document">
+		SELECT id, category, writer_name, subject, hit,  
+			   DATE_FORMAT(reg_date, '%Y-%m-%d') as reg_date,
+			   team_doc, person_doc
+		<!-- <if test="gallery == true">
+			,( SELECT concat(file_dir,'/',file_name) FROM bbs_file
+			   WHERE bbs_document_id=bbs_document.id
+					 AND
+					 content_type LIKE ('image/%')
+			   ORDER BY id ASC LIMIT 0, 1
+			) as image_path
+		</if>	 -->   
+			   
+		FROM   bbs_document d
+		INNER JOIN manager m ON d.manager_id = m.id_mng
+		
+		<where>
+			category=#{category}
+			<if test="category != 'notice' and idLibMng != 0">
+				AND m.id_lib_mng = #{idLibMng}
+			</if>
+			<if test="subject != null or content != null">
+				AND (
+					<if test="subject != null">
+						subject LIKE concat('%', ${subject}, '%')
+					</if>
+					
+					<if test="content != null">
+						OR content LIKE concat('%', #{content}, '%')
+					</if>
+				)
+			</if>
+		</where>
+		
+		ORDER  BY id DESC
+		LIMIT #{limitStart}, #{listCount}
+	</select>
+	
+	<!-- 전체 게시물 수를 조회한다. -->
+	<select id="selectDocumentCount"
+		parameterType="com.gaimit.mlm.model.BbsDocument"
+		resultType="int">
+		SELECT COUNT(id) FROM bbs_document
+		<where>
+			category=#{category}
+			<if test="subject != null or content != null">
+				AND (
+					<if test="subject != null">
+						subject LIKE concat('%', #{subject}, '%')
+					</if>
+					<if test="content != null">
+						OR content LIKE concat('%', #{content}, '%')
+					</if>
+				)
+			</if>
+		</where>
+	</select>
+	
+	<!-- 내가 쓴 게시물인지 확인 -->
+	<select id="selectDocumentCountByManagerId"
+		parameterType="com.gaimit.mlm.model.BbsDocument"
+		resultType="int">
+		SELECT COUNT(id) FROM bbs_document
+		WHERE category=#{category} AND id=#{id} AND manager_id=#{managerId}	
+	</select>
+
+	<!-- 비밀번호를 검사한다. -->
+	<select id="selectDocumentCountByPw"
+		parameterType="com.gaimit.mlm.model.BbsDocument"
+		resultType="int">
+		SELECT COUNT(id) FROM bbs_document
+		WHERE category=#{category} AND id=#{id} AND writer_pw=password(#{writerPw})
+	</select>
+	
+	<!-- 게시글 삭제 하기 -->
+	<delete id="deleteDocument" parameterType="com.gaimit.mlm.model.BbsDocument">
+		DELETE FROM bbs_document WHERE id=#{id}
+	</delete>
+	
+	<!-- 게시글 정보 수정하기 -->
+	<update id="updateDocument" parameterType="com.gaimit.mlm.model.BbsDocument">
+		UPDATE bbs_document SET
+			category=#{category},
+			writer_name=#{writerName},
+			email=#{email},
+			subject=#{subject},
+			content=#{content},
+			ip_address=#{ipAddress},
+			edit_date=now()
+		WHERE id=#{id}
+	</update>
+	
+	<!-- 특정 회원과의 게시물 참조 해제하기 -->
+	<update id="updateDocumentManagerOut" parameterType="com.gaimit.mlm.model.BbsDocument">
+		UPDATE bbs_document
+		SET    manager_id=NULL, edit_date=now()
+		WHERE  manager_id=#{managerId}
+	</update>
+	
+	
+	<!-- 게시글에도 중복도서 요청을 했는지 확인하기 위한 쿼리 -->
+	<select id="selectCheckRequestBook" parameterType="com.gaimit.mlm.model.BbsDocument" 
+		resultMap="bbs_document">
+		SELECT *
+			FROM   bbs_document d
+			INNER JOIN manager m ON d.manager_id = m.id_mng
+		WHERE m.id_lib_mng = #{idLibMng}
+			AND (
+				(content LIKE concat('%', #{reqBookTitle}, '%')
+					AND content LIKE concat('%', #{reqBookAuthor}, '%'))
+				OR content LIKE concat('%', #{reqBookIsbn}, '%')
+			)
+	</select>
+	
+	<!-- 게시글 제목만 수정하기 -->
+	<update id="updateDocumentSubjectOnly" parameterType="com.gaimit.mlm.model.BbsDocument">
+		UPDATE bbs_document SET
+			subject=#{subject},
+			edit_date=now()
+		WHERE id=#{id}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
+
+
+
+
+

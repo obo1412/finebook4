@@ -1,0 +1,505 @@
+:root {
+	--white-color: #ededed;
+	--background-color: #1b2129;
+	--accent-color: #d49466;
+	--btn-color: #c9c9cf;
+	--line-color: #3d525c;
+}
+
+::-webkit-scrollbar {
+	width:2px;
+	background-color: var(--white-color);	
+}
+::-webkit-scrollbar-thumb {
+	background-color:#778899;
+}
+::-webkit-scrollbar-track {
+	background-color: var(--white-color);
+	
+}
+
+/* 회원 상세에서 스크롤바 없애기 */
+.div-member-detail::-webkit-scrollbar {
+	display: none;
+}
+
+.div-member-list::-webkit-scrollbar {
+	display: none;
+}
+
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	background-color: var(--background-color);
+}
+
+img {
+	display: block;
+	/* width:770px; */
+}
+
+.wrap {
+	position: relative;
+	text-align: center;
+	overflow: hidden;
+	
+}
+
+.content-wrap {
+	width: 1300px;
+	height: 600px;
+	margin: 0 auto;
+	padding-top: 200px;
+	padding-bottom: 10px;
+	top: 150px;
+}
+
+
+
+.wrap>.content-wrap a {
+	display: block;
+	float: right;
+	width: 150px;
+	height: 35px;
+	line-height: 31px;
+	border: 2px solid rgba(255, 255, 255, .6);
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, .4);
+	font-size: 1.1rem;
+	color: #fff;
+	text-align: center;
+}
+
+.list {
+	overflow: hidden;
+}
+.search-bar-set {
+	float: left;
+	width: 1300px;
+	height: 60px;
+}
+/* 도서 검색바 */
+.search-bar-book {
+	float: left;
+	width:360px;
+	height: 60px;
+	margin-bottom: 10px;
+	background-color: var(--white-color);
+	border-radius: 5px;
+}
+
+.search-bar-box {
+	position: relative;
+	top: 50%;
+	transform: translate(0,-50%);
+}
+
+.search-bar-member-book {
+	float:left;
+	margin-left: 10px;
+	width: 880px;
+	height: 60px;
+	background-color: var(--white-color);
+	border-radius: 5px;
+}
+
+.brw-search-bar-box {
+	position: relative;
+	top: 50%;
+	transform: translate(0,-50%);
+}
+
+/* search bar 셋 내부에 input에 전체 적용 */
+.search-bar-set input {
+	margin-left: 5px;
+	height:30px;
+	font-size: 16px;
+	border-color: var(--background-color);
+	background-color: var(--white-color);
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.search-bar-set button {
+	width:50px;
+	height:34px;
+	border-radius: 4px;
+	background-color: var(--btn-color);
+}
+
+button.btn__brw__return {
+	width:90px;
+}
+
+.input-search-brw {
+	width:250px;
+	text-align:center;
+}
+
+.span-search-member-only {
+	display: block;
+	float: right;
+	margin-right: 10px;
+}
+
+/* 이하 도서 검색 클래스 */
+.search-section {
+	float:left;
+	margin-top: 10px;
+	width:640px;
+	height: 570px;
+}
+
+
+/* 검색된 도서 목록 */
+.div-book-content {
+	width: 100%;
+	height:500px;
+}
+
+.div-book-list {
+	float:left;
+	width:360px;
+	height:100%;
+	background-color: var(--white-color);
+	border-radius: 5px;
+	overflow-y: scroll;
+}
+
+
+/* 도서 목록 테이블 */
+.scroll__table {
+	margin: auto;
+	margin-top: 10px;
+	width:90%;
+	border-collapse: collapse;
+	padding: 20px;
+}
+
+.scroll__table thead { 
+ 
+}
+
+.scroll__table thead th {
+    border: 1px solid var(--line-color);
+    
+}
+
+.scroll__table tbody td  {
+    border: 1px solid var(--line-color);
+}
+
+.scroll__table tr:nth-child(2n-1) {
+	border-top: 3px solid var(--line-color);
+}
+
+.tbody__book__list .tbl__title:hover {
+	background-color: var(--accent-color);
+	cursor:pointer;
+}
+
+
+.tbl__title__div {
+    height: 44px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.tbl__author__div {
+    margin: auto;
+    width: 100%;
+    height: 22px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+/* 도서 목록 테이블 */
+
+
+.div-book-detail {
+	float:right;
+	width:270px;
+	height:100%;
+	margin-left: 10px;
+	background-color: var(--white-color);
+	border-radius: 5px;
+    overflow: auto;
+}
+
+.book__detail__barcode {
+    margin-top: 5px;
+		padding-left: 30px;
+}
+
+.book__detail__barcode input {
+    height:20px;
+    text-align: center;
+}
+
+.div__clear__book__detail {
+	float:right;
+}
+
+.div__clear__book__detail>button {
+	width:30px;
+	margin-right: 5px;
+}
+
+.book__img {
+    width: 200px;
+    height: 150px;
+    margin: 10px auto;
+	border-width: 3px;
+    border-style:solid;
+    border-color: var(--line-color);
+    border-radius: 15px;
+}
+
+.book__img>img {
+    position: relative;
+    top: 5%;
+    height: 90%;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.book__detail__text table {
+    text-align: center;
+    width: 95%;
+    margin: auto;
+    
+}
+
+.book__detail__text th {
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-bottom: 3px double #1e1f20;
+}
+
+/* 이하 우측 섹션 */
+.rental-section {
+	float:left;
+	margin-left: 10px;
+	width:600px;
+	height:570px;
+}
+
+
+/* 회원상세정보와 회원 리스트 박스포함 */
+.div-member-content {
+	float:left;
+	margin-top: 10px;
+	width:100%;
+	height:200px;
+
+}
+
+.div-member-list {
+	float: left;
+	margin-left: 10px;
+	width:250px;
+	height: 100%;
+	background-color: var(--white-color);
+    border-radius: 5px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.member__list__table {
+	border-collapse: collapse;
+	margin: auto;
+	width: 85%;
+	margin-top: 10px;
+}
+
+.member__list__table thead th {
+	border-bottom: 1px solid black;
+	width: 100px;
+	padding-bottom: 6px;
+}
+
+.member__list__table thead th:nth-child(2) {
+	width: 150px;
+}
+
+.member__list__table tbody tr {
+	border-top: 1px solid black;
+	height: 30px;
+}
+
+.member__name:hover {
+	background-color: var(--accent-color);
+	cursor:pointer;
+}
+
+/* 회원 상세정보 */
+.div-member-detail {
+	float: left;
+	/* 회원리스트가 있을땐 아래와 같은 너비 */
+	/* width:340px; */
+	width:100%;
+	height: 100%;
+	background-color: var(--white-color);
+    border-radius: 5px;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+
+.div__clear__member__detail {
+	display:flex;
+	position: relative;
+	top:-80px;
+	right: -180px;
+}
+
+.div__clear__member__detail>button {
+	width:30px;
+}
+
+.member__img {
+	margin-left: 16px;
+	width: 120px;
+    height: 150px;
+    border-style: solid;
+	border-width: 2px;
+    border-color: var(--line-color);
+    border-radius: 15px;
+}
+
+.member__img>img {
+	position: relative;
+    top: 5%;
+    height: 90%;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.member__detail {
+	margin-left: 5px;
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: flex-start;
+	padding-left: 5px;
+
+	overflow-x:hidden;
+	overflow-y:scroll;
+}
+
+.member__detail input {
+	width: 100px;
+	height: 20px;
+	text-align: center;
+}
+
+.member__data {
+	padding-bottom: 4px;
+	font-size:14px;
+}
+
+.div-brw-list {
+	float: left;
+	margin-top: 10px;
+	width: 100%;
+	height: 290px;
+	background-color: var(--white-color);
+	border-radius: 5px;
+	overflow-y: scroll;
+}
+
+.brw__list__table {
+	margin: auto;
+	margin-top: 10px;
+	width:90%;
+	border-collapse: collapse;
+	
+	
+}
+
+.brw__list__table th, td {
+	border: 1px solid var(--line-color);
+}
+
+
+.tbody__brw__list .tbl__state:hover {
+	cursor:pointer;
+}
+
+.tbl__state>button:hover {
+	background-color:yellow;
+}
+
+
+
+
+
+@media ( max-width :800px) {
+	button {
+		left: 0%
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.menu {
+	top: 550px;
+	left: 520px;
+	width: 250px;
+	height: 100px;
+	font-size: 22px;
+	/* background-color: #333;
+	color: #fff;
+	border-radius: 10px;
+	border: none; */
+}
+
+.return {
+	top: 550px;
+	left: 820px;
+	width: 280px;
+	height: 100px;
+	font-size: 22px;
+	/* background-color: #333;
+	color: #fff;
+	border-radius: 10px;
+	border: none; */
+}
+
+.inquiry {
+	top: 550px;
+	right: 520px;
+	width: 250px;
+	height: 100px;
+	font-size: 22px;
+	/* background-color: #333;
+	color: #fff;
+	border-radius: 10px;
+	border: none; */
+}

@@ -1,0 +1,25 @@
+	label {
+		font-size: 14px;
+	}
+	
+	p {
+		margin: 5px 0px;
+	}
+	
+	.data__table th {
+		width:130px;
+	}
+	
+	.data__table td {
+		padding-left: 10px;
+	}
+	
+	.div__brw__log {
+		width: 470px;
+		min-height: 650px;
+	}
+	
+	
+	.member__th__num {
+		width:  50px;
+	}

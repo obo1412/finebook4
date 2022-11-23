@@ -1,0 +1,26 @@
+.label__barcode {
+	font-size: 12px;
+}
+
+/* 한줄짜리 인풋 */
+.input__long {
+	width: 490px !important;
+}
+
+
+/* 셀렉트 인풋 */
+.select__input {
+	width: 177px !important;
+}
+
+
+/* 이미지 박스 */
+.img__div {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+}
+
+.checkbox__addi__code, .checkbox__book_shelf {
+	margin-left:2px;
+}

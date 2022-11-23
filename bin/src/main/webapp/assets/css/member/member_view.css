@@ -1,0 +1,34 @@
+.table__member__info {
+	width:350px;
+}
+
+.brw__log__member {
+	width: 550px;
+}
+
+.member__th__num {
+	
+	width: 50px;
+}
+
+.td__title {
+	white-space:nowrap;
+	overflow-x: scroll;
+}
+
+.td__title::-webkit-scrollbar {
+	display: none;
+	/* width:4px; */
+/* 	background-color: var(--white-color); */
+}
+
+.td__writer {
+	white-space:nowrap;
+	overflow-x: scroll;
+}
+
+.td__writer::-webkit-scrollbar {
+	display: none;
+	/* width:4px; */
+/* 	background-color: var(--white-color); */
+}

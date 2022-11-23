@@ -1,0 +1,73 @@
+	.fontColorRed {
+		color : red;
+	}
+	
+	.div__btns {
+		display: block;
+		margin: 10px;
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.div__categ {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		padding-left: 20px;
+		border-top: 2px solid #a8a8a8;
+		border-bottom: 2px solid #a8a8a8;
+	}
+	
+	.div__categ:nth-child(2) {
+		border-bottom: 0;
+	}
+	
+	.div__categ h6 {
+		margin: 0 auto;
+	}
+	
+	.div__categ label {
+		width: 200px;
+	}
+	
+	
+	.mid__categ {
+		padding-left: 20px;
+	}
+	
+	.mid__categ label {
+		width: 180px;
+	}
+	
+	
+	/* 바코드에 도서관명 포함 여부 관련 */
+	.div__lib__name {
+		display:flex;
+		flex-direction: column;
+	}
+	
+	.div__lib__name>div {
+		display: flex;
+		justify-content : space-around;
+		align-items: center;
+	}
+	
+	.div__lib__name label {
+		width: auto;
+		border: 1px solid black;
+		border-radius: 6px;
+	}
+	
+	.label__lib__name {
+		margin-top: 4px;
+	}
+	
+	.label__lib__name>img {
+		border-radius: 8px;
+	}
+	
+	.label__lib__name>span {
+		display: inline-block;
+		margin-left: 6px;
+	}
+	
+	

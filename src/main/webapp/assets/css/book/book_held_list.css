@@ -1,0 +1,56 @@
+/* 도서 서가, 제목 검색등 */
+
+/* .searchbar__book__shelf {
+	margin-left: 5px;
+} */
+
+.searchbar__input__group {
+	width:350px;
+	margin-left: 5px;
+}
+
+.searchbar__form {
+	float: right;
+}
+
+.searchbar__addi__code {
+	margin-left:5px;
+}
+
+
+
+
+
+/* 도서 인쇄 등 */
+
+.print__whole__bar {
+	width:480px;
+	float:left;
+}
+
+.print__whole__bar>button {
+	margin-right: 4px;
+}
+
+.print__select__bar {
+	width:280px;
+}
+
+
+
+@media screen and (max-width: 1500px) {
+	
+	.div__print__search {
+		max-width:710px;
+	}
+	
+	.searchbar__form {
+		float:left;
+	}
+	
+	.print__whole__bar {
+		float:left;
+		margin-top: 4px;
+	}
+	
+}

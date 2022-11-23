@@ -1,0 +1,33 @@
+.join__whole__card {
+	width:800px;
+}
+
+.m_label {
+	max-width: 150px;
+}
+
+.m__input {
+	width: 300px !important;
+}
+
+/* 생년월일만 별도로 컨트롤 */
+.m__date__input {
+	width: 180px !important;
+}
+
+.date__remark {
+	margin:5px;
+}
+
+.m__group__input {
+	width:300px;
+	margin-left: 15px;
+}
+
+.m__btn__size {
+	width: 90px;
+}
+
+.dup__check__msg {
+	margin-left:20px;
+}

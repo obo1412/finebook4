@@ -1,0 +1,94 @@
+/* 키오스크메인페이지 리턴 버튼 */
+.btn__return__kiosk__main {
+	border: 0;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.a__btn__return__main {
+	color: var(--btn-color);
+}
+
+.icon__back {
+	font-size: 5rem;
+}
+
+.timer__num {
+	color: var(--btn-color);
+}
+  /* 키오스크메인페이지 리턴 버튼 */
+
+.div__brw {
+	margin-top: 10px;
+	background-color: var(--background-color);
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.div__book {
+
+}
+
+.div__book__input {
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+	border: 3px solid black;
+	border-radius: 30px;
+}
+
+.div__book__input>label {
+	display: flex;
+	width: 25vw;
+	flex-direction: row-reverse;
+	font-size: 2vw;
+	font-weight: 500;
+}
+
+.div__book__input>input {
+	height: 100%;
+	border: 0;
+	font-size: 2em;
+	border-left: 3px solid black;
+	border-right: 3px solid black;
+}
+
+.div__book__input > button {
+	width: 40%;
+	height: 100%;
+	border: 0;
+	border-radius: 30px;
+	cursor: pointer;
+	font-size: 2em;
+	display: flex;
+	justify-content: center;
+}
+
+.div__book__data__list {
+	padding: 10px;
+	height: 30vh;
+	border: 3px solid black;
+	border-radius: 20px;
+}
+
+
+
+
+
+@media ( max-width :800px) {
+	
+}
+
+
+
+
+
+
+
+
+

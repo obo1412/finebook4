@@ -1,0 +1,123 @@
+@media print {
+	
+	.sidebar {
+		display: none;
+	}
+	.sticky-footer {
+		display: none;
+	}
+	.prtNone {
+		display: none;
+	}
+
+}
+
+/* 화면에 띄우기만, 인쇄는 적용 안됨. */
+@media screen {
+	/* 이거 왜 안되냐? */
+	/* .a4_size:first-child {
+		border-top: 1px solid black;
+	} */
+
+	.a4_size {
+		border-top: 1px solid black;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+	}
+}
+
+@media all {
+	@page {
+		size: A4; /* A4 */
+		margin: 0;
+	}
+	html, body {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		font-family: '굴림';
+		box-sizing: border-box;
+	}
+	
+	.a4_size {
+		width:210mm;
+		height:297mm;
+		padding-top:8.5mm; /* a4 세로 높이 맞추기 위한 값 */
+		box-sizing: border-box;
+	}
+	
+	.membershipSingleSpace {
+		float:left;
+		width:104mm; /* 원래 105mm */
+		height:28mm;
+		box-sizing: border-box;
+	}
+	
+	.membershipCard {
+		float:left;
+		width:89mm; /* 원래 90mm */
+		height:100%;
+		box-sizing: border-box;
+	}
+	
+	.leftMarginBox {
+		float:left;
+		width:15mm;
+		/* 높이는 위 membershipSingleSpace와 동일하게 유지하기 */
+		height:28mm;
+	}
+	
+	.membershipBorder {
+		width:90%;
+		height:95%;
+		margin: 0.7mm 4.5mm;
+		border: 1px solid black;
+		border-radius: 10px;
+		box-sizing: border-box;
+	}
+	
+	.leftBox {
+		float:left;
+		width: 45%;
+		height: 100%;
+	}
+	
+	.rightBox {
+		float:left;
+		width: 55%;
+		height: 100%;
+	}
+	
+	.nameDiv {
+		height:35%;
+		font-weight:900;
+		font-size:3.5mm;
+		line-height:12mm;
+		white-space:nowrap;
+	}
+	
+	/* 바코드 div */
+	.barcodeDiv {
+		height:35%;
+		font-family:'Free 3 of 9';
+		line-height:10mm;
+		transform:scale(1,1.5);
+	}
+	
+	/* left 박스 내에 처음 시작, 상부에서 조금 띄우기 */
+	.classNameDiv {
+		margin-top: 3mm;
+	}
+	
+	/* right 박스 내에 처음 시작, 상부에서 조금 띄우기 */
+	.barcodeDiv {
+		margin-top: 5mm;
+	}
+	
+	/* 바코드와 등록번호간 거리 띄우기 */
+	.memberCodeDiv {
+		margin-top: 2mm;
+		text-align: center;
+	}
+	
+}
