@@ -63,7 +63,7 @@
 	<!-- 아이디와 비밀번호가 일치하는 회원정보를 조회한다. -->
 	<select id="selectLoginInfo" parameterType="com.gaimit.mlm.model.Manager" resultMap="manager">
 		SELECT
-			id_mng, id_lib_mng, user_id_mng, name_mng, email_mng,
+			id_mng, id_lib_mng, user_id_mng, user_pw_mng, name_mng, email_mng,
 			name_lib, loc_lib, lang_mng, kiosk_mode
 		FROM manager m
 		INNER JOIN library l
