@@ -334,6 +334,8 @@ public class RegBook {
 		
 		try {
 			
+			String[][] result = null;
+			
 			// 업로드 된 정보 하나 추출하여 데이터베이스에 저장하기 위한 형태로 가공해야 한다.
 			FileInfo info = fileList.get(0);
 			
@@ -356,18 +358,10 @@ public class RegBook {
 				
 			} else if("txt".equals(ext)) {
 				//txt 일때
-				InputStreamReader isr = new InputStreamReader(fileStream, "UTF-8");
-				BufferedReader brFile = new BufferedReader(isr);
-				String line = null;
 				
-				while((line = brFile.readLine()) != null) {
-					System.out.println(line);
-				}
 				
-				//반드시 파일을 닫아줘야 삭제가 된다.
-				brFile.close();
+				result = util.txtExtractValues(fileStream);
 			}
-			
 			
 			
 			//파일삭제 check에선 파일 삭제할 필요 없음.
