@@ -353,6 +353,7 @@ public class SearchBook {
 				
 				Object objPubDate = itemObj.get("pubDate");
 				pubDate = String.valueOf(objPubDate);
+				
 				JSONObject objSubInfo = (JSONObject) itemObj.get("subInfo");
 				Object objPage = objSubInfo.get("itemPage");
 				if(objPage != null) {

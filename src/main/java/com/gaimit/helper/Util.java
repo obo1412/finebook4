@@ -1,16 +1,12 @@
 package com.gaimit.helper;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +26,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * 기본적인 공통 기능들을 묶어 놓은 클래스
  */
 public class Util {
+
+	
 	// ----------- 싱글톤 객체 생성 시작 -----------
 	private static Util current = null;
 
@@ -691,58 +689,8 @@ public class Util {
 		}
 	}
 	
-	/**
-	 * 엑셀 경로 들어오면 처리 함수
-	 * @param filePath , checker =0 이면 결과값 10개까지만, 1이면 전체 다~
-	 * @return
-	 * @throws IOException 
-	 */
-	public String[][] txtExtractValues(FileInputStream fileStream) throws IOException {
-			
-		if(fileStream == null || "".equals(fileStream)) {
-			return null;
-		}
-		
-		InputStreamReader isr = new InputStreamReader(fileStream, "UTF-8");
-		BufferedReader brFile = new BufferedReader(isr);
-		String line = null;
-		
-		List<String> isbnArr = new ArrayList<>();
-		
-		//총 개수 구하기.
-		int i=0;
-		
-		while((line = brFile.readLine()) != null) {
-			isbnArr.add(line);
-			i++;
-		}
-//		//구해진 총개수 대로 배열 선언
-		String[][] result = new String[i][16];
-//		
-		System.out.println(isbnArr);
-//		//i 초기화
-//		i = 0;
-//		line = null;
-//		
-//		while((line = brFile.readLine()) != null) {
-//			
-//			System.out.println(line);
-//			System.out.println(i);
-//			i++;
-//			
-//			result[i][1] = line; 
-//		}
-//		
-		//반드시 파일을 닫아줘야 삭제가 된다.
-		brFile.close();
-		
-		//도서명, 저자명, 저자기호, 분류기호, 별치기호, 권차기호, 복본기호
-		//도서분류, 출판사, 출판일, 페이지, 가격
-		//국내도서, isbn13, 서가, 도서등록번호
-		
-		
-		return result;
-	}
+	//txtExtractValue 함수는 종속성(Autowired) 사용 때문에
+	//controller에 FrequentlyFunction로 함수 옮김.
 	
 	
 	/**
@@ -843,7 +791,7 @@ public class Util {
 				if(horizonRow != null) {
 					for(int k=0; k<lastCellCount; k++) {
 						if("".equals(String.valueOf(horizonRow.getCell(k)))) {
-							String[] isMerged = isMergedXls(curSheet,j,k);
+//							String[] isMerged = isMergedXls(curSheet,j,k);
 							result[j][k] = null;
 						} else {
 							result[j][k] = String.valueOf(horizonRow.getCell(k));

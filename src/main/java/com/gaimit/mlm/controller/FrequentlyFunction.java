@@ -1,11 +1,22 @@
 package com.gaimit.mlm.controller;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.gaimit.helper.ApiHelper;
+import com.gaimit.helper.AuthorCode;
 import com.gaimit.helper.Util;
 import com.gaimit.helper.WebHelper;
 import com.gaimit.mlm.model.BookHeld;
@@ -54,6 +65,12 @@ public class FrequentlyFunction {
 	
 	@Autowired
 	LibraryService libraryService;
+	
+	@Autowired
+	ApiHelper apiHelper;
+	
+	@Autowired
+	AuthorCode authorCode;
 	
 	public String testFunction(BookHeld bookHeld) throws Exception {
 		String result = null;
@@ -303,5 +320,167 @@ public class FrequentlyFunction {
 		member = null;
 		
 		return gradeId;
+	}
+	
+	
+	
+	/**
+	 * 엑셀 경로 들어오면 처리 함수
+	 * @param fileStream - txt 파일 한번에 여기서 담아서 2차원 배열로 리턴
+	 * @return
+	 * @throws IOException 
+	 */
+	public String[][] txtExtractValues(FileInputStream fileStream) throws IOException {
+			
+		if(fileStream == null || "".equals(fileStream)) {
+			return null;
+		}
+		
+		InputStreamReader isr = new InputStreamReader(fileStream, "UTF-8");
+		BufferedReader brFile = new BufferedReader(isr);
+		String line = null;
+		
+		List<String> isbnArr = new ArrayList<>();
+		
+		//총 개수 구하기.
+		int i=0;
+		
+		while((line = brFile.readLine()) != null) {
+			isbnArr.add(line);
+			i++;
+		}
+		//구해진 총개수 대로 배열 선언
+		String[][] result = new String[i][16];
+		
+		try {
+			for(int j=0; j<i; j++) {
+				JSONObject jsonAladin = new JSONObject();
+				jsonAladin = apiHelper.getJsonApiResult(isbnArr.get(j), 0);
+				
+				//알라딘 정보 호출
+				if(jsonAladin.get("item") != null && !"".equals(jsonAladin.get("item"))) {
+					
+					String titleToCode = null;
+					String authorToCode = null;
+					String viewPublisher = null;
+					
+					String viewIsbn13 = null;
+					String category = null;
+					String pubDate = null;
+					//String으로 받아온 int 형태의 값은 int로 파싱 page
+					String itemPage = null;
+//					int intPage = 0;
+					String price = null;
+//					String isbn10 = null;
+					
+					
+					//저자기호
+					String atcOut = null;
+					String clsCode = null;
+					String addiCode = null;
+					//서지정보에서 볼륨코드를 담을 변수
+					String volCode = null;
+					String copyCode = null;
+					
+					//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+					JSONArray itemArray = (JSONArray) jsonAladin.get("item");
+					JSONObject itemObj = (JSONObject) itemArray.get(0);
+					//item의 [0] <- 첫번째 값을 가져옴
+					Object authorObj = itemObj.get("author");
+					Object titleObj = itemObj.get("title");
+					Object publisherObj = itemObj.get("publisher");
+					Object isbn13Obj = itemObj.get("isbn13");
+					
+					//구매링크를 위한
+//					Object itemIdObj = itemObj.get("itemId");
+//					aladinItemId = String.valueOf(itemIdObj);
+					
+					//authorToCode = (String)authorObj;
+					//위처럼도 casting만 바꾸는 방법도 있음.
+					
+//					System.out.println(itemObj);
+					
+					if(!"".equals(titleObj)) {
+						titleToCode = String.valueOf(titleObj);
+					}
+					
+					if(!"".equals(authorObj)) {
+						authorToCode = String.valueOf(authorObj);
+					}
+					
+					if(!"".equals(publisherObj)) {
+						viewPublisher = String.valueOf(publisherObj);
+					}
+					
+					if(!"".equals(isbn13Obj)) {
+						viewIsbn13 = String.valueOf(isbn13Obj);
+					}
+					
+					Object objCategory = itemObj.get("categoryName");
+					if(!"".equals(objCategory)) {
+						category = String.valueOf(objCategory);
+					}
+					
+					Object objPubDate = itemObj.get("pubDate");
+					pubDate = String.valueOf(objPubDate);
+					
+					JSONObject objSubInfo = (JSONObject) itemObj.get("subInfo");
+					Object objPage = objSubInfo.get("itemPage");
+					if(objPage != null) {
+						itemPage = String.valueOf(objPage);
+//						intPage = 0;
+//						if(!"".equals(itemPage)&&!"0".equals(itemPage)) {
+//							intPage = Integer.parseInt(itemPage);
+//						}
+					}
+					
+					Object objPrice = itemObj.get("priceStandard");
+					price = String.valueOf(objPrice);
+					
+//					Object objIsbn10 = itemObj.get("isbn");
+//					isbn10 = String.valueOf(objIsbn10);
+//					Object objCover = itemObj.get("cover");
+//					cover = String.valueOf(objCover);
+//					Object objDescription = itemObj.get("description");
+//					description = String.valueOf(objDescription);
+					
+					if(titleToCode!=null&&authorToCode!=null) {
+						atcOut = authorCode.authorCodeGen(authorToCode)
+								+ authorCode.titleFirstLetter(titleToCode);
+					}
+					
+					//도서명0, 저자명1, 저자기호2, 분류기호3, 별치기호4, 권차기호5, 복본기호6
+					//도서분류7, 출판사8, 출판일9, 페이지10, 가격11
+					//isbn13 -12, 서가13, 도서등록번호14
+					
+					result[j][0] = titleToCode;
+					result[j][1] = authorToCode;
+					result[j][2] = atcOut;
+					result[j][3] = clsCode;
+					result[j][4] = addiCode;
+					result[j][5] = volCode;
+					result[j][6] = copyCode;
+					result[j][7] = category;
+					result[j][8] = viewPublisher;
+					result[j][9] = pubDate;
+					result[j][10] = itemPage;
+					result[j][11] = price;
+					result[j][12] = viewIsbn13;
+					result[j][13] = "";
+					result[j][14] = authorToCode;
+				}
+				
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//반드시 파일을 닫아줘야 삭제가 된다.
+		brFile.close();
+		
+		
+		
+		return result;
 	}
 }

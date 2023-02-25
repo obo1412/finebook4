@@ -332,9 +332,13 @@ public class RegBook {
 			return web.redirect(null, "첨부 파일을 확인해주세요.(파일없음)");
 		}
 		
+		String[][] result = null;
+		
+		//0 그대로면 엑셀, txt 면 1
+		int excelOrTxt = 0;
+		
 		try {
 			
-			String[][] result = null;
 			
 			// 업로드 된 정보 하나 추출하여 데이터베이스에 저장하기 위한 형태로 가공해야 한다.
 			FileInfo info = fileList.get(0);
@@ -357,11 +361,62 @@ public class RegBook {
 				model.addAttribute("theArr", theArr);
 				
 			} else if("txt".equals(ext)) {
+				excelOrTxt = 1;
 				//txt 일때
+				result = frequentlyFunction.txtExtractValues(fileStream);
 				
-				
-				result = util.txtExtractValues(fileStream);
+//				System.out.println("************************");
+//				System.out.println(result[0][0]);
+//				System.out.println(result[0][1]);
+//				System.out.println(result[0][2]);
+//				System.out.println(result[0][3]);
+//				System.out.println(result[0][4]);
+//				System.out.println(result[0][5]);
+//				System.out.println(result[0][6]);
+//				System.out.println(result[0][7]);
+//				System.out.println(result[0][8]);
+//				System.out.println(result[0][9]);
+//				System.out.println(result[0][10]);
+//				System.out.println(result[0][11]);
+//				System.out.println(result[0][12]);
+//				System.out.println(result[0][13]);
+//				System.out.println(result[0][14]);
+//				System.out.println("************************");
+//				System.out.println(result[1][0]);
+//				System.out.println(result[1][1]);
+//				System.out.println(result[1][2]);
+//				System.out.println(result[1][3]);
+//				System.out.println(result[1][4]);
+//				System.out.println(result[1][5]);
+//				System.out.println(result[1][6]);
+//				System.out.println(result[1][7]);
+//				System.out.println(result[1][8]);
+//				System.out.println(result[1][9]);
+//				System.out.println(result[1][10]);
+//				System.out.println(result[1][11]);
+//				System.out.println(result[1][12]);
+//				System.out.println(result[1][13]);
+//				System.out.println(result[1][14]);
+//				System.out.println("************************");
+//				System.out.println(result[2][0]);
+//				System.out.println(result[2][1]);
+//				System.out.println(result[2][2]);
+//				System.out.println(result[2][3]);
+//				System.out.println(result[2][4]);
+//				System.out.println(result[2][5]);
+//				System.out.println(result[2][6]);
+//				System.out.println(result[2][7]);
+//				System.out.println(result[2][8]);
+//				System.out.println(result[2][9]);
+//				System.out.println(result[2][10]);
+//				System.out.println(result[2][11]);
+//				System.out.println(result[2][12]);
+//				System.out.println(result[2][13]);
+//				System.out.println(result[2][14]);
+//				System.out.println("************************");
 			}
+			
+			
 			
 			
 			//파일삭제 check에선 파일 삭제할 필요 없음.
@@ -375,6 +430,7 @@ public class RegBook {
 		//숫자배열전달.
 		model.addAttribute("lastCellCount", lastCellCount);
 		model.addAttribute("loadFilePath", loadFilePath);
+		model.addAttribute("theArr", result);
 		
 		//시간 표시를 위한 로직
 		//이시간을 기준으로 진행률 표시를 한다.
@@ -386,7 +442,11 @@ public class RegBook {
 		
 
 		/** (9) 가입이 완료되었으므로 메인페이지로 이동 */
-		return new ModelAndView("book/reg_book_batch_check");
+		if(excelOrTxt == 0) {
+			return new ModelAndView("book/reg_book_batch_check");
+		} else {
+			return new ModelAndView("book/reg_book_batch_txt_check");
+		}
 	}
 	
 	@ResponseBody
@@ -493,7 +553,6 @@ public class RegBook {
 						publisherCol = j;
 						continue;
 					}
-					
 					
 					if("등록번호".equals(theArr[0][j])) {
 						barcodeCol = j;
