@@ -364,56 +364,6 @@ public class RegBook {
 				excelOrTxt = 1;
 				//txt 일때
 				result = frequentlyFunction.txtExtractValues(fileStream);
-				
-//				System.out.println("************************");
-//				System.out.println(result[0][0]);
-//				System.out.println(result[0][1]);
-//				System.out.println(result[0][2]);
-//				System.out.println(result[0][3]);
-//				System.out.println(result[0][4]);
-//				System.out.println(result[0][5]);
-//				System.out.println(result[0][6]);
-//				System.out.println(result[0][7]);
-//				System.out.println(result[0][8]);
-//				System.out.println(result[0][9]);
-//				System.out.println(result[0][10]);
-//				System.out.println(result[0][11]);
-//				System.out.println(result[0][12]);
-//				System.out.println(result[0][13]);
-//				System.out.println(result[0][14]);
-//				System.out.println("************************");
-//				System.out.println(result[1][0]);
-//				System.out.println(result[1][1]);
-//				System.out.println(result[1][2]);
-//				System.out.println(result[1][3]);
-//				System.out.println(result[1][4]);
-//				System.out.println(result[1][5]);
-//				System.out.println(result[1][6]);
-//				System.out.println(result[1][7]);
-//				System.out.println(result[1][8]);
-//				System.out.println(result[1][9]);
-//				System.out.println(result[1][10]);
-//				System.out.println(result[1][11]);
-//				System.out.println(result[1][12]);
-//				System.out.println(result[1][13]);
-//				System.out.println(result[1][14]);
-//				System.out.println("************************");
-//				System.out.println(result[2][0]);
-//				System.out.println(result[2][1]);
-//				System.out.println(result[2][2]);
-//				System.out.println(result[2][3]);
-//				System.out.println(result[2][4]);
-//				System.out.println(result[2][5]);
-//				System.out.println(result[2][6]);
-//				System.out.println(result[2][7]);
-//				System.out.println(result[2][8]);
-//				System.out.println(result[2][9]);
-//				System.out.println(result[2][10]);
-//				System.out.println(result[2][11]);
-//				System.out.println(result[2][12]);
-//				System.out.println(result[2][13]);
-//				System.out.println(result[2][14]);
-//				System.out.println("************************");
 			}
 			
 			
@@ -447,6 +397,519 @@ public class RegBook {
 		} else {
 			return new ModelAndView("book/reg_book_batch_txt_check");
 		}
+	}
+	
+	//txt 파일 일괄등록 처리
+	@ResponseBody
+	@RequestMapping(value = "/book/reg_book_txt_batch_ok.do", method = RequestMethod.POST)
+	public void regBookTxTBatchOk(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		
+		/** (2) 사용하고자 하는 Helper+Service 객체 생성 */
+		web.init();
+
+		/** (3) 로그인 여부 검사 */
+		Manager loginInfo = (Manager) web.getSession("loginInfo");
+		
+		// 관리자 로그인 중이라면 관리자의 도서관 id를 가져온다.
+		if (web.getSession("loginInfo") == null) {
+			web.printJsonRt("로그인 후에 이용 가능합니다.");
+		}
+		
+		libArrRegBook.add(String.valueOf(loginInfo.getIdLibMng()));
+		logger.info("시작 도서관 번호 확인: "+libArrRegBook);
+		
+		//현재 페이지로부터 매번 번호를 가져온다.
+		int curRow = web.getInt("curRow", 1);
+		
+		String filePath = web.getString("loadFilePath");
+		//세로 열 마지막, 개수 10개면 0-9, 11개면 0-10
+		//비고란을 세지 않은 원래 오리지날 개수 10개
+		//비고란 없이 오리지날 개수 10개, 비고란을 추가하면 11개
+		//그래서 오리지날 10개란 말은,
+		//추가된 마지막 비고란 인덱스가 10이란 소리.
+		int lastCellCount = web.getInt("lastColCount");
+		String[] arrColH = web.getStringArray("arrColH");
+		//필수항목 체크되어있으면, 필수항목이 있어만 등록 처리
+		//체크 안되어있으면, 가진 정보를 토대로 등록처리
+		String mustCodeChk = web.getString("mustCodeChk");
+		
+		//동작해야할 컬럼 ISBN 컬럼 번호
+		int keyCol = -1;
+		//제목 컬럼
+		int titleCol = -1;
+		//저자명 컬럼
+		int authorCol = -1;
+		//출판사 컬럼
+		int publisherCol = -1;
+		
+		//셀렉트 체크했는지 스위치
+		int selectSwitch = 0;
+		
+		//저자기호 제작용 도서명, 저자명
+		int acTitleCol = -1;
+		int acAuthorCol = -1;
+		//분류기호 따로 컬럼
+		int clsCodeCol = -1;
+		//등록번호용
+		int barcodeCol = -1;
+		//권차기호 컬럼
+		int copyCodeCol =1;
+		//복본기호 컬럼
+		int volCodeCol = -1;
+		//구매기증 컬럼
+		int purOrDonCol = -1;
+		
+		//isbn 선택시
+		for(int i=0; i<arrColH.length; i++) {
+			if("isbn13".equals(arrColH[i])) {
+				keyCol = i;
+				selectSwitch++;
+				break;
+			}
+		}
+		
+		String[][] theArr = null;
+		
+		try {
+			theArr = util.excelExtractValues(filePath, 1);
+			
+			//셀렉트로 선택한 것 없이 헤드에 ISBN값 찾아가기 
+			if(selectSwitch==0) {
+				for(int j=0; j<theArr[0].length; j++) {
+					System.out.println(j+" "+theArr[0][j]);
+					
+					if("ISBN".equals(theArr[0][j])) {
+						keyCol = j;
+						continue;
+					}
+					
+					if("도서명".equals(theArr[0][j])) {
+						titleCol = j;
+						continue;
+					}
+					if("저자".equals(theArr[0][j])) {
+						authorCol = j;
+						continue;
+					}
+					if("출판사".equals(theArr[0][j])) {
+						publisherCol = j;
+						continue;
+					}
+					
+					if("등록번호".equals(theArr[0][j])) {
+						barcodeCol = j;
+						continue;
+					}
+					if("도서명(저자기호용)".equals(theArr[0][j])) {
+						acTitleCol = j;
+						continue;
+					}
+					if("저자명(저자기호용)".equals(theArr[0][j])) {
+						acAuthorCol = j;
+						continue;
+					}
+					if("분류기호".equals(theArr[0][j])) {
+						clsCodeCol = j;
+						continue;
+					}
+					if("권차기호".equals(theArr[0][j])) {
+						volCodeCol = j;
+						continue;
+					}
+					if("복본기호".equals(theArr[0][j])) {
+						copyCodeCol = j;
+						continue;
+					}
+					if("구매/기증".equals(theArr[0][j])) {
+						purOrDonCol = j;
+						continue;
+					}
+					
+				}
+			}
+			
+			//curRow는 1부터 시작
+			for(; curRow<theArr.length; curRow++) {
+				if(!libArrRegBook.contains(String.valueOf(loginInfo.getIdLibMng()))) {
+					//libArr에 도서관번호가 없으면 브레이크
+					break;
+				}
+				
+				String isbn = util.getISBNNumOnly(theArr[curRow][keyCol]);
+				//isbn이 아예 빈값이면 처리 하지 않음.
+				if(isbn == null) {
+					//lastCellCount는 개수로 10개
+					//즉 추가된 인덱스는 10으로 같다. +1 해줄필요없음.
+					theArr[curRow][lastCellCount] = "isbn없음";
+					//필수항목 체크가 되어있다면, 등록처리 안하고 컨티뉴 처리.
+					if(mustCodeChk!=null) {
+						continue;
+					}
+				}
+				
+				System.out.println("*************************");
+				System.out.println("현재 번호:"+curRow);
+				
+				String title = null;
+				String author = null;
+				String publisher = null;
+				String pubDate = null;
+				String price = null;
+				String isbn10 = null;
+				String isbn13 = null;
+				String category = null;
+				String description = null;
+				String barcode = null;
+				//별치기호는 따로 지정없음.
+				//String addiCode = null;
+				String classCode = null;
+				String atCode = null;
+				String volCode = null;
+				int copyCode = 0;
+				int itemPage = 0;
+				String bookSize = null;
+				String imageLink = null;
+				int purOrDon = 1;
+				
+				//isbn값이 있을 경우만 실행.
+				if(isbn!=null) {
+					
+					JSONObject jsonSeoji = apiHelper.getJsonApiResult(isbn, 2);
+					
+					if("0".equals(jsonSeoji.get("TOTAL_COUNT"))) {
+						//System.out.println("서지내용 없음.");
+					} else {
+						//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+						JSONArray itemArray = (JSONArray) jsonSeoji.get("docs");
+						JSONObject itemObj = (JSONObject) itemArray.get(0);
+						
+						Object obj = null;
+						
+						//부가기호
+						obj = itemObj.get("EA_ADD_CODE");
+						String eaAddCode = String.valueOf(obj);
+						if(!"".equals(eaAddCode)) {
+							//앞 두자리 빼고 분류기호에 값 넣기.
+							eaAddCode = eaAddCode.substring(2);
+							classCode = eaAddCode;
+						}
+						
+						//분류기호
+						obj = itemObj.get("KDC");
+						String kdc = String.valueOf(obj);
+						if(!"".equals(kdc)) {
+							classCode = kdc;
+						}
+						
+						obj = itemObj.get("TITLE");
+						String title2 = String.valueOf(obj);
+						if(!"".equals(title2)) {
+							title = title2;
+						}
+						
+						obj = itemObj.get("AUTHOR");
+						String author2 = String.valueOf(obj);
+						if(!"".equals(author2)) {
+							author = author2;
+						}
+						
+						obj = itemObj.get("VOL");
+						String vol = String.valueOf(obj);
+						if(!"".equals(vol)) {
+							volCode = vol;
+						}
+						
+						obj = itemObj.get("BOOK_SIZE");
+						String bookSize2 = String.valueOf(obj);
+						if(!"".equals(bookSize2)) {
+							bookSize = bookSize2;
+						}
+						
+						obj = itemObj.get("PUBLISHER");
+						String publisher2 = String.valueOf(obj);
+						if(!"".equals(publisher2)) {
+							publisher = publisher2;
+						}
+						
+						obj = itemObj.get("EA_ISBN");
+						String eaIsbn = String.valueOf(obj);
+						if(!"".equals(eaIsbn)) {
+							isbn13 = eaIsbn;
+						}
+					}
+					
+					JSONObject jsonNl = apiHelper.getJsonApiResult(isbn, 1);
+					
+					if(jsonNl.get("result")==null) {
+						//System.out.println("국중내용 없음.");
+					} else {
+						//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+						JSONArray itemArray = (JSONArray) jsonNl.get("result");
+						JSONObject itemObj = (JSONObject) itemArray.get(0);
+						
+						Object obj = null;
+						
+						obj = itemObj.get("titleInfo");
+						String titleInfo = String.valueOf(obj);
+						if(!"".equals(titleInfo)) {
+							title = titleInfo;
+						}
+						
+						obj = itemObj.get("authorInfo");
+						String authorInfo = String.valueOf(obj);
+						if(!"".equals(authorInfo)) {
+							author = authorInfo;
+						}
+						
+						obj = itemObj.get("pubInfo");
+						String pubInfo = String.valueOf(obj);
+						if(!"".equals(pubInfo)) {
+							publisher = pubInfo;
+						}
+						
+						obj = itemObj.get("classNo");
+						String classNo = String.valueOf(obj);
+						if(!"".equals(classNo)) {
+							classCode = classNo;
+						}
+						
+					}
+					
+					JSONObject jsonAladin = apiHelper.getJsonApiResult(isbn, 0);
+					
+					if(jsonAladin.get("item")==null) {
+						//System.out.println("알라딘 내용 없음.");
+					} else {
+						//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+						JSONArray itemArray = (JSONArray) jsonAladin.get("item");
+						JSONObject itemObj = (JSONObject) itemArray.get(0);
+						
+						Object obj = null;
+						
+						obj = itemObj.get("title");
+						String titleAla = String.valueOf(obj);
+						if(!"".equals(titleAla)) {
+							title = titleAla;
+						}
+						
+						obj = itemObj.get("author");
+						String authorAla = String.valueOf(obj);
+						if(!"".equals(authorAla)) {
+							author = authorAla;
+						}
+						
+						obj = itemObj.get("publisher");
+						String publisherAla = String.valueOf(obj);
+						if(!"".equals(publisherAla)) {
+							publisher = publisherAla;
+						}
+						
+						obj = itemObj.get("pubDate");
+						String pubDateAla = String.valueOf(obj);
+						if(!"".equals(pubDateAla)) {
+							pubDate = pubDateAla;
+						}
+						
+						obj = itemObj.get("priceStandard");
+						String priceStandard = String.valueOf(obj);
+						if(!"".equals(priceStandard)) {
+							price = priceStandard;
+						}
+						
+						obj = itemObj.get("isbn");
+						String isbn10Ala = String.valueOf(obj);
+						if(!"".equals(isbn10Ala)) {
+							isbn10 = isbn10Ala;
+						}
+						
+						obj = itemObj.get("isbn13");
+						String isbn13Ala = String.valueOf(obj);
+						if(!"".equals(isbn13Ala)) {
+							isbn13 = isbn13Ala;
+						}
+						
+						obj = itemObj.get("categoryName");
+						String categoryName = String.valueOf(obj);
+						if(!"".equals(categoryName)) {
+							category = categoryName;
+						}
+						
+						obj = itemObj.get("description");
+						String descriptionAla = String.valueOf(obj);
+						if(!"".equals(descriptionAla)) {
+							description = descriptionAla;
+						}
+						
+						//페이지 수 추출
+						JSONObject objSubInfo = (JSONObject) itemObj.get("subInfo");
+						Object objPage = objSubInfo.get("itemPage");
+						String itemPage2 = String.valueOf(objPage);
+						if(!"".equals(itemPage2)) {
+							itemPage = Integer.parseInt(itemPage2);
+						}
+						
+						obj = itemObj.get("cover");
+						String cover = String.valueOf(obj);
+						if(!"".equals(cover)) {
+							imageLink = cover;
+						}
+					}
+					
+					//결과값 아예 없을 때 처리
+					if(jsonAladin.get("item")==null&&jsonNl.get("result")==null&&"0".equals(jsonSeoji.get("TOTAL_COUNT"))) {
+						//lastCellCount는 개수로 10개
+						//즉 추가된 인덱스는 10으로 같다. +1 해줄필요없음.
+						theArr[curRow][lastCellCount] = "검색결과없음";
+						//필수항목 체크가 되어있다면, 등록처리 안하고 컨티뉴 처리.
+						if(mustCodeChk!=null) {
+							continue;
+						}
+					}
+				}//if(isbn != null) 처리 끝. 
+				
+				//결과값이 없음. 따라서 제목과 저자가 없을경우 엑셀의 값을 가져옴.
+				if(title == null) {
+					title = theArr[curRow][titleCol];
+				}
+				if(author == null) {
+					author = theArr[curRow][authorCol];
+				}
+				if(publisher==null&&publisherCol>-1) {
+					publisher = theArr[curRow][publisherCol];
+				}
+				
+				//저자기호용 컬럼이 존재시 아래 처리.
+				if(acTitleCol>-1&&acAuthorCol>-1) {
+					String tempTitle = theArr[curRow][acTitleCol];
+					String tempAuthor = theArr[curRow][acAuthorCol];
+					if(tempTitle!=null&&tempAuthor!=null) {
+						//위 두 값이 null이 아닐경우만 처리.
+						atCode = authorCode.authorCodeGen(tempAuthor)
+								+ authorCode.titleFirstLetter(tempTitle);
+					}
+				}
+				
+				//제목,저자있는데, 위 저자기호처리로도 저자기호가 없을 시
+				//엑셀의 값으로 저자기호 처리
+				if(title!=null&&author!=null&&atCode==null) {
+					atCode = authorCode.authorCodeGen(author)
+							+ authorCode.titleFirstLetter(title);
+				}
+				
+				
+				
+				//마지막 연산까지도 분류기호가 null이고, clsCodeCol이 존재하면
+				//분류기호 처리
+				if(classCode==null&&clsCodeCol>-1) {
+					classCode = theArr[curRow][clsCodeCol];
+				}
+				if(volCode==null&&volCodeCol>-1) {
+					volCode = theArr[curRow][volCodeCol];
+				}
+				
+				//구매/기증 컬럼 안에 값이 있을경우만, 값을 가져오고 값이 없으면
+				//그냥 구매 1 처리.
+				if(purOrDonCol> -1&&theArr[curRow][purOrDonCol]!=null) {
+					System.out.println("theArr값:"+theArr[curRow][purOrDonCol]);
+					purOrDon = (int)Float.parseFloat(theArr[curRow][purOrDonCol]);
+					System.out.println("purOrDon(int)값:"+purOrDon);
+				}
+				
+				
+				BookHeld bookHeld = new BookHeld();
+				//bookIdBook 없애기 위한 1차 변수
+				bookHeld.setBookIdBook(null);
+				bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
+				//바코드 컬럼이 존재하고, 해당 컬럼의 값이 있다면,
+				if(barcodeCol>-1&&theArr[curRow][barcodeCol]!=null) {
+					//바코드 컬럼이 엑셀에 존재한다면 해당 컬럼의 값을 가져옴.
+					barcode = theArr[curRow][barcodeCol];
+				} else {
+					//새로 생성한 바코드 번호 주입
+					barcode = frequentlyFunction.getLastBarcode(1, bookHeld);
+					barcode = barcode.toUpperCase();
+				}
+				bookHeld.setLocalIdBarcode(barcode);
+				//위 비어있는 바코드 번호를 솔팅index에 주입
+				bookHeld.setSortingIndex(util.numExtract(barcode));
+				bookHeld.setTitle(title);
+				if(author==null) {
+					author = "";
+				}
+				bookHeld.setWriter(author);
+				bookHeld.setPublisher(publisher);
+				bookHeld.setPubDate(pubDate);
+				bookHeld.setPrice(price);
+				bookHeld.setIsbn13(isbn13);
+				bookHeld.setIsbn10(isbn10);
+				bookHeld.setCategory(category);
+				bookHeld.setDescription(description);
+				bookHeld.setClassificationCode(classCode);
+				bookHeld.setAuthorCode(atCode);
+				bookHeld.setVolumeCode(volCode);
+				
+				if(copyCodeCol>-1) {
+					copyCode = (int)Float.parseFloat(theArr[curRow][copyCodeCol]);
+				} else {
+					//복본기호 처리는 isbn13과 제목, 저자로 검증
+					copyCode = frequentlyFunction.getCopyCode(bookHeld);
+				}
+				bookHeld.setCopyCode(copyCode);
+				//구매/기증 처리 위에 if문 참고
+				bookHeld.setPurchasedOrDonated(purOrDon);
+				bookHeld.setPage(itemPage);
+				bookHeld.setBookSize(bookSize);
+				bookHeld.setImageLink(imageLink);
+				//등록처리
+				bookHeldService.insertBookHeld(bookHeld);
+				//초기화
+				bookHeld = null;
+			}
+			
+			System.out.println("파일경로"+filePath);
+			//파일쓰기 처리
+			util.writerExcelFile(theArr, filePath);
+			
+			//로직이 마무리 되면, 전역변수에 스위치 삭제 처리.
+			libArrRegBook.remove(String.valueOf(loginInfo.getIdLibMng()));
+			logger.info("종료 도서관 번호 확인: "+libArrRegBook);
+			
+			//파일삭제
+			//upload.removeFile(filePath);
+		} catch (Exception e) {
+			web.printJsonRt(e.getLocalizedMessage());
+		}
+		
+		// --> import java.util.HashMap;
+		// --> import java.util.Map;
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("rt", "OK");
+		//마지막 행까지 로직이 여기까지 왔을 경우엔 무조건 리턴.
+		//data.put("msg", curStepMsg);
+		//현재 몇번째까지 등록되었는지
+		data.put("curRow", curRow);
+		
+		
+		// --> import com.fasterxml.jackson.databind.ObjectMapper;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValue(response.getWriter(), data);
+		} catch (Exception e) {
+			web.printJsonRt(e.getLocalizedMessage());
+		}
+
+		/** (9) 가입이 완료되었으므로 메인페이지로 이동 */
+		/*return new ModelAndView("book/reg_book_batch");*/
+		//return web.redirect(web.getRootPath() + "/book/reg_book_batch.do", "도서 일괄 등록이 완료되었습니다.");
 	}
 	
 	@ResponseBody
@@ -1010,6 +1473,10 @@ public class RegBook {
 			web.printJsonRt(e.getLocalizedMessage());
 		}
 	}
+	
+	
+	
+	
 	
 	//이전 로직 사용안함.
 	@RequestMapping(value = "/book/reg_book_batch_check_xxxxxxxxxxxxxxxxxx.do")

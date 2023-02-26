@@ -361,6 +361,8 @@ public class FrequentlyFunction {
 				JSONObject jsonAladin = new JSONObject();
 				jsonAladin = apiHelper.getJsonApiResult(isbnArr.get(j), 0);
 				
+				String isbn = isbnArr.get(j);
+				
 				//마지막 바코드번호 최초 1회 불러오기
 				String barcode = null;
 				
@@ -470,28 +472,90 @@ public class FrequentlyFunction {
 								+ authorCode.titleFirstLetter(titleToCode);
 					}
 					
+					//국중에서 분류기호 가져오기
+					JSONObject jsonNl = apiHelper.getJsonApiResult(isbn, 1);
+					
+					if(jsonNl.get("result")==null) {
+						//System.out.println("국중내용 없음.");
+					} else {
+						//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+						JSONArray itemArrayNL = (JSONArray) jsonNl.get("result");
+						JSONObject itemObjNL = (JSONObject) itemArrayNL.get(0);
+						
+						Object obj = null;
+						
+						obj = itemObjNL.get("classNo");
+						String classNo = String.valueOf(obj);
+						if(!"".equals(classNo)) {
+							clsCode = classNo;
+						}
+						
+					}
+					//국중에서 분류기호 가져오기 끝
+					
+					//서지에서 권차기호
+					JSONObject jsonSeoji = apiHelper.getJsonApiResult(isbn, 2);
+					
+					if("0".equals(jsonSeoji.get("TOTAL_COUNT"))) {
+						//System.out.println("서지내용 없음.");
+					} else {
+						//json타입의 값인 jsonAladin에서 특정값을 가지고옴.
+						JSONArray itemArraySJ = (JSONArray) jsonSeoji.get("docs");
+						JSONObject itemObjSJ = (JSONObject) itemArraySJ.get(0);
+						
+						Object obj = null;
+						
+						//분류기호 clsCode가 끝까지 공란일 경우 한번더 체크해서 넣기
+						if("".equals(clsCode)||clsCode==null) {
+							//부가기호
+							obj = itemObjSJ.get("EA_ADD_CODE");
+							String eaAddCode = String.valueOf(obj);
+							if(!"".equals(eaAddCode)) {
+								//앞 두자리 빼고 분류기호에 값 넣기.
+								eaAddCode = eaAddCode.substring(2);
+								clsCode = eaAddCode;
+							}
+							
+							//분류기호
+							obj = itemObjSJ.get("KDC");
+							String kdc = String.valueOf(obj);
+							if(!"".equals(kdc)) {
+								clsCode = kdc;
+							}
+						}
+						
+						obj = itemObjSJ.get("VOL");
+						String vol = String.valueOf(obj);
+						if("".equals(vol)||vol==null) {
+							volCode = "";
+						} else {
+							volCode = vol;
+						}
+					}
+					//서지에서 권차기호 끝
+					
 					
 					//도서명0, 저자명1, 저자기호2, 분류기호3, 별치기호4, 권차기호5, 복본기호6
 					//도서분류7, 출판사8, 출판일9, 페이지10, 가격11
 					//isbn13 -12, 서가13, 도서등록번호14
 					
-					result[j][0] = titleToCode;
-					result[j][1] = authorToCode;
-					result[j][2] = atcOut;
-					result[j][3] = clsCode;
-					result[j][4] = addiCode;
-					result[j][5] = volCode;
-					result[j][6] = copyCode;
-					result[j][7] = category;
-					result[j][8] = viewPublisher;
-					result[j][9] = pubDate;
-					result[j][10] = itemPage;
-					result[j][11] = price;
-					result[j][12] = viewIsbn13;
-					result[j][13] = "";
-					result[j][14] = barcode;
+					result[j][0] = barcode;
+					result[j][1] = titleToCode;
+					result[j][2] = authorToCode;
+					result[j][3] = atcOut;
+					result[j][4] = clsCode;
+					result[j][5] = addiCode;
+					result[j][6] = volCode;
+					result[j][7] = copyCode;
+					result[j][8] = category;
+					result[j][9] = viewPublisher;
+					result[j][10] = pubDate;
+					result[j][11] = itemPage;
+					result[j][12] = price;
+					result[j][13] = viewIsbn13;
+					result[j][14] = "";
 				} else {
-					result[j][0] = "";
+					result[j][0] = barcode;
 					result[j][1] = "";
 					result[j][2] = "";
 					result[j][3] = "";
@@ -503,9 +567,9 @@ public class FrequentlyFunction {
 					result[j][9] = "";
 					result[j][10] = "";
 					result[j][11] = "";
-					result[j][12] = isbnArr.get(j);
-					result[j][13] = "";
-					result[j][14] = barcode;
+					result[j][12] = "";
+					result[j][13] = isbnArr.get(j);
+					result[j][14] = "";
 				}
 				
 			}

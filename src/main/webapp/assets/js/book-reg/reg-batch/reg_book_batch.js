@@ -146,3 +146,109 @@ function displayProgressing() {
 function displayInterval() {
 	dInterval = setInterval(displayProgressing, 5000);
 }
+
+
+//txt 일괄 등록함수
+//버튼 눌렸을 경우.
+function clickedBtnTxtBatchSubmit() {
+	//for문의 i를 위한 마지막 숫자 input으로부터 구하기.
+	const lastRow = document.querySelector("#lastRow").value;
+	//보내기 위한 2차원 배열 데이터
+	let theArr = [];
+	
+	for(let i=0; i<lastRow; i++) {
+		const row = document.getElementsByName("row"+i);
+		let itemArr = [];
+		for(let j=0; j<15; j++) {
+			if(j==0) {
+				//체크박스 값 읽어와서, 참거짓 값 넣기.
+				itemArr.push(row[j].checked);
+			} else {
+				//일반 텍스트 값.
+				itemArr.push(row[j].value);
+			}
+		}
+		//건너띄기 체크되어있으면 건너띄고, 체크 안되어있으면 최종함수에 넣지 않기.
+		if(itemArr[0] == true) {
+			theArr.push(itemArr);
+		}
+	}
+	
+	console.log(theArr);
+	
+	importProcess = $.ajax({
+		url: "/book/reg_book_txt_batch_ok.do",
+		type: 'POST',
+		timeout: 0, //timeout 기본은 30000으로 되어있음. 여기선 타임아웃없애기위해 명시.
+		traditional:true, //arr 데이터방식 수신하기 위해 명시
+		data: {
+			loadFilePath: loadFilePath.value,
+			lastColCount: lastColCount.value,
+			curRow: curRowNum,
+			arrColH,
+			mustCodeChk
+		},
+		success: function(data) {
+			if(data.rt != 'OK') {
+				//중간 확인 row 인터벌 중단 함수 실행
+				cancelProcess();
+				
+				alert(data.rt);
+			} else {
+				//서버로부터 받은 현재 단계 input에 넣어주기.
+				let thisCurRow = data.curRow;
+				curRow.value = thisCurRow;
+				progBar.value = thisCurRow;
+				//alert(data.msg);
+				//전부다 등록되면 페이지 이동처리.
+				if(Number(data.curRow)>=lastRowCount.value) {
+					//중간 확인 row 인터벌 중단
+					clearInterval(dInterval);
+					location.href = '/book/import_book_excel.do?menuHolder=setting';
+				}
+			}
+		}
+	});
+	//ajax 문 종료
+}
+
+
+//제목과 저자명 input 값이 바뀌면 저자기호 코드 호출
+const makeAtc = document.querySelector('.makeAtc');
+makeAtc.addEventListener('change', function(){
+	makeAuthorCode();
+});
+
+//저자코드 생성 ajax 호출문
+function makeAuthorCode() {
+	
+	var thisIsbn = document.getElementById('search-book-info').value;
+	var thisTitle = document.getElementById('bookTitle').value;
+	var thisAuthor = document.getElementById('author').value;
+	var atcout = null;
+	
+	if(thisTitle!=null&&thisAuthor!=null) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/book/author_code.do",
+			type: 'POST',
+			data: {
+				thisIsbn,
+				thisTitle,
+				thisAuthor,
+			},
+			/* dataType: "json", */
+			success: function(data) {
+				if(data.rt != 'OK') {
+					alert(data.rt);
+				} else {
+					document.getElementById('authorCode').value = data.result;
+					document.getElementById('copyCode').value = data.copyCode;
+				}
+			}
+		});
+	}
+};
+
+
+
+

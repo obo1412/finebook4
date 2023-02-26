@@ -39,7 +39,7 @@
 							
 							<div class="form-group float-right div-btns">
 								<input id="curRow" value="" />
-								<button class="btn btn-primary btn-sm" onclick="clickedBtnSubmit()">등록하기</button>
+								<button class="btn btn-primary btn-sm" onclick="clickedBtnTxtBatchSubmit()">등록하기</button>
 								<button class="btn btn-danger btn-sm" onclick="cancelProcess()">전송중단</button>
 							</div>
 
@@ -55,6 +55,8 @@
 								<table class="table table-sm">
 									<thead>
 										<tr>
+											<th class="text-center cur-th table-info">등록체크</th>
+											<th class="text-center cur-th table-info">도서등록번호</th>
 											<th class="text-center cur-th table-info">도서명</th>
 											<th class="text-center cur-th table-info">저자명</th>
 											<th class="text-center cur-th table-info">저자기호</th>
@@ -69,35 +71,27 @@
 											<th class="text-center cur-th table-info">가격</th>
 											<th class="text-center cur-th table-info">ISBN13</th>
 											<th class="text-center cur-th table-info">서가</th>
-											<th class="text-center cur-th table-info">도서등록번호</th>
 										</tr>
 									</thead>
 									
 									<tbody>
 										<c:forEach var="row" items="${theArr}" varStatus="firStat">
-											<c:if test="${firStat.index eq 0}">
-												<tr>
-													<c:forEach var="col" items="${row}" varStatus="seStat">
-														<th class="text-center cur-th">${col}</th>
-														<c:if test="${(firStat.index eq 0) and (seStat.last eq true)}" >
-															<!-- 마지막 col값을 주기 위한 변수로 -->
-															<input type="hidden" name="colLast" value="${seStat.index}" />
-														</c:if>
-													</c:forEach>
-												</tr>
-											</c:if>
-										</c:forEach>
-										<c:forEach var="row" items="${theArr}" varStatus="firStat">
-											<c:if test="${firStat.index gt 0}">
 											<tr>
+												<td class="text-center cur-td">
+													<input type="checkbox" name="row${firStat.index}" checked/>
+												</td>
 												<c:forEach var="col" items="${row}" varStatus="seStat">
-													<td name="col${seStat.index}" class="text-center cur-td">
-														${col}
-														<input type="hidden" name="col${seStat.index}" value="${col}" />
+													<td class="text-center cur-td">
+														<input type="text" name="row${firStat.index}" value="${col}" />
 													</td>
 												</c:forEach>
+												<c:if test="${firStat.last eq true}">
+												<!-- 마지막값일 경우 마지막 숫자 담을 input -->
+													<td>
+														<input type="hidden" id="lastRow" value="${firStat.count}" />
+													</td>
+												</c:if>
 											</tr>
-											</c:if>
 										</c:forEach>
 									</tbody>
 									
