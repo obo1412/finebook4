@@ -165,7 +165,11 @@ function clickedBtnTxtBatchSubmit() {
 				itemArr.push(row[j].checked);
 			} else {
 				//일반 텍스트 값.
-				itemArr.push(row[j].value);
+				let curData = row[j].value;
+				while(curData.indexOf(",")>-1) {
+					curData = curData.replace(/,/g, "#@$");
+				}
+				itemArr.push(curData);
 			}
 		}
 		//건너띄기 체크되어있으면 건너띄고, 체크 안되어있으면 최종함수에 넣지 않기.
@@ -174,7 +178,7 @@ function clickedBtnTxtBatchSubmit() {
 		}
 	}
 	
-	console.log(theArr);
+	//console.log(theArr);
 	
 	importProcess = $.ajax({
 		url: "/book/reg_book_txt_batch_ok.do",
@@ -182,29 +186,16 @@ function clickedBtnTxtBatchSubmit() {
 		timeout: 0, //timeout 기본은 30000으로 되어있음. 여기선 타임아웃없애기위해 명시.
 		traditional:true, //arr 데이터방식 수신하기 위해 명시
 		data: {
-			loadFilePath: loadFilePath.value,
-			lastColCount: lastColCount.value,
-			curRow: curRowNum,
-			arrColH,
-			mustCodeChk
+			theArr
 		},
 		success: function(data) {
 			if(data.rt != 'OK') {
-				//중간 확인 row 인터벌 중단 함수 실행
-				cancelProcess();
-				
+				//완료가 아닐 경우 알럿 띄우기
 				alert(data.rt);
 			} else {
-				//서버로부터 받은 현재 단계 input에 넣어주기.
-				let thisCurRow = data.curRow;
-				curRow.value = thisCurRow;
-				progBar.value = thisCurRow;
-				//alert(data.msg);
 				//전부다 등록되면 페이지 이동처리.
 				if(Number(data.curRow)>=lastRowCount.value) {
-					//중간 확인 row 인터벌 중단
-					clearInterval(dInterval);
-					location.href = '/book/import_book_excel.do?menuHolder=setting';
+					location.href = '/book/book_held_list.do?chkBox_tag_search=checked?menuHolder=book';
 				}
 			}
 		}
