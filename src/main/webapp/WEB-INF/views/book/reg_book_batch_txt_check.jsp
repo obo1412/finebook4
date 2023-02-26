@@ -54,21 +54,31 @@
 								
 								<table class="table table-sm">
 									<thead>
+										<tr>
+											<th class="text-center cur-th table-info">도서명</th>
+											<th class="text-center cur-th table-info">저자명</th>
+											<th class="text-center cur-th table-info">저자기호</th>
+											<th class="text-center cur-th table-info">분류기호</th>
+											<th class="text-center cur-th table-info">별치기호</th>
+											<th class="text-center cur-th table-info">권차기호</th>
+											<th class="text-center cur-th table-info">복본기호</th>
+											<th class="text-center cur-th table-info">도서분류</th>
+											<th class="text-center cur-th table-info">출판사</th>
+											<th class="text-center cur-th table-info">출판일</th>
+											<th class="text-center cur-th table-info">페이지</th>
+											<th class="text-center cur-th table-info">가격</th>
+											<th class="text-center cur-th table-info">ISBN13</th>
+											<th class="text-center cur-th table-info">서가</th>
+											<th class="text-center cur-th table-info">도서등록번호</th>
+										</tr>
+									</thead>
+									
+									<tbody>
 										<c:forEach var="row" items="${theArr}" varStatus="firStat">
 											<c:if test="${firStat.index eq 0}">
 												<tr>
 													<c:forEach var="col" items="${row}" varStatus="seStat">
-														<th class="text-center cur-th">
-															<select name="colH${seStat.index}" id="colH${seStat.index}">
-																<option value="">목록제외</option>
-																<option value="isbn13">ISBN13</option>
-															</select>
-														</th>
-													</c:forEach>
-												</tr>
-												<tr>
-													<c:forEach var="col" items="${row}" varStatus="seStat">
-														<th class="table-info text-center cur-th">${col}</th>
+														<th class="text-center cur-th">${col}</th>
 														<c:if test="${(firStat.index eq 0) and (seStat.last eq true)}" >
 															<!-- 마지막 col값을 주기 위한 변수로 -->
 															<input type="hidden" name="colLast" value="${seStat.index}" />
@@ -77,9 +87,6 @@
 												</tr>
 											</c:if>
 										</c:forEach>
-									</thead>
-									
-									<tbody>
 										<c:forEach var="row" items="${theArr}" varStatus="firStat">
 											<c:if test="${firStat.index gt 0}">
 											<tr>

@@ -21,6 +21,7 @@ import com.gaimit.helper.Util;
 import com.gaimit.helper.WebHelper;
 import com.gaimit.mlm.model.BookHeld;
 import com.gaimit.mlm.model.Library;
+import com.gaimit.mlm.model.Manager;
 import com.gaimit.mlm.model.Member;
 import com.gaimit.mlm.model.TagSetting;
 import com.gaimit.mlm.service.BbsDocumentService;
@@ -325,12 +326,15 @@ public class FrequentlyFunction {
 	
 	
 	/**
-	 * 엑셀 경로 들어오면 처리 함수
+	 * txt isbn 일고라 등록 처리 함수
 	 * @param fileStream - txt 파일 한번에 여기서 담아서 2차원 배열로 리턴
 	 * @return
 	 * @throws IOException 
 	 */
 	public String[][] txtExtractValues(FileInputStream fileStream) throws IOException {
+		
+		/** (3) 로그인 여부 검사 */
+		Manager loginInfo = (Manager) web.getSession("loginInfo");
 			
 		if(fileStream == null || "".equals(fileStream)) {
 			return null;
@@ -350,12 +354,29 @@ public class FrequentlyFunction {
 			i++;
 		}
 		//구해진 총개수 대로 배열 선언
-		String[][] result = new String[i][16];
+		String[][] result = new String[i][15];
 		
 		try {
 			for(int j=0; j<i; j++) {
 				JSONObject jsonAladin = new JSONObject();
 				jsonAladin = apiHelper.getJsonApiResult(isbnArr.get(j), 0);
+				
+				//마지막 바코드번호 최초 1회 불러오기
+				String barcode = null;
+				
+				BookHeld bookHeld = new BookHeld();
+				bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
+				//새로 생성한 바코드 번호 주입
+				barcode = getLastBarcode(1, bookHeld);
+				barcode = barcode.toUpperCase();
+				
+				if(j>0) {
+					String barcodeHead = util.strExtract(barcode);
+					//j번째 번호를 더해주기
+					int barcodeNum = util.numExtract(barcode)+j;
+					barcode = makeBarcodeByNumOfDigits(loginInfo.getIdLibMng(),barcodeHead,barcodeNum);
+				}
+				//바코드 처리 끝
 				
 				//알라딘 정보 호출
 				if(jsonAladin.get("item") != null && !"".equals(jsonAladin.get("item"))) {
@@ -449,6 +470,7 @@ public class FrequentlyFunction {
 								+ authorCode.titleFirstLetter(titleToCode);
 					}
 					
+					
 					//도서명0, 저자명1, 저자기호2, 분류기호3, 별치기호4, 권차기호5, 복본기호6
 					//도서분류7, 출판사8, 출판일9, 페이지10, 가격11
 					//isbn13 -12, 서가13, 도서등록번호14
@@ -467,7 +489,23 @@ public class FrequentlyFunction {
 					result[j][11] = price;
 					result[j][12] = viewIsbn13;
 					result[j][13] = "";
-					result[j][14] = authorToCode;
+					result[j][14] = barcode;
+				} else {
+					result[j][0] = "";
+					result[j][1] = "";
+					result[j][2] = "";
+					result[j][3] = "";
+					result[j][4] = "";
+					result[j][5] = "";
+					result[j][6] = "";
+					result[j][7] = "";
+					result[j][8] = "";
+					result[j][9] = "";
+					result[j][10] = "";
+					result[j][11] = "";
+					result[j][12] = isbnArr.get(j);
+					result[j][13] = "";
+					result[j][14] = barcode;
 				}
 				
 			}
