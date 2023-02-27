@@ -50,7 +50,7 @@
 					</div>
 					<div class="card-body">
 						<div class="table-responsive row">
-							<small class="ml-1 mb-2">하나의 txt 파일에 100권 이내의 도서정보 업로드를 권장드립니다.</small>
+							<small class="ml-1 mb-2">하나의 txt 파일에 50권 이내의 도서정보 업로드를 권장드립니다.</small>
 
 							<!-- 회원정보, 도서정보 수집 시작 -->
 							<form class="form-horizontal info-section" name="batchForm"

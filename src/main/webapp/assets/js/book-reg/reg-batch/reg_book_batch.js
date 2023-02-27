@@ -159,7 +159,7 @@ function clickedBtnTxtBatchSubmit() {
 	for(let i=0; i<lastRow; i++) {
 		const row = document.getElementsByName("row"+i);
 		let itemArr = [];
-		for(let j=0; j<15; j++) {
+		for(let j=0; j<16; j++) {
 			if(j==0) {
 				//체크박스 값 읽어와서, 참거짓 값 넣기.
 				itemArr.push(row[j].checked);
@@ -172,6 +172,7 @@ function clickedBtnTxtBatchSubmit() {
 				itemArr.push(curData);
 			}
 		}
+		
 		//건너띄기 체크되어있으면 건너띄고, 체크 안되어있으면 최종함수에 넣지 않기.
 		if(itemArr[0] == true) {
 			theArr.push(itemArr);
@@ -194,9 +195,7 @@ function clickedBtnTxtBatchSubmit() {
 				alert(data.rt);
 			} else {
 				//전부다 등록되면 페이지 이동처리.
-				if(Number(data.curRow)>=lastRowCount.value) {
-					location.href = '/book/book_held_list.do?chkBox_tag_search=checked?menuHolder=book';
-				}
+				location.href = '/book/book_held_list.do?chkBox_tag_search=checked?menuHolder=book';
 			}
 		}
 	});
@@ -205,7 +204,7 @@ function clickedBtnTxtBatchSubmit() {
 
 
 //제목과 저자명 input 값이 바뀌면 저자기호 코드 호출
-const makeAtc = document.querySelector('.makeAtc');
+/*const makeAtc = document.querySelector('.makeAtc');
 makeAtc.addEventListener('change', function(){
 	makeAuthorCode();
 });
@@ -227,7 +226,7 @@ function makeAuthorCode() {
 				thisTitle,
 				thisAuthor,
 			},
-			/* dataType: "json", */
+			// dataType: "json",
 			success: function(data) {
 				if(data.rt != 'OK') {
 					alert(data.rt);
@@ -238,7 +237,7 @@ function makeAuthorCode() {
 			}
 		});
 	}
-};
+}; */
 
 
 

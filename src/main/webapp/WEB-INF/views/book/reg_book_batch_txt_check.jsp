@@ -27,6 +27,7 @@
 				<div class="card mb-3 mr-2">
 					<div class="card-header">
 						<h4>도서 일괄 등록하기(txt)</h4>
+						<p>도서명, 저자명만 기입하면 저자기호는 자동으로 등록됩니다.</p>
 					</div>
 					
 					<div style="float:left; margin-left:10px;">
@@ -78,6 +79,7 @@
 										<c:forEach var="row" items="${theArr}" varStatus="firStat">
 											<tr>
 												<td class="text-center cur-td">
+													<span>${firStat.count}</span>
 													<input type="checkbox" name="row${firStat.index}" checked/>
 												</td>
 												<c:forEach var="col" items="${row}" varStatus="seStat">

@@ -424,73 +424,88 @@ public class RegBook {
 			web.printJsonRt("로그인 후에 이용 가능합니다.");
 		}
 		
+		//도서관 번호 받아오기.
+		int idLib = loginInfo.getIdLibMng();
+		
 		String[] theArr = web.getStringArray("theArr");
 		
 		for(int i=0; i<theArr.length; i++) {
-			String[] item = theArr[i].split(",");
+			//쉼표로 구분되어서 배열에 담겨 들어옴.
+			String[] item = theArr[i].split(",", -1);
+			
 			System.out.println(item.length);
-			for(int j=0; j<15; j++) {
+			
+			for(int j=0; j<16; j++) {
 				String cell = item[j];
+				//쉼표를 다른 것으로 치환하여 배열값 받아오고
+				//다른 것으로 치환한 값을 다시 쉼표로 바꾸기.
 				cell = cell.replace("#@$", ",");
-				System.out.println(j+"번째값:["+cell+"]");
+				item[j] = cell;
+				System.out.println(j+"번째값:["+item[j]+"]");
 			}
-//			System.out.println(theArr[i]);
-		}
-		
-		try {
+			
+			if(("".equals(item[2])||item[2]==null)&&("".equals(item[3])||item[3]==null)) {
+				//도서명과 저자명이 빈칸이면 건너띄기.
+				continue;
+			}
+			
+			try {
 				
-				/* BookHeld bookHeld = new BookHeld();
-				//bookIdBook 없애기 위한 1차 변수
+				BookHeld bookHeld = new BookHeld();
+				//이제 안쓰는 참조키
 				bookHeld.setBookIdBook(null);
-				bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
-				//바코드 컬럼이 존재하고, 해당 컬럼의 값이 있다면,
-				if(barcodeCol>-1&&theArr[curRow][barcodeCol]!=null) {
-					//바코드 컬럼이 엑셀에 존재한다면 해당 컬럼의 값을 가져옴.
-					barcode = theArr[curRow][barcodeCol];
-				} else {
-					//새로 생성한 바코드 번호 주입
-					barcode = frequentlyFunction.getLastBarcode(1, bookHeld);
-					barcode = barcode.toUpperCase();
-				}
-				bookHeld.setLocalIdBarcode(barcode);
-				//위 비어있는 바코드 번호를 솔팅index에 주입
-				bookHeld.setSortingIndex(util.numExtract(barcode));
-				bookHeld.setTitle(title);
-				if(author==null) {
-					author = "";
-				}
-				bookHeld.setWriter(author);
-				bookHeld.setPublisher(publisher);
-				bookHeld.setPubDate(pubDate);
-				bookHeld.setPrice(price);
-				bookHeld.setIsbn13(isbn13);
-				bookHeld.setIsbn10(isbn10);
-				bookHeld.setCategory(category);
-				bookHeld.setDescription(description);
-				bookHeld.setClassificationCode(classCode);
-				bookHeld.setAuthorCode(atCode);
-				bookHeld.setVolumeCode(volCode);
+				bookHeld.setLibraryIdLib(idLib);
 				
-				if(copyCodeCol>-1) {
-					copyCode = (int)Float.parseFloat(theArr[curRow][copyCodeCol]);
-				} else {
+				//등록체크0, 도서등록번호1, 도서명2, 저자명3
+				//저자기호4, 분류기호5, 별치기호6, 권차기호7, 복본기호8
+				//도서분류9, 출판사10, 출판일11, 페이지12, 가격13
+				//isbn13 14, 서가15
+				bookHeld.setLocalIdBarcode(item[1]);
+				//Sorting index에 바코드 숫자만 기입
+				bookHeld.setSortingIndex(util.numExtract(item[1]));
+				bookHeld.setTitle(item[2]);
+				bookHeld.setWriter(item[3]);
+				String atcOut = item[4];
+				if("".equals(atcOut)||atcOut==null) {
+					atcOut = authorCode.authorCodeGen(item[3])
+							+ authorCode.titleFirstLetter(item[2]);
+				}
+				bookHeld.setAuthorCode(atcOut);
+				bookHeld.setClassificationCode(item[5]);
+				bookHeld.setAdditionalCode(item[6]);
+				bookHeld.setVolumeCode(item[7]);
+				Integer copyCode = null;
+				if("".equals(item[8])) {
 					//복본기호 처리는 isbn13과 제목, 저자로 검증
 					copyCode = frequentlyFunction.getCopyCode(bookHeld);
 				}
 				bookHeld.setCopyCode(copyCode);
-				//구매/기증 처리 위에 if문 참고
-				bookHeld.setPurchasedOrDonated(purOrDon);
-				bookHeld.setPage(itemPage);
-				bookHeld.setBookSize(bookSize);
-				bookHeld.setImageLink(imageLink);
+				bookHeld.setCategory(item[9]);
+				bookHeld.setPublisher(item[10]);
+				String pubDate = null;
+				if(!"".equals(item[11])) {
+					pubDate = item[11];
+				}
+				bookHeld.setPubDate(pubDate);
+				int curPage = 0;
+				if(!"".equals(item[12])) {
+					curPage = util.numExtract(item[12]);
+				}
+				bookHeld.setPage(curPage);
+				bookHeld.setPrice(item[13]);
+				bookHeld.setIsbn13(item[14]);
+				bookHeld.setBookShelf(item[15]);
+				
 				//등록처리
 				bookHeldService.insertBookHeld(bookHeld);
 				//초기화
-				bookHeld = null; */
-			
-		} catch (Exception e) {
-			web.printJsonRt(e.getLocalizedMessage());
+				bookHeld = null;
+				
+			} catch (Exception e) {
+				web.printJsonRt(e.getLocalizedMessage());
+			}
 		}
+		
 		
 		// --> import java.util.HashMap;
 		// --> import java.util.Map;
