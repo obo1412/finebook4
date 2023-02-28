@@ -75,9 +75,23 @@
 								</c:otherwise>
 							</c:choose>
 						</div>
-						<div style="height:35%; font-family:'Free 3 of 9'; font-size:10mm; line-height:10mm; transform:scale(1,1.5);">
-							*${item.localIdBarcode}*
-						</div>
+						<c:choose>
+							<c:when test="${fn:length(item.localIdBarcode) gt 10}">
+								<div style="height:35%; font-family:'Free 3 of 9'; font-size:10mm; line-height:10mm; transform:scale(0.7,1.5) translate(-2mm,0);">
+									*${item.localIdBarcode}*
+								</div>
+							</c:when>
+							<c:when test="${fn:length(item.localIdBarcode) gt 8}">
+								<div style="height:35%; font-family:'Free 3 of 9'; font-size:10mm; line-height:10mm; transform:scale(0.85,1.5);">
+									*${item.localIdBarcode}*
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div style="height:35%; font-family:'Free 3 of 9'; font-size:10mm; line-height:10mm; transform:scale(1,1.5);">
+									*${item.localIdBarcode}*
+								</div>
+							</c:otherwise>
+						</c:choose>
 						<div style="padding-top:1mm; font-weight:bold; font-size:4mm;">
 							${item.localIdBarcode}
 						</div>

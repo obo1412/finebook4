@@ -56,6 +56,9 @@
 				</div>
 				
 				<c:choose>
+					<c:when test="${fn:length(item.localIdBarcode) gt 10}">
+						<div class="barcode__on" style="transform:scale(0.7,1.5);">*${item.localIdBarcode}*</div>
+					</c:when>
 					<c:when test="${fn:length(item.localIdBarcode) gt 8}">
 						<div class="barcode__on" style="transform:scale(0.85,1.5);">*${item.localIdBarcode}*</div>
 					</c:when>

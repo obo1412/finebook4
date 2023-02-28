@@ -91,6 +91,11 @@
 							</c:choose>
 						</div>
 						<c:choose>
+							<c:when test="${fn:length(item.localIdBarcode) gt 10}">
+								<div class="left__barcode" style="height:35%; font-family:'Free 3 of 9'; line-height:10mm; transform:scale(0.7,1.5) translate(-4.5mm,0);">
+									*${item.localIdBarcode}*
+								</div>
+							</c:when>
 							<c:when test="${fn:length(item.localIdBarcode) gt 8}">
 								<div class="left__barcode" style="height:35%; font-family:'Free 3 of 9'; line-height:10mm; transform:scale(0.85,1.5);">
 									*${item.localIdBarcode}*
