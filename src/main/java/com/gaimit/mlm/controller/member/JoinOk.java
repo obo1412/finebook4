@@ -199,13 +199,13 @@ public class JoinOk {
 			return web.redirect(null, "이름을 입력하세요.");
 		}
 
-		if (!regex.isKor(name)) {
-			return web.redirect(null, "이름은 한글만 입력 가능합니다.");
-		}
+//		if (!regex.isKor(name)) {
+//			return web.redirect(null, "이름은 한글만 입력 가능합니다.");
+//		}
 
-		if (name.length() < 2 || name.length() > 5) {
-			return web.redirect(null, "이름은 2~5글자 까지만 가능합니다.");
-		}
+//		if (name.length() < 2 || name.length() > 5) {
+//			return web.redirect(null, "이름은 2~5글자 까지만 가능합니다.");
+//		}
 
 		// 이메일 검사
 		/*if (!regex.isValue(email)) {
