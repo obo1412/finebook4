@@ -51,7 +51,7 @@
 								<div class="input-group input-group-sm">
 									<span class="input-group-prepend">
 										<input type="hidden" id="classIdFromCntl" value="${searchClassId}"/>
-										<select name="searchClassId" id="idSearchClassId" class="form-control form-control-sm">
+										<select name="searchClassId" id="idSearchClassId" class="form-control form-control-sm" style="width:100px;">
 												<option value="">전체</option>
 												<option value="-1">미분류</option>
 												<c:forEach var="classMemberList" items="${classList}">
