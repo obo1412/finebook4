@@ -82,6 +82,7 @@
 									<th class="info text-center" style="width:120px;">도서명</th>
 									<th class="info text-center" style="width:70px;">저자명</th>
 									<th class="info text-center" style="width:70px;">상태</th>
+									<th class="info text-center" style="width:70px;">서가</th>
 									<th class="info text-center mobile-hide" style="width:70px;">출판사</th>
 									<th class="info text-center mobile-hide" style="width:70px;">출판일</th>
 									<th class="info text-center mobile-hide" style="width:90px;">ISBN13</th>
@@ -112,6 +113,7 @@
 												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.title}">${item.title}</td>
 												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.writer}">${item.writer}</td>
 												<td class="text-center text-danger" data-toggle="tooltip" data-placement="top" title="${item.brwStatus}">${item.brwStatus}</td>
+												<td class="text-center">${item.bookShelf}</td>
 												<td class="text-center mobile-hide" data-toggle="tooltip" data-placement="top" title="${item.publisher}">${item.publisher}</td>
 												<fmt:parseDate var="parsePubDate" value="${item.pubDate}" pattern="yyyy-MM-dd"/>
 												<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
