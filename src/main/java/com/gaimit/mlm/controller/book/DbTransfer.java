@@ -453,6 +453,8 @@ public class DbTransfer {
 							// k가 colList의 뭐시기면 이 값 넣기. colList 길이가 아예 없다. 그러면 자동선택으로.
 							if(!"".equals(colList[k])&&colList[k]!=null&&cellValue!=null&&!"".equals(cellValue)&&!"null".equals(cellValue)) {
 								//조건문이 null 이되면 아예 실행을 안한다. 따라서 위 if 조건 필요.
+								//우선 도서 상태값 기본으로 1로 지정. 이후 switch 돌면서 값있으면 처리.
+								bookHeld.setAvailable(1);
 								switch(colList[k]) {
 								case "도서바코드번호":
 								case "barcode":
