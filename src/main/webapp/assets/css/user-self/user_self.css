@@ -58,7 +58,7 @@ img {
 	width: 1300px;
 	height: 600px;
 	margin: 0 auto;
-	padding-top: 200px;
+	padding-top: 140px;
 	padding-bottom: 10px;
 	top: 150px;
 }
@@ -90,7 +90,7 @@ img {
 /* 도서 검색바 */
 .search-bar-book {
 	float: left;
-	width:360px;
+	width:640px;
 	height: 60px;
 	margin-bottom: 10px;
 	background-color: var(--white-color);
@@ -106,7 +106,7 @@ img {
 .search-bar-member-book {
 	float:left;
 	margin-left: 10px;
-	width: 880px;
+	width: 600px;
 	height: 60px;
 	background-color: var(--white-color);
 	border-radius: 5px;
@@ -164,7 +164,7 @@ button.btn__brw__return {
 /* 검색된 도서 목록 */
 .div-book-content {
 	width: 100%;
-	height:500px;
+	height:700px;
 }
 
 .div-book-list {
@@ -413,7 +413,7 @@ button.btn__brw__return {
 	float: left;
 	margin-top: 10px;
 	width: 100%;
-	height: 290px;
+	height: 360px;
 	background-color: var(--white-color);
 	border-radius: 5px;
 	overflow-y: scroll;

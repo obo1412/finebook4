@@ -275,6 +275,7 @@ function bookDetailView(jsonData) {
 	}
 	document.getElementById('book__detail__state').innerHTML = bookState;
 	document.getElementById('book__detail__title').textContent = jsonData.title;
+	document.getElementById('book__detail__bookShelf').textContent = jsonData.bookShelf;
 	document.getElementById('book__detail__writer').textContent = jsonData.writer;
 	document.getElementById('img__book').src = jsonData.imageLink;
 	document.getElementById('book__detail__publisher').textContent = jsonData.publisher;

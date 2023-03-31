@@ -25,7 +25,7 @@
 						<div class="search-bar-book">
 							<div class="search-bar-box">
 								<label>도서검색</label>
-								<input type="text" id="searchBookKeyword" onkeydown="searchBookEnterKeyDown()"/>
+								<input type="text" id="searchBookKeyword" style="width:250px;" onkeydown="searchBookEnterKeyDown()"/>
 								<button onclick="searchBook()">검색</button>
 							</div>
 						</div>
@@ -119,6 +119,13 @@
 											</tr>
 											<tr>
 												<td id="book__detail__title"></td>
+											</tr>
+											
+											<tr>
+												<th>서가</th>
+											</tr>
+											<tr>
+												<td id="book__detail__bookShelf"></td>
 											</tr>
 
 											<tr>
