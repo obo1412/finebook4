@@ -24,14 +24,15 @@
 		}
 		
 		/* 한줄로 안보이게 처리였는데, 이제는 스크롤 처리로 바꿔서 필요 없어짐 */
-		tr > td {
-			/* overflow: hidden;
+		td {
+			white-space: nowrap;
+			overflow: hidden;
 			text-overflow: ellipsis;
-			white-space: nowrap; */
 		}
 		
 		::-webkit-scrollbar {
 			width:2px;
+			height: 2px;
 			background-color:white;
 		}
 		::-webkit-scrollbar-thumb {
@@ -40,6 +41,7 @@
 		::-webkit-scrollbar-track {
 			background-color:white;
 		}
+		
 	</style>
 	
 	<link href="${pageContext.request.contextPath}/assets/css/book/book_held_list.css" rel="stylesheet" type="text/css" />
@@ -140,6 +142,10 @@
 														<i class='fas fa-search'></i>
 													</button>
 												</span>
+												
+												<span>
+													<a class="btn btn-primary btn-sm ml-1" href="${pageContext.request.contextPath}/book/book_held_list.do?chkBox_tag_search=checked">검색초기화</a>
+												</span>
 											</div>
 											<span class="ml-1">
 												<label>
@@ -205,13 +211,13 @@
 								<tr>
 									<th class="table-info text-center" style="width:20px; vertical-align: middle;" rowspan="2">-</th>
 									<th class="table-info text-center" style="width:50px;">번호</th>
-									<th class="table-info text-center" style="width:250px; vertical-align: middle;" rowspan="2">도서명</th>
+									<th class="table-info text-center" style="width:180px; vertical-align: middle;" rowspan="2">도서명</th>
 									<th class="table-info text-center" style="width:70px;">저자명</th>
 									<th class="table-info text-center" style="width:70px;">출판일</th>
 									<th class="table-info text-center" style="width:90px;">ISBN13</th>
+									<th class="table-info text-center" style="width:70px; vertical-align: middle;" rowspan="2">서가</th>
 									<th class="table-info text-center" style="width:80px; vertical-align: middle;" rowspan="2">청구기호</th>
 									<th class="table-info text-center" style="width:60px;">권차기호</th>
-									<!-- <th class="info text-center" style="width:30px;">색상</th> -->
 								</tr>
 								<tr>
 									<th class="table-info text-center" style="width:50px;">상태</th>
@@ -252,7 +258,8 @@
 												<fmt:parseDate var="parsePubDate" value="${item.pubDate}" pattern="yyyy-MM-dd"/>
 												<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
 												<td class="text-center">${pubDate}</td>
-												<td class="text-center">${item.isbn13}</td>
+												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.isbn13}">${item.isbn13}</td>
+												<td class="text-center" rowspan="2" style="vertical-align:middle;">${item.bookShelf}</td>
 												<td class="text-center" rowspan="2" style="overflow-y:scroll;">
 													<div style="height:50px;">
 														<div>
