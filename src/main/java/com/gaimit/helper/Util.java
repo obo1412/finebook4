@@ -230,16 +230,11 @@ public class Util {
 	//복본기호에서 숫자만 뽑아내기
 	public int getNumFromCopyCode(String copyCode) {
 		int result = 0;
-		String strExtract = null;
-		if(copyCode!=null&&!"".equals(copyCode)) {
-			copyCode = copyCode.trim();
-			if(copyCode.indexOf("C")>-1) {
-				strExtract = copyCode.substring(copyCode.indexOf("C")+1);
-				result = Integer.parseInt(strExtract);
-			} else if(copyCode.indexOf("c")>-1) {
-				strExtract = copyCode.substring(copyCode.indexOf("c")+1);
-				result = Integer.parseInt(strExtract);
-			}
+		if(copyCode.indexOf(".")>-1) {
+			float floatCode = Float.parseFloat(copyCode);
+			result = (int) floatCode;
+		} else {
+			result = numExtract(copyCode);
 		}
 		return result;
 	}

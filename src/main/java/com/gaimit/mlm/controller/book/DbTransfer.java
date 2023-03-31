@@ -457,6 +457,7 @@ public class DbTransfer {
 								bookHeld.setAvailable(1);
 								switch(colList[k]) {
 								case "도서바코드번호":
+								case "도서등록번호":
 								case "barcode":
 								case "등록번호": //DLS용 임시이동용
 									//등록번호 체크 안되어있을경우 처리
