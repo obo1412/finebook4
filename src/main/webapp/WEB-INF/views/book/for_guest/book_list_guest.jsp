@@ -78,11 +78,10 @@
 						<table class="table table-sm">
 							<thead>
 								<tr>
-									<th class="info text-center" style="width:50px;">번호</th>
+									<th class="info text-center" style="width:50px;">서가</th>
 									<th class="info text-center" style="width:120px;">도서명</th>
 									<th class="info text-center" style="width:70px;">저자명</th>
 									<th class="info text-center" style="width:70px;">상태</th>
-									<th class="info text-center" style="width:70px;">서가</th>
 									<th class="info text-center mobile-hide" style="width:70px;">출판사</th>
 									<th class="info text-center mobile-hide" style="width:70px;">출판일</th>
 									<th class="info text-center mobile-hide" style="width:90px;">ISBN13</th>
@@ -100,6 +99,9 @@
 										<c:forEach var="item" items="${bookHeldList}" varStatus="status">
 											<tr>
 												<td class="text-center">
+													${item.bookShelf}
+												</td>
+												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.title}">
 													<c:url var="viewUrl" value="/blook_details.do">
 														<c:param name="localIdBarcode" value="${item.localIdBarcode}" />
 														<c:param name="bookHeldId" value="${item.id}" />
@@ -107,13 +109,11 @@
 														<c:param name="skl" value="${stringKeyLib}" />
 													</c:url>
 													<a href="${viewUrl}" onclick="window.open(this.href, '_blank','width=550,height=800,scrollbars=yes');return false;">
-														${page.indexLast - status.index}
+														${item.title}
 													</a>
 												</td>
-												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.title}">${item.title}</td>
 												<td class="text-center" data-toggle="tooltip" data-placement="top" title="${item.writer}">${item.writer}</td>
 												<td class="text-center text-danger" data-toggle="tooltip" data-placement="top" title="${item.brwStatus}">${item.brwStatus}</td>
-												<td class="text-center">${item.bookShelf}</td>
 												<td class="text-center mobile-hide" data-toggle="tooltip" data-placement="top" title="${item.publisher}">${item.publisher}</td>
 												<fmt:parseDate var="parsePubDate" value="${item.pubDate}" pattern="yyyy-MM-dd"/>
 												<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
