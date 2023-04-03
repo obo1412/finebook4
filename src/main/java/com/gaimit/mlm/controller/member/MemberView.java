@@ -289,6 +289,10 @@ public class MemberView {
 		String phone = paramMap.get("phone");
 		String otherContact = paramMap.get("otherContact");
 		String birthdate = paramMap.get("birthdate");
+		birthdate = birthdate.trim();
+		if(birthdate == "" || "".equals(birthdate) || birthdate == null || birthdate == "0000-00-00 00:00:00") {
+			birthdate = null;
+		}
 		String email = paramMap.get("email");
 		String gradeStr = paramMap.get("grade");
 		/*String postcode = paramMap.get("postcode");
