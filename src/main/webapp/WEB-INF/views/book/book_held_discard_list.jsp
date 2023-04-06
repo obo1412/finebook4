@@ -15,7 +15,7 @@
 <%@ include file="/WEB-INF/inc/head.jsp"%>
 <style>
 	.card-body {
-		overflow:scroll;
+		overflow-x:scroll;
 	}
 </style>
 </head>
