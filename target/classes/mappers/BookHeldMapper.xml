@@ -620,11 +620,11 @@
 	<!-- 폐기도서 목록 보기 bookHeldDiscardList -->
 	<select id="selectBookHeldDiscardList" parameterType="com.gaimit.mlm.model.BookHeld" resultMap="bookHeld">
 		SELECT
-			id, title, writer, publisher, pub_date,
+			id, title, writer, publisher, pub_date, price,
 			isbn13, classification_code, author_code, volume_code,
-			book_shelf, reg_date, edit_date,
+			category, book_shelf, description, reg_date, edit_date,
 			local_id_barcode, purchased_or_donated, available, additional_code, copy_code,
-			library_id_lib
+			tag, rf_id, page, library_id_lib
 		FROM book_held h
 		<!-- INNER JOIN book b ON h.book_id_book = b.id_book -->
 		WHERE library_id_lib=#{libraryIdLib} AND available = 2
