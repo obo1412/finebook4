@@ -36,8 +36,7 @@
 						<!-- 검색폼 + 추가버튼 -->
 						<div style='margin-top: 30px;' class="float-left">
 							<form method='get'
-								action='${pageContext.request.contextPath}/book/book_held_discard_list.do'
-								style="width: 300px;">
+								action='${pageContext.request.contextPath}/book/book_held_discard_list.do'>
 								<div class="input-group input-group-sm">
 									<span class="input-group-prepend">
 										<select name="searchOpt" class="form-control form-control-sm">
@@ -72,6 +71,7 @@
 									<th class="info text-center" style="width:150px;">도서저자</th>
 									<th class="info text-center" style="width:70px;">출판사</th>
 									<th class="info text-center" style="width:100px;">출판일</th>
+									<th class="info text-center" style="width:100px;">가격</th>
 									<th class="info text-center" style="width:150px;">ISBN13</th>
 									<th class="info text-center" style="width:100px;">청구기호</th>
 									<th class="info text-center" style="width:100px;">등록일</th>
@@ -100,6 +100,7 @@
 												<fmt:parseDate var="parsePubDate" value="${item.pubDate}" pattern="yyyy-MM-dd"/>
 												<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
 												<td class="text-center">${pubDate}</td>
+												<td class="text-center">${item.price}</td>
 												<td class="text-center">${item.isbn13}</td>
 												<td class="text-center"><c:if
 														test="${not empty item.additionalCode}">${item.additionalCode}</c:if>
