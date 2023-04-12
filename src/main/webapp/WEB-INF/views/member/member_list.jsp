@@ -145,6 +145,7 @@
 									<th class="table-info text-center" style="width:70px;">연락처</th>
 									<th class="table-info text-center" style="width:70px;">추가연락처</th>
 									<th class="table-info text-center" style="width:100px;">이메일</th>
+									<th class="table-info text-center" style="width:70px;">RF-UID</th>
 									<th class="table-info text-center" style="width:50px;">회원분류</th>
 									<th class="table-info text-center" style="width:50px;">회원등급</th>
 									<th class="table-info text-center" style="width:50px;">대출제한(권)</th>
@@ -178,6 +179,7 @@
 												<td class="text-center">${item.phone}</td>
 												<td class="text-center">${item.otherContact}</td>
 												<td class="text-center">${item.email}</td>
+												<td class="text-center">${item.rfUid}</td>
 												<td class="text-center">${item.className}</td>
 												<td class="text-center">${item.gradeName}</td>
 												<td class="text-center">${item.brwLimit}</td>
