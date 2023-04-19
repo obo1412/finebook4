@@ -89,6 +89,9 @@ public class RegBookOk {
 		String rfId = web.getString("rfId");
 		String bookSize = web.getString("bookSize");
 		String classificationCode = web.getString("classificationCode");
+		if(util.hasTwoOrMoreDots(classificationCode)) {
+			return web.redirect(null, "분류기호에 소수점이 2개 이상입니다.");
+		}
 		String additionalCode = web.getString("additionalCode");
 		
 		String volumeCode = web.getString("volumeCode");

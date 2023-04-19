@@ -278,6 +278,9 @@ public class BookHeldView {
 		int purchasedOrDonated = web.getInt("purchasedOrDonated");
 		String additionalCode = web.getString("additionalCode");
 		String classificationCode = web.getString("classificationCode");
+		if(util.hasTwoOrMoreDots(classificationCode)) {
+			return web.redirect(null, "분류기호에 소수점이 2개 이상입니다.");
+		}
 		String authorCode = web.getString("authorCode");
 		String volumeCode = web.getString("volumeCode");
 		String tag = web.getString("tag");

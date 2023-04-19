@@ -993,4 +993,18 @@ public class Util {
 		return null;
 	}
 	
+	
+	public boolean hasTwoOrMoreDots(String str) {
+		// true 면 점이 2개 이상.
+		if("".equals(str) || str == null) {
+			return false;
+		}
+		int firstIndex = str.indexOf(".");
+		if(firstIndex < 0) {
+			return false;
+		}
+		String nextStr = str.substring(firstIndex+1);
+		int secondIndex = nextStr.indexOf(".");
+		return secondIndex >= 0 ;
+	}
 }
