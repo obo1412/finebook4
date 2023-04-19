@@ -68,6 +68,30 @@
 					</div>
 					
 					<div class="form-group mb-2">
+						<label for="postcode" class="col-12">우편번호</label>
+						<div class="col-8">
+							<input name="postcode" id="postcode" class="form-control form-control-sm"
+								value="${memberItem.postcode}"/>
+						</div>
+					</div>
+					
+					<div class="form-group mb-2">
+						<label for="addr1" class="col-12">주소</label>
+						<div class="col-8">
+							<input name="addr1" id="addr1" class="form-control form-control-sm"
+								value="${memberItem.addr1}"/>
+						</div>
+					</div>
+					
+					<div class="form-group mb-2">
+						<label for="addr2" class="col-12">상세주소</label>
+						<div class="col-8">
+							<input name="addr2" id="addr2" class="form-control form-control-sm"
+								value="${memberItem.addr2}"/>
+						</div>
+					</div>
+					
+					<div class="form-group mb-2">
 						<label for="barcodeMbr" class="col-12">회원등록번호</label>
 						<div class="col-8">
 							<p class="form-control-static form-control-sm">${memberItem.barcodeMbr}</p>

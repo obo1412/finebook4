@@ -295,9 +295,9 @@ public class MemberView {
 		}
 		String email = paramMap.get("email");
 		String gradeStr = paramMap.get("grade");
-		/*String postcode = paramMap.get("postcode");
+		String postcode = paramMap.get("postcode");
 		String addr1 = paramMap.get("addr1");
-		String addr2 = paramMap.get("addr2");*/
+		String addr2 = paramMap.get("addr2");
 		String rfuid = paramMap.get("rfuid");
 		//String remarks = paramMap.get("remarks");
 		String idMbrClassStr = paramMap.get("idMbrClass");
@@ -348,9 +348,9 @@ public class MemberView {
 		member.setOtherContact(otherContact);
 		member.setBirthdate(birthdate);
 		member.setEmail(email);
-		/*member.setPostcode(postcode);
+		member.setPostcode(postcode);
 		member.setAddr1(addr1);
-		member.setAddr2(addr2);*/
+		member.setAddr2(addr2);
 		/*member.setRemarks(remarks);*/
 		/*member.setProfileImg(profileImg);*/
 		member.setRfUid(rfuid);
