@@ -762,6 +762,7 @@
 			local_id_barcode
 		FROM book_held
 		WHERE library_id_lib=#{libraryIdLib}
+			AND (available = 0 OR available = 1)
 		GROUP BY local_id_barcode
 		HAVING COUNT(local_id_barcode)>1
 	</select>
