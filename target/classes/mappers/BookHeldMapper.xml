@@ -992,7 +992,13 @@
 		</if>
 	</select>
 	
-	
+	<!-- 도서 RFID 수정 도서등록번호로 -->
+	<update id="updateBookRfIdByBarcode" parameterType="com.gaimit.mlm.model.BookHeld">
+		UPDATE book_held SET
+			rf_id = #{rfId}
+		WHERE library_id_lib=#{libraryIdLib}
+			AND local_id_barcode=#{localIdBarcode}
+	</update>
 	
 	
 	

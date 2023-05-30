@@ -368,8 +368,12 @@ public interface BookHeldService {
 	 */
 	public void deleteBookHeldAllByLibraryIdLib(BookHeld bookHeld) throws Exception;
 	
-	
-	
+	/**
+	 * 도서등록번호로 RF ID 각각 수정하기
+	 * @param bookHeld
+	 * @throws Exception
+	 */
+	public void updateBookRfIdByBarcode(BookHeld bookHeld) throws Exception;
 	
 	
 	

@@ -15,6 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -483,8 +486,7 @@ public class BookHeldView {
 		List<FileInfo> fileList = upload.getFileList();
 		
 		try {
-			
-			
+			// 권차기호 수정시, 화면에 등록번호를 지정하는 것으로 수정 파일을 읽지 않음.
 			if("volumeCode".equals(codeType)) {
 				int curVolumeCode = Integer.parseInt(volumeCodeStart);
 				String curVolumeCodeStr = null;
@@ -506,6 +508,44 @@ public class BookHeldView {
 					curVolumeCode++;
 				}
 				
+			} else if("bookRfId".equals(codeType)) {
+				// 도서등록번호(바코드)로 rf id 수정
+				for (int i = 0; i < fileList.size(); i++) {
+					// 업로드 된 정보 하나 추출하여 데이터베이스에 저장하기 위한 형태로 가공해야 한다.
+					FileInfo info = fileList.get(i);
+					String loadFilePath = info.getFileDir() + "/" + info.getFileName();
+					//io 페이지에서 받은 파일 경로로 엑셀 읽어오기
+					FileInputStream fis = new FileInputStream(loadFilePath);
+					
+					XSSFWorkbook workbook = new XSSFWorkbook(fis);
+					//int sheetNum = workbook.getNumberOfSheets();
+					//logger.info("현재 시트 번호 = "+sheetNum);
+					
+					XSSFSheet curSheet = workbook.getSheetAt(0);
+					//int row_crt = curSheet.getPhysicalNumberOfRows();
+					//logger.info("최종 행 번호 = "+row_crt);
+					//최초 행의 마지막 셀 수 = 마지막 컬럼(수평) 번호
+					// 마지막 로우 넘버 0부터 시작, 5개면 번호는 4
+					int lastRowCount = curSheet.getLastRowNum();
+					
+					for(int j=0; j<=lastRowCount; j++) {
+						XSSFRow curRow = curSheet.getRow(j);
+						String localIdBarcode = String.valueOf(curRow.getCell(0));
+						String rfId = String.valueOf(curRow.getCell(1));
+						if(rfId.indexOf(".") > -1) {
+							rfId = rfId.substring(0,rfId.indexOf("."));
+						}
+						bookHeld.setLocalIdBarcode(localIdBarcode);
+						bookHeld.setRfId(rfId);
+						bookHeldService.updateBookRfIdByBarcode(bookHeld);
+					}
+					
+					//workbook 역할 끝났으면 바로 닫아주기.
+					workbook.close();
+					
+					// 파일 처리 후 파일 삭제
+					upload.removeFile(loadFilePath);
+				}
 			} else {
 				//권차기호 volumecode 가 아닌경우 파일 처리.
 				// 업로드 된 파일의 수 만큼 반복 처리 한다.

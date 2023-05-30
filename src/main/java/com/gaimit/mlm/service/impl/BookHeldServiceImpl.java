@@ -727,7 +727,21 @@ public class BookHeldServiceImpl implements BookHeldService {
 		}
 	}
 
-	
+	@Override
+	public void updateBookRfIdByBarcode(BookHeld bookHeld) throws Exception {
+		try {
+			int result = sqlSession.update("BookHeldMapper.updateBookRfIdByBarcode", bookHeld);
+			// 도서 등록번호가 없을 경우,
+			if (result == 0) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("RF ID 수정된 도서가 없습니다.(바코드 불일치)");
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			throw new Exception("RF ID 일괄 수정에 실패했습니다.");
+		}
+	}
 
 	
 

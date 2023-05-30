@@ -47,6 +47,7 @@
 										<option value="copyCode">복본기호(숫자만)</option>
 										<option value="barcode">바코드자리수 변경</option>
 										<option value="discard">도서 일괄 폐기</option>
+										<option value="bookRfId">도서RFID수정(엑셀)</option>
 									</select>
 									
 									<div class="div__same__value__control">
@@ -55,7 +56,7 @@
 										
 										
 										<div class="form-group col-12">
-											<label for='batchFile' class="col-12 control-label">txt File</label>
+											<label for='batchFile' class="col-12 control-label">txt/xlsx File</label>
 											<div class="col-10">
 												<input type="file" name="batchFile" id="batchFile"
 													class="form-control form-control-sm input-clear"
