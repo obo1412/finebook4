@@ -211,6 +211,8 @@
 				<!-- 아래 조건은, 비슷한 제목이 두개 이상일 경우, 마지막으로 빌린
 					도서가 자동으로 반납됨. 조건이 얼마 없음. 그래서 탈락. -->
 				<!-- OR title LIKE concat('%', #{localIdBarcode}, '%') -->
+				OR
+				rf_id=#{localIdBarcode}
 			)
 		<!-- AND (end_date_brw is NULL OR end_date_brw = '') -->
 		<!-- returnCancel 기능을 위해서, 위 조건 삭제 -->
@@ -315,7 +317,11 @@
 		OR (library_id_lib = #{libraryIdLib} AND id_brw IS NULL))
 		<choose>
 			<when test="title != null">
-				AND title LIKE concat('%', #{title}, '%')
+				AND (
+					title LIKE concat('%', #{title}, '%')
+					OR
+					rf_id LIKE CONCAT('%', #{title}, '%')
+				)
 			</when>
 			<when test="writer != null">
 				AND writer LIKE concat('%', #{writer}, '%')
