@@ -7,6 +7,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/inc/head.jsp"%>
+<%@ include file="/WEB-INF/inc/board_editor.jsp"%>
 <style type="text/css">
 /* 게시물 항목 하나 */
 .item {

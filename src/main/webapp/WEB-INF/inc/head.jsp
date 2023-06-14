@@ -34,7 +34,7 @@
 <!-- 회원가입페이지에서만 사용. -->
 
 <!-- CKEditor -->
-<script src="http://cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script>
+<!-- <script src="http://cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script> -->
 
 <!-- Multi-column -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/plugins/multi-column/ie-row-fix.js"></script>

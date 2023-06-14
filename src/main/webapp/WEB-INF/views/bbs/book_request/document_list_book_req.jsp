@@ -7,6 +7,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/inc/head.jsp"%>
+<%@ include file="/WEB-INF/inc/board_editor.jsp"%>
 <link href="/assets/css/book_req/document_list_book_req.css" rel="stylesheet" >
 </head>
 <body>

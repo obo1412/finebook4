@@ -6,6 +6,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/inc/head.jsp"%>
+<%@ include file="/WEB-INF/inc/board_editor.jsp"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/inc/topbar.jsp"%>
