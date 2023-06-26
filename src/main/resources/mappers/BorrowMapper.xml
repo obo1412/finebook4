@@ -265,7 +265,9 @@
 		SET end_date_brw=now()
 		WHERE id_lib_brw=#{idLibBrw} AND book_held_id=#{bookHeldId}
 			AND (end_date_brw is NULL OR end_date_brw = '')
-			AND id_brw=#{idBrw}
+			<!-- AND id_brw=#{idBrw} -->
+			<!-- id_brw 를 하나로 특정하면, 중복으로 대출된 이중도서를 못잡는다.
+			한번에 book_held_id로 도서를 특정할 수 있으니, id_brw 조건 없이 진행 -->
 			<!-- 필수 개중요 헷갈리지말자, idBrw 없으면 bookHeldid 전부다 수정됨 -->
 	</update>
 	
