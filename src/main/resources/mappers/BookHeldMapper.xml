@@ -258,9 +258,11 @@
 		FROM book_held h
 		LEFT OUTER JOIN book_country c ON h.id_country= c.id_country
 		WHERE library_id_lib=#{libraryIdLib} AND (available = 0 OR available = 1)
-		<if test="regDate != null">
+		
+		<!-- 목록은 전체 목록을 불러오기 -->
+		<!-- <if test="regDate != null">
 			AND DATE_FORMAT(reg_date, '%Y') = #{regDate}
-		</if>
+		</if> -->
 		
 		<if test="bookShelf!=null">
 			<if test='bookShelf.equals("uncateg")'>
@@ -271,6 +273,67 @@
 			</if>
 		</if>
 		
+		ORDER BY id ASC
+	</select>
+	
+	<!-- 년도 기준으로 신규 등록 도서 불러오기 -->
+	<select id="selectNewBookHeldListToExcelByYear" parameterType="com.gaimit.mlm.model.BookHeld" resultMap="bookHeld">
+		SELECT
+			id, title, writer, publisher, pub_date, price,
+			isbn10, isbn13, category, book_shelf, description,
+			reg_date, edit_date,
+			local_id_barcode, purchased_or_donated, available,
+			additional_code, classification_code, author_code,
+			volume_code, copy_code,
+			tag, rf_id, book_or_not, page, book_size, image_link,
+			library_id_lib, c.id_country, c.name_country
+		FROM book_held h
+		LEFT OUTER JOIN book_country c ON h.id_country= c.id_country
+		WHERE library_id_lib=#{libraryIdLib}
+		<if test="regDate != null">
+			AND DATE_FORMAT(reg_date, '%Y-%m-%d') &gt; #{regDate}
+			AND DATE_FORMAT(reg_date, '%Y-%m-%d') &lt; DATE_ADD(#{regDate}, INTERVAL 1 YEAR)
+		</if>
+		
+		<if test="bookShelf!=null">
+			<if test='bookShelf.equals("uncateg")'>
+				AND book_shelf is null
+			</if>
+			<if test='bookShelf != null and !bookShelf.equals("uncateg")'>
+				AND book_shelf = #{bookShelf}
+			</if>
+		</if>
+		ORDER BY id ASC
+	</select>
+	
+		<!-- 년도 기준으로 폐기 도서 불러오기 -->
+	<select id="selectDiscardBookHeldListToExcelByYear" parameterType="com.gaimit.mlm.model.BookHeld" resultMap="bookHeld">
+		SELECT
+			id, title, writer, publisher, pub_date, price,
+			isbn10, isbn13, category, book_shelf, description,
+			reg_date, edit_date,
+			local_id_barcode, purchased_or_donated, available,
+			additional_code, classification_code, author_code,
+			volume_code, copy_code,
+			tag, rf_id, book_or_not, page, book_size, image_link,
+			library_id_lib, c.id_country, c.name_country
+		FROM book_held h
+		LEFT OUTER JOIN book_country c ON h.id_country= c.id_country
+		WHERE library_id_lib=#{libraryIdLib}
+			AND available = 2
+		<if test="regDate != null">
+			AND DATE_FORMAT(edit_date, '%Y-%m-%d') &gt; #{regDate}
+			AND DATE_FORMAT(edit_date, '%Y-%m-%d') &lt; DATE_ADD(#{regDate}, INTERVAL 1 YEAR)
+		</if>
+		
+		<if test="bookShelf!=null">
+			<if test='bookShelf.equals("uncateg")'>
+				AND book_shelf is null
+			</if>
+			<if test='bookShelf != null and !bookShelf.equals("uncateg")'>
+				AND book_shelf = #{bookShelf}
+			</if>
+		</if>
 		ORDER BY id ASC
 	</select>
 	

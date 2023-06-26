@@ -15,12 +15,28 @@ public interface BookHeldService {
 	public List<BookHeld> getBookHeldList(BookHeld bookHeld) throws Exception;
 	
 	/**
-	 * 엑셀 추출을 위한 도서목록 리스트
+	 * 엑셀 추출을 위한 도서목록
 	 * @param bookHeld
 	 * @return
 	 * @throws Exception
 	 */
 	public List<BookHeld> selectBookHeldListToExcel(BookHeld bookHeld) throws Exception;
+	
+	/**
+	 * 엑셀추출, 년도 별로 등록된 도서 목록
+	 * @param bookHeld
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BookHeld> selectNewBookHeldListToExcelByYear(BookHeld bookHeld) throws Exception;
+	
+	/**
+	 * 엑셀추출, 년도 별로 폐기된 도서 목록
+	 * @param bookHeld
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BookHeld> selectDiscardBookHeldListToExcelByYear(BookHeld bookHeld) throws Exception;
 	
 	/**
 	 * 

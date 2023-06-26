@@ -4,6 +4,8 @@ package com.gaimit.mlm.controller.book;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -414,6 +416,13 @@ public class BookHeldList {
 		}
 		
 		String targetYear = web.getString("targetYear");
+		SimpleDateFormat dformat = new SimpleDateFormat("yyyy-01-01");
+		if(targetYear == null || "".equals(targetYear)) {
+			Date nowDate = new Date();
+			targetYear = dformat.format(nowDate);
+		} else {
+			targetYear = targetYear+"-01-01";
+		}
 		
 		String bookShelf = web.getString("bookShelf");
 		
@@ -439,131 +448,175 @@ public class BookHeldList {
 		FileOutputStream fos = null;
 		
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("도서목록");
+		XSSFSheet sheet = workbook.createSheet("전체도서목록");
+		XSSFSheet sheet2 = workbook.createSheet("등록폐기요약");
+		XSSFSheet sheet3 = workbook.createSheet("등록도서");
+		XSSFSheet sheet4 = workbook.createSheet("폐기도서");
 		XSSFRow titleRow = null;
 		XSSFRow row = null;
+		XSSFRow summaryRow = null;
 		
 		//엑셀로 내보내기 위한 준비
 		
 		try {
-			bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
-			int curCol = 0;
-			titleRow = sheet.createRow(0);
-			titleRow.createCell(curCol).setCellValue("번호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("도서명");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("저자명");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("출판사");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("출판일");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("출판년도");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("가격");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("ISBN10");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("ISBN13");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("카테고리");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("서가");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("등록일");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("도서등록번호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("구매/기증");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("부가기호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("십진분류");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("저자기호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("권차기호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("복본기호");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("태그");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("RF ID");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("상품구분");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("페이지");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("도서크기");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("이미지링크");
-			curCol++;
-			titleRow.createCell(curCol).setCellValue("국가");
-			curCol++;
-			
-			for(int i=1; i<=bookHeldList.size(); i++) {
-				int j = i-1;
-				int curValueCol = 0;
-				row = sheet.createRow(i);
-				row.createCell(curValueCol).setCellValue(i);
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getTitle());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getWriter());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPublisher());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPubDate());
-				curValueCol++;
-				if(bookHeldList.get(j).getPubDate() != null ) {
-					String tempDate = bookHeldList.get(j).getPubDate();
-					String pubYear = tempDate.substring(0,4);
-					row.createCell(curValueCol).setCellValue(pubYear);
+			// 도서 전체 목록
+			for(int b=0; b<3; b++) {
+				if(b==0) {
+					bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
+					summaryRow = sheet2.createRow(0);
+					summaryRow.createCell(0).setCellValue("기준연도");
+					summaryRow.createCell(1).setCellValue(targetYear);
+					summaryRow = sheet2.createRow(1);
+					summaryRow.createCell(0).setCellValue("전체 정상도서수");
+					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+				} else if(b == 1) {
+					bookHeldList = bookHeldService.selectNewBookHeldListToExcelByYear(bookHeld);
+					// 목록을 표기할 시트 옮겨주기
+					sheet = sheet3;
+					// 요약 시트에 데이터 표기
+					summaryRow = sheet2.createRow(2);
+					summaryRow.createCell(0).setCellValue("등록 도서수");
+					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+				} else if(b == 2) {
+					bookHeldList = bookHeldService.selectDiscardBookHeldListToExcelByYear(bookHeld);
+					// 목록을 표기할 시트 옮겨주기
+					sheet = sheet4;
+					// 요약 시트에 데이터 표기
+					summaryRow = sheet2.createRow(3);
+					summaryRow.createCell(0).setCellValue("폐기 도서수");
+					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+					
 				}
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPrice());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn10());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn13());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCategory());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookShelf());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRegDate());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getLocalIdBarcode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPurchasedOrDonated());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getAdditionalCode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getClassificationCode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getAuthorCode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getVolumeCode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCopyCode());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getTag());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRfId());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookOrNot());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPage());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookSize());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getImageLink());
-				curValueCol++;
-				row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getNameCountry());
-				curValueCol++;
+				titleRow = sheet.createRow(0);
+				int curCol = 0;
+				titleRow.createCell(curCol).setCellValue("번호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("도서명");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("저자명");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("출판사");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("출판일");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("출판년도");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("가격");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("ISBN10");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("ISBN13");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("카테고리");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("서가");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("등록일");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("수정일");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("도서등록번호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("구매/기증");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("부가기호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("십진분류");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("저자기호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("권차기호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("복본기호");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("태그");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("RF ID");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("상품구분");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("페이지");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("도서크기");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("이미지링크");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("국가");
+				curCol++;
+				
+				for(int i=1; i<=bookHeldList.size(); i++) {
+					int j = i-1;
+					int curValueCol = 0;
+					row = sheet.createRow(i);
+					row.createCell(curValueCol).setCellValue(i);
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getTitle());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getWriter());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPublisher());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPubDate());
+					curValueCol++;
+					if(bookHeldList.get(j).getPubDate() != null ) {
+						String tempDate = bookHeldList.get(j).getPubDate();
+						String pubYear = tempDate.substring(0,4);
+						row.createCell(curValueCol).setCellValue(pubYear);
+					}
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPrice());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn10());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn13());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCategory());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookShelf());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRegDate());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getEditDate());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getLocalIdBarcode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPurchasedOrDonated());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getAdditionalCode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getClassificationCode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getAuthorCode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getVolumeCode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCopyCode());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getTag());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRfId());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookOrNot());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPage());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookSize());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getImageLink());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getNameCountry());
+					curValueCol++;
+				}
 			}
+			// 도서 전체 목록 끝.
 			
+			// 등록 도서 목록
+			// 등록 도서 목록 끝.
+			
+			// 폐기 도서 목록
+			// 폐기 도서 목록 끝.
+			
+			// 파일 처리 작업
 			File uploadDirFile = new File(defaultPath);
 			if(!uploadDirFile.exists()) {
 				uploadDirFile.mkdirs();

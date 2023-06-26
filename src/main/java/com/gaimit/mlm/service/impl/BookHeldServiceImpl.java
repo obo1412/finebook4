@@ -60,6 +60,38 @@ public class BookHeldServiceImpl implements BookHeldService {
 	}
 	
 	@Override
+	public List<BookHeld> selectNewBookHeldListToExcelByYear(BookHeld bookHeld) throws Exception {
+		List<BookHeld> result = null;
+		try {
+			result = sqlSession.selectList("BookHeldMapper.selectNewBookHeldListToExcelByYear", bookHeld);
+			if (result == null) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("조회된 도서(엑셀 당 해의 신규도서)가 없습니다.");
+		} catch (Exception e) {
+			throw new Exception("엑셀 추출 도서(엑셀 당 해의 신규도서) 목록 조회에 실패했습니다.");
+		}
+		return result;
+	}
+	
+	@Override
+	public List<BookHeld> selectDiscardBookHeldListToExcelByYear(BookHeld bookHeld) throws Exception {
+		List<BookHeld> result = null;
+		try {
+			result = sqlSession.selectList("BookHeldMapper.selectDiscardBookHeldListToExcelByYear", bookHeld);
+			if (result == null) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("조회된 도서(엑셀 당 해의 폐기도서)가 없습니다.");
+		} catch (Exception e) {
+			throw new Exception("엑셀 추출 도서(엑셀 당 해의 폐기도서) 목록 조회에 실패했습니다.");
+		}
+		return result;
+	}
+	
+	@Override
 	public List<BookHeld> getRegTodayBookHeldList(BookHeld bookHeld) throws Exception {
 		List<BookHeld> result = null;
 		try {
