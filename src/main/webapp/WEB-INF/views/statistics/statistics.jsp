@@ -34,7 +34,10 @@
 						<!-- 검색폼 + 추가버튼 -->
 							<div class="float-left d-flex flex-column">
 								<div class="d-flex flex-row mb-2 align-items-center">
-									<span style="width:170px;">일일 대출/반납 보고서 :</span>
+									<div style="width:170px;" class="d-flex justify-content-between align-items-center mr-2">
+										<span>일일 대출/반납 보고서</span>
+										<span>:</span>
+									</div>
 									<span style="width:134px;" class="mr-1">
 										<fmt:formatDate value="${currDate}" pattern="yyyy-MM-dd" var="curFulDate" />
 										<input type="date" class="form-control" id="dayBrwRtnDate" max="3000-12-31" value="${curFulDate}">
@@ -42,11 +45,14 @@
 									<span class="mr-1">
 										<button class="btn btn-secondary" onclick="todayBrwRtnList()">조회</button>
 									</span>
-									<span>
+									<span class="mr-1">
 										<button class="btn btn-secondary" onclick="clickedDataListPrint()">인쇄</button>
 									</span>
+									<span>
+										<button class="btn btn-secondary" onclick="clickedDataListToExcel()">엑셀</button>
+									</span>
 								</div>
-								<div class="d-flex flex-row mb-2 align-items-center">
+								<%-- <div class="d-flex flex-row mb-2 align-items-center">
 									<span style="width:170px;">도서목록다운로드 :</span>
 									<span style="width:134px;" class="mr-1">
 										<select name="yearOptionBookHeldList" id="yearOptionBookHeldList" class="form-control">
@@ -58,15 +64,20 @@
 												</option>
 											</c:forEach>
 										</select>
+										<!-- 도서 서가 정보는 여기서는 필요없지만, 더미 데이터 넘기기용 -->
+										<input type="hidden" id="selectBookShelf" />
 									</span>
 									<span>
-										<button class="btn btn-secondary" onclick="clickedDataListToExcel()">엑셀</button>
+										<button class="btn btn-secondary" onclick="clickedBookHeldListToExcel()">엑셀</button>
 									</span>
-								</div>
+								</div> --%>
 								<div class="d-flex flex-row mb-2 align-items-center">
-									<span style="width:170px;">연간보고서 :</span>
+									<div style="width:170px;" class="d-flex justify-content-between align-items-center mr-2">
+										<span>연간 보고서</span>
+										<span>:</span>
+									</div>
 									<span style="width:134px;" class="mr-1">
-										<select name="yearReportBookHeldList" id="yearReportBookHeldList" class="form-control">
+										<select name="yearOptionBookHeldList" id="yearOptionBookHeldList" class="form-control">
 											<fmt:formatDate value="${currDate}" pattern="yyyy" var="yearStart" />
 											<c:forEach begin="0" end="10" var="pastYear" step="1">
 												<option value="<c:out value='${yearStart-pastYear}'/>">
@@ -74,13 +85,22 @@
 												</option>
 											</c:forEach>
 										</select>
+										<!-- 도서 서가 정보는 여기서는 필요없지만, 더미 데이터 넘기기용 -->
+										<input type="hidden" id="selectBookShelf" />
 									</span>
 									<span>
-										<button class="btn btn-secondary">엑셀</button>
+										<!-- 도서목록의 엑셀화 기능 가져다 사용중. -->
+										<button class="btn btn-secondary" onclick="clickedBookHeldListToExcel()">엑셀</button>
 									</span>
 								</div>
 								<div class="d-flex flex-row mb-2 align-items-center">
-									<span style="width:170px;">기간별대출내역 :</span>
+									<div style="width:170px;" class="d-flex justify-content-between align-items-center mr-2">
+										<div class="d-flex flex-column">
+											<span>기간별 대출내역</span>
+											<span>(다독자/다대출)</span>
+										</div>
+										<span>:</span>
+									</div>
 									<span class="d-flex flex-row mr-1">
 										<fmt:formatDate value="${currDate}" pattern="yyyy" var="curYear" />
 										<fmt:formatDate value="${currDate}" pattern="yyyy-MM-dd" var="curFulDate" />
@@ -93,38 +113,6 @@
 									</span>
 									<span>
 										<button class="btn btn-secondary" onclick="makeExcelBrwAndMemberByDateDownload()">엑셀</button>
-									</span>
-								</div>
-								<div class="d-flex flex-row mb-2 align-items-center">
-									<span style="width:170px;">기간별다독자 :</span>
-									<span class="d-flex flex-row mr-1">
-										<fmt:formatDate value="${currDate}" pattern="yyyy" var="curYear" />
-										<fmt:formatDate value="${currDate}" pattern="yyyy-MM-dd" var="curFulDate" />
-										<span class="mr-1">
-											<input type="date" class="form-control" id="staDateStart" max="3000-12-31" value="${curYear}-01-01">
-										</span>
-										<span>
-											<input type="date" class="form-control" id="staDateEnd" max="3000-12-31" value="${curFulDate}">
-										</span>
-									</span>
-									<span>
-										<button class="btn btn-secondary" onclick="">엑셀</button>
-									</span>
-								</div>
-								<div class="d-flex flex-row mb-2 align-items-center">
-									<span style="width:170px;">기간별다대출도서 :</span>
-									<span class="d-flex flex-row mr-1">
-										<fmt:formatDate value="${currDate}" pattern="yyyy" var="curYear" />
-										<fmt:formatDate value="${currDate}" pattern="yyyy-MM-dd" var="curFulDate" />
-										<span class="mr-1">
-											<input type="date" class="form-control" id="staDateStart" max="3000-12-31" value="${curYear}-01-01">
-										</span>
-										<span>
-											<input type="date" class="form-control" id="staDateEnd" max="3000-12-31" value="${curFulDate}">
-										</span>
-									</span>
-									<span>
-										<button class="btn btn-secondary" onclick="">엑셀</button>
 									</span>
 								</div>
 							</div>
@@ -158,6 +146,8 @@
 	<script type="text/javascript" src="/assets/js/date_handler.js"></script>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/statistics/statistics.js"></script>
+	<!-- 도서목록페이지의 엑셀 다운로드 처리에 필요한 js -->
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/book/data-import-export/book_list_to_excel.js"></script>
 
 </body>
 </html>
