@@ -263,12 +263,24 @@
 		<if test="regDate != null">
 			AND DATE_FORMAT(reg_date, '%Y') &lt; #{regDate}+1
 			OR (
-				<!-- 2021년에 등록되었으면서 작년2022년까진 유지되고, 올해2023년에 폐기된 도서 -->
 				library_id_lib = #{libraryIdLib}
 				AND available IN (2)
+				<!-- 폐기된 도서중에! 2022년 기준 21년, 22년 값으로 계산
+				21년도 값 계산하게되면, 
+				2020년에 등록되었으면서 작년2021년까진 유지되고, 올해2022년에 폐기된 도서 -->
 				AND DATE_FORMAT(reg_date, '%Y') = #{regDate}-1
 				AND DATE_FORMAT(edit_date, '%Y') &gt; #{regDate}
+				<!-- 과거로 갈수록 현재 날짜가 멀어지며 섞일수 있으므로 유지해야될 듯 확실한건 아님 -->
 				AND DATE_FORMAT(edit_date, '%Y') &lt; #{regDate}+2
+			)
+			OR (
+				library_id_lib = #{libraryIdLib}
+				AND available IN (2)
+				<!-- 폐기 도서중에 2022년 기준
+					21년도 값을 계산하게 되면,
+					2021년에 등록되었고, 2021년에 폐기되지 않은 도서 -->
+				AND DATE_FORMAT(reg_date, '%Y') = #{regDate}
+				AND DATE_FORMAT(edit_date, '%Y') &gt; #{regDate}
 			)
 		</if>
 		
