@@ -189,7 +189,7 @@
 							
 							<div class="float-right form-inline">
 								<select name="yearOptionBookHeldList" id="yearOptionBookHeldList" class="form-control form-control-sm">
-									<option value="">전체목록</option>
+									<!-- <option value="">전체목록</option> -->
 									<fmt:formatDate value="${currDate}" pattern="yyyy" var="yearStart" />
 									<c:forEach begin="0" end="10" var="pastYear" step="1">
 										<option value="<c:out value='${yearStart-pastYear}'/>">

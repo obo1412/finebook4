@@ -260,9 +260,17 @@
 		WHERE library_id_lib=#{libraryIdLib} AND (available = 0 OR available = 1)
 		
 		<!-- 목록은 전체 목록을 불러오기 -->
-		<!-- <if test="regDate != null">
-			AND DATE_FORMAT(reg_date, '%Y') = #{regDate}
-		</if> -->
+		<if test="regDate != null">
+			AND DATE_FORMAT(reg_date, '%Y') &lt; #{regDate}+1
+			OR (
+				<!-- 2021년에 등록되었으면서 작년2022년까진 유지되고, 올해2023년에 폐기된 도서 -->
+				library_id_lib = #{libraryIdLib}
+				AND available IN (2)
+				AND DATE_FORMAT(reg_date, '%Y') = #{regDate}-1
+				AND DATE_FORMAT(edit_date, '%Y') &gt; #{regDate}
+				AND DATE_FORMAT(edit_date, '%Y') &lt; #{regDate}+2
+			)
+		</if>
 		
 		<if test="bookShelf!=null">
 			<if test='bookShelf.equals("uncateg")'>

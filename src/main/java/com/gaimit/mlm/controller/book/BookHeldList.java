@@ -416,6 +416,8 @@ public class BookHeldList {
 		}
 		
 		String targetYear = web.getString("targetYear");
+		// 아래 연도표기만 하기 위함.
+		int onlyYear = Integer.parseInt(targetYear);
 		SimpleDateFormat dformat = new SimpleDateFormat("yyyy-01-01");
 		if(targetYear == null || "".equals(targetYear)) {
 			Date nowDate = new Date();
@@ -428,7 +430,6 @@ public class BookHeldList {
 		
 		BookHeld bookHeld = new BookHeld();
 		bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
-		bookHeld.setRegDate(targetYear);
 		bookHeld.setBookShelf(bookShelf);
 		
 		List<BookHeld> bookHeldList = null;
@@ -449,43 +450,62 @@ public class BookHeldList {
 		
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("전체도서목록");
-		XSSFSheet sheet2 = workbook.createSheet("등록폐기요약");
-		XSSFSheet sheet3 = workbook.createSheet("등록도서");
-		XSSFSheet sheet4 = workbook.createSheet("폐기도서");
+//		XSSFSheet sheet2 = workbook.createSheet("등록폐기요약");
+		
 		XSSFRow titleRow = null;
 		XSSFRow row = null;
-		XSSFRow summaryRow = null;
+//		XSSFRow summaryRow = null;
 		
 		//엑셀로 내보내기 위한 준비
 		
 		try {
 			// 도서 전체 목록
-			for(int b=0; b<3; b++) {
+			for(int b=0; b<4; b++) {
 				if(b==0) {
+					// 2023년 기준 2022년 자료
+					bookHeld.setRegDate(Integer.toString(onlyYear-1));
 					bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
-					summaryRow = sheet2.createRow(0);
-					summaryRow.createCell(0).setCellValue("기준연도");
-					summaryRow.createCell(1).setCellValue(targetYear);
-					summaryRow = sheet2.createRow(1);
-					summaryRow.createCell(0).setCellValue("전체 정상도서수");
-					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+					// 전체 시트 이름 변경
+					sheet = workbook.getSheetAt(0);
+					workbook.setSheetName(0, (onlyYear-1)+"년기준보유량_"+bookHeldList.size()+"권");
 				} else if(b == 1) {
-					bookHeldList = bookHeldService.selectNewBookHeldListToExcelByYear(bookHeld);
-					// 목록을 표기할 시트 옮겨주기
-					sheet = sheet3;
-					// 요약 시트에 데이터 표기
-					summaryRow = sheet2.createRow(2);
-					summaryRow.createCell(0).setCellValue("등록 도서수");
-					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+					// 2023년이면 
+					bookHeld.setRegDate(Integer.toString(onlyYear));
+					bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
+					// 전체 시트 이름 변경
+					workbook.createSheet("당해 보유량");
+					sheet = workbook.getSheetAt(1);
+					workbook.setSheetName(1, onlyYear+"년기준보유량_"+bookHeldList.size()+"권");
+//					summaryRow = sheet2.createRow(0);
+//					summaryRow.createCell(0).setCellValue("기준연도");
+//					summaryRow.createCell(1).setCellValue(targetYear);
+//					summaryRow = sheet2.createRow(1);
+//					summaryRow.createCell(0).setCellValue("전체 정상도서수");
+//					summaryRow.createCell(1).setCellValue(bookHeldList.size());
 				} else if(b == 2) {
+					// sheet4를 객체 sheet로 옮기며 폐기 도서 처리
+					bookHeld.setRegDate(targetYear);
 					bookHeldList = bookHeldService.selectDiscardBookHeldListToExcelByYear(bookHeld);
 					// 목록을 표기할 시트 옮겨주기
-					sheet = sheet4;
+					workbook.createSheet("폐기도서");
+					sheet = workbook.getSheetAt(2);
+					workbook.setSheetName(2, onlyYear+"년폐기수량_"+bookHeldList.size()+"권");
 					// 요약 시트에 데이터 표기
-					summaryRow = sheet2.createRow(3);
-					summaryRow.createCell(0).setCellValue("폐기 도서수");
-					summaryRow.createCell(1).setCellValue(bookHeldList.size());
-					
+//					summaryRow = sheet2.createRow(3);
+//					summaryRow.createCell(0).setCellValue("폐기 도서수");
+//					summaryRow.createCell(1).setCellValue(bookHeldList.size());
+				} else if(b ==3) {
+					// sheet3을 객체 sheet로 옮기며 새로 등록 도서 처리
+					bookHeld.setRegDate(targetYear);
+					bookHeldList = bookHeldService.selectNewBookHeldListToExcelByYear(bookHeld);
+					// 목록을 표기할 시트 옮겨주기
+					workbook.createSheet("등록도서");
+					sheet = workbook.getSheetAt(3);
+					workbook.setSheetName(3, "장서증가량_"+bookHeldList.size()+"권");
+					// 요약 시트에 데이터 표기
+//					summaryRow = sheet2.createRow(2);
+//					summaryRow.createCell(0).setCellValue("등록 도서수");
+//					summaryRow.createCell(1).setCellValue(bookHeldList.size());
 				}
 				titleRow = sheet.createRow(0);
 				int curCol = 0;
