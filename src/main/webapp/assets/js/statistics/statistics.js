@@ -86,7 +86,9 @@
 	}
 	
 	//일일 대출/반납 정보 호출
-	function todayBrwRtnList(pickDate) {
+	function todayBrwRtnList() {
+		const dayBrwRtnDate = document.getElementById("dayBrwRtnDate").value;
+		const pickDate = dayBrwRtnDate;
 		$.ajax({
 			url: "/stsc/select_brw_rtn_list.do",
 			type:'POST',
