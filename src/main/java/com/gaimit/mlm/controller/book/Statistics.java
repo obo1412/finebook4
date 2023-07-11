@@ -342,7 +342,7 @@ public class Statistics {
 		try {
 			FileOutputStream fos = null;
 			XSSFWorkbook workbook = new XSSFWorkbook();
-			XSSFSheet sheet = workbook.createSheet();
+			XSSFSheet sheet = workbook.createSheet("기간별대출내역");
 			XSSFRow row = null;
 			
 			dataList = brwService.selectStatisticsBrwAndMemberByDate(borrow);
@@ -358,20 +358,62 @@ public class Statistics {
 					uploadDirFile.mkdirs(); 
 				}
 				
-				row = sheet.createRow(0);
-				row.createCell(0).setCellValue(staDateStart+"~"+staDateEnd);
-				row.createCell(2).setCellValue("대출권수:");
-				row.createCell(3).setCellValue(String.valueOf(dataList.size()));
-				row.createCell(5).setCellValue("이용자수:");
-				row.createCell(6).setCellValue(String.valueOf(memberCount));
-				
-				//아래 별도 함수선언, list를 2차원 배열 값으로 변경
-				String[][] dataArr = dataToArray(dataList);
-				//dataArr는 순서대로 들어가면 됨.
-				for(int i=0; i<dataArr.length; i++) {
-					row = sheet.createRow(i+2);
-					for(int j=0; j<dataArr[0].length; j++) {
-						row.createCell(j).setCellValue(dataArr[i][j]);
+				for(int s=0; s<3; s++) {
+					if(s==0 ) {
+						row = sheet.createRow(0);
+						row.createCell(0).setCellValue(staDateStart+" ~ "+staDateEnd);
+						row.createCell(2).setCellValue("대출권수:");
+						row.createCell(3).setCellValue(String.valueOf(dataList.size()));
+						row.createCell(5).setCellValue("이용자수:");
+						row.createCell(6).setCellValue(String.valueOf(memberCount));
+						
+						//아래 별도 함수선언, list를 2차원 배열 값으로 변경
+						String[][] dataArr = dataToArray(dataList);
+						//dataArr는 순서대로 들어가면 됨.
+						for(int i=0; i<dataArr.length; i++) {
+							row = sheet.createRow(i+2);
+							for(int j=0; j<dataArr[0].length; j++) {
+								row.createCell(j).setCellValue(dataArr[i][j]);
+							}
+						}
+					} else if(s==1) {
+						dataList = brwService.selectStatisticsBrwMemberRanking10ByDate(borrow);
+						sheet = workbook.createSheet("다독자 순위");
+						row = sheet.createRow(0);
+						row.createCell(0).setCellValue(staDateStart+" ~ "+staDateEnd);
+						
+						if(dataList.size()==0) {
+							// 자료가 없을 땐 아무것도 하지 않는다.
+						} else {
+							//아래 별도 함수선언, list를 2차원 배열 값으로 변경
+							String[][] dataArr = memberRankingToArray(dataList);
+							//dataArr는 순서대로 들어가면 됨.
+							for(int i=0; i<dataArr.length; i++) {
+								row = sheet.createRow(i+2);
+								for(int j=0; j<dataArr[0].length; j++) {
+									row.createCell(j).setCellValue(dataArr[i][j]);
+								}
+							}
+						}
+					} else if(s==2) {
+						dataList = brwService.selectStatisticsBrwBookRanking10ByDate(borrow);
+						sheet = workbook.createSheet("다대출도서 순위");
+						row = sheet.createRow(0);
+						row.createCell(0).setCellValue(staDateStart+" ~ "+staDateEnd);
+						
+						if(dataList.size()==0) {
+							// 자료가 없을땐 아무것도 하지 않는다.
+						} else {
+							//아래 별도 함수선언, list를 2차원 배열 값으로 변경
+							String[][] dataArr = bookRankingToArray(dataList);
+							//dataArr는 순서대로 들어가면 됨.
+							for(int i=0; i<dataArr.length; i++) {
+								row = sheet.createRow(i+2);
+								for(int j=0; j<dataArr[0].length; j++) {
+									row.createCell(j).setCellValue(dataArr[i][j]);
+								}
+							}
+						}
 					}
 				}
 				
@@ -442,6 +484,63 @@ public class Statistics {
 		return result;
 	}
 	
+	/**
+	 * 기간별 다독자 배열로 만들어주는 함수
+	 * @param dataList
+	 * @return
+	 */
+	public String[][] memberRankingToArray(List<Borrow> list) {
+		if(list.size()==0) {
+			return null;
+		}
+		
+		String[][] result = new String[list.size()+1][5];
+		
+		result[0][0] = "순위";
+		result[0][1] = "대출권수";
+		result[0][2] = "회원명";
+		result[0][3] = "연락처";
+		result[0][4] = "회원등록번호";
+		
+		for(int i=0; i<list.size(); i++) {
+			result[i+1][0] = String.valueOf(i+1);
+			result[i+1][1] = String.valueOf(list.get(i).getCount());
+			result[i+1][2] = list.get(i).getName();
+			result[i+1][3] = list.get(i).getPhone();
+			result[i+1][4] = list.get(i).getBarcodeMbr();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 기간별 다대출 도서 배열로 만들어주는 함수
+	 * @param dataList
+	 * @return
+	 */
+	public String[][] bookRankingToArray(List<Borrow> list) {
+		if(list.size()==0) {
+			return null;
+		}
+		
+		String[][] result = new String[list.size()+1][5];
+		
+		result[0][0] = "순위";
+		result[0][1] = "대출회수";
+		result[0][2] = "도서명";
+		result[0][3] = "저자명";
+		result[0][4] = "도서등록번호";
+		
+		for(int i=0; i<list.size(); i++) {
+			result[i+1][0] = String.valueOf(i+1);
+			result[i+1][1] = String.valueOf(list.get(i).getCount());
+			result[i+1][2] = list.get(i).getTitle();
+			result[i+1][3] = list.get(i).getWriter();
+			result[i+1][4] = list.get(i).getLocalIdBarcode();
+		}
+		
+		return result;
+	}
 	
 	
 	

@@ -17,6 +17,7 @@
 		<result property="restrictDateBrw" column="restrict_date_brw"/>
 		<result property="brwNow" column="brw_now"/>
 		<result property="pickDateBrw" column="pick_date_brw"/>
+		<result property="count" column="count"/>
 		
 		<!-- member beans -->
 		<result property="name" column="name"/>
@@ -579,8 +580,9 @@
 		INNER JOIN book_held h ON h.id = r.book_held_id
 		INNER JOIN member m ON m.id = r.id_member_brw
 		WHERE id_lib_brw = #{idLibBrw}
-		AND (start_date_brw &gt; #{startDateBrw})
+		AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
 		AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)
+		ORDER BY name ASC
 	</select>
 	
 	<!-- 통계 기간별 대출이용자수 -->
@@ -590,10 +592,38 @@
 		FROM (
 			SELECT id_brw FROM borrow
 			WHERE id_lib_brw = #{idLibBrw}
-				AND (start_date_brw &gt; #{startDateBrw})
+				AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
 				AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)
 			GROUP BY id_member_brw
 		) AS a
+	</select>
+	
+	<!-- 통계 기간별 다독자 탑10 -->
+	<select id="selectStatisticsBrwMemberRanking10ByDate" parameterType="com.gaimit.mlm.model.Borrow" resultMap="borrow">
+		SELECT
+			COUNT(id_brw) as count, id_member_brw, name, phone, barcode_mbr
+		FROM borrow r
+		LEFT JOIN member m ON m.id = r.id_member_brw
+			WHERE id_lib_brw = #{idLibBrw}
+				AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
+				AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)
+			GROUP BY id_member_brw
+			ORDER BY count DESC
+			LIMIT 10
+	</select>
+	
+	<!-- 통계 기간별 다대출 도서 탑10 -->
+	<select id="selectStatisticsBrwBookRanking10ByDate" parameterType="com.gaimit.mlm.model.Borrow" resultMap="borrow">
+		SELECT
+			COUNT(id_brw) as count, book_held_id, title, writer, local_id_barcode
+		FROM borrow r
+		LEFT JOIN book_held h ON h.id = r.book_held_id
+			WHERE id_lib_brw = #{idLibBrw}
+				AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
+				AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)
+			GROUP BY book_held_id
+			ORDER BY count DESC
+			LIMIT 10
 	</select>
 	
 	<!-- kiosk모드에서 idBrw 호출을 위해 바코드로 대출중인 도서 검색 -->

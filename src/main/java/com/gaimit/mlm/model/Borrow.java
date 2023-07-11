@@ -13,6 +13,8 @@ public class Borrow extends BookHeld {
 	private int brwNow;
 	//오늘 대출/반납 판에, 선택된 날짜를 받는 변수
 	private String pickDateBrw;
+	// 다독자, 다대출에 사용할 카운트
+	private int count;
 	
 	
 	public int getIdBrw() {
@@ -81,6 +83,13 @@ public class Borrow extends BookHeld {
 	public void setPickDateBrw(String pickDateBrw) {
 		this.pickDateBrw = pickDateBrw;
 	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 	@Override
 	public String toString() {
 		return "Borrow [idBrw=" + idBrw + ", idLibBrw=" + idLibBrw + ", bookHeldId=" + bookHeldId + ", idMemberBrw="

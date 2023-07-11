@@ -263,6 +263,21 @@ public interface BrwService {
 	 */
 	public int selectStatisticsMemberCountByDate(Borrow borrow) throws Exception;
 	
+	/**
+	 * 통계 기간별 다독자 탑10
+	 * @param borrow
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Borrow> selectStatisticsBrwMemberRanking10ByDate(Borrow borrow) throws Exception;
+	
+	/**
+	 * 통계 기간별 다대출 도서 탑10
+	 * @param borrow
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Borrow> selectStatisticsBrwBookRanking10ByDate(Borrow borrow) throws Exception;
 	
 	/**
 	 * kiosk모드에서 idBrw 호출을 위해서 도서바코드를 이용해서 대출중인 id Brw 호출

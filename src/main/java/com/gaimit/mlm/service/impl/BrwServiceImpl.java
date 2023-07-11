@@ -485,6 +485,38 @@ public class BrwServiceImpl implements BrwService {
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Borrow> selectStatisticsBrwMemberRanking10ByDate(Borrow borrow) throws Exception {
+		List<Borrow> result = null;
+		try {
+			result = sqlSession.selectList("BorrowMapper.selectStatisticsBrwMemberRanking10ByDate", borrow);
+			if (result == null) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("기간별 대출/회원 통계 내역이 없습니다.(selectStatisticsBrwMemberRanking10ByDate)");
+		} catch (Exception e) {
+			throw new Exception("기간별 대출/회원 통계 조회에 실패했습니다.(selectStatisticsBrwMemberRanking10ByDate)");
+		}
+		return result;
+	}
+	
+	@Override
+	public List<Borrow> selectStatisticsBrwBookRanking10ByDate(Borrow borrow) throws Exception {
+		List<Borrow> result = null;
+		try {
+			result = sqlSession.selectList("BorrowMapper.selectStatisticsBrwBookRanking10ByDate", borrow);
+			if (result == null) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("기간별 대출/회원 통계 내역이 없습니다.(selectStatisticsBrwBookRanking10ByDate)");
+		} catch (Exception e) {
+			throw new Exception("기간별 대출/회원 통계 조회에 실패했습니다.(selectStatisticsBrwBookRanking10ByDate)");
+		}
+		return result;
+	}
 
 	@Override
 	public Borrow selectBorrowIdBrwByBarcodeBook(Borrow borrow) throws Exception {
