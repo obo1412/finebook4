@@ -436,6 +436,29 @@ public class Util {
 	}
 	
 	/**
+	 * 일반적인 mysql 날짜 형태(yyyy-MM-dd hh:mm:ss.SSS)를 yyyy-MM-dd로 바꿔주기
+	 * @param sqlDate
+	 * @return
+	 */
+	public String getSqlDateToNormalDateStr(String sqlDate) {
+		String result = null;
+		// 값이 없을 땐 그냥 null 리턴
+		if(sqlDate == null || "".equals(sqlDate)) {
+			return result;
+		}
+		
+		try {
+			SimpleDateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date itDate = fromFormat.parse(sqlDate);
+			result = toFormat.format(itDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
 	 * 도서인지 판별.
 	 * @param str
 	 * @return

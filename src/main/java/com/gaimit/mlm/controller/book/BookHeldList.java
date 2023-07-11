@@ -14,6 +14,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.IndexedColorMap;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -453,9 +459,16 @@ public class BookHeldList {
 //		XSSFSheet sheet2 = workbook.createSheet("등록폐기요약");
 		
 		XSSFRow titleRow = null;
+		Cell titleCell = null;
 		XSSFRow row = null;
 //		XSSFRow summaryRow = null;
 		
+		XSSFCellStyle topRowStyle = workbook.createCellStyle();
+		topRowStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index);
+		topRowStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		// 색상 참조용.
+		IndexedColorMap colorMap = workbook.getStylesSource().getIndexedColors();
 		//엑셀로 내보내기 위한 준비
 		
 		try {
@@ -468,6 +481,8 @@ public class BookHeldList {
 					// 전체 시트 이름 변경
 					sheet = workbook.getSheetAt(0);
 					workbook.setSheetName(0, (onlyYear-1)+"년기준보유량_"+bookHeldList.size()+"권");
+					// 빨간색
+					sheet.setTabColor(new XSSFColor(new java.awt.Color(220,20,60), colorMap));
 				} else if(b == 1) {
 					// 2023년이면 
 					bookHeld.setRegDate(Integer.toString(onlyYear));
@@ -476,6 +491,7 @@ public class BookHeldList {
 					workbook.createSheet("당해 보유량");
 					sheet = workbook.getSheetAt(1);
 					workbook.setSheetName(1, onlyYear+"년기준보유량_"+bookHeldList.size()+"권");
+					sheet.setTabColor(new XSSFColor(new java.awt.Color(175,3,253), colorMap));
 //					summaryRow = sheet2.createRow(0);
 //					summaryRow.createCell(0).setCellValue("기준연도");
 //					summaryRow.createCell(1).setCellValue(targetYear);
@@ -490,6 +506,7 @@ public class BookHeldList {
 					workbook.createSheet("폐기도서");
 					sheet = workbook.getSheetAt(2);
 					workbook.setSheetName(2, onlyYear+"년폐기수량_"+bookHeldList.size()+"권");
+					sheet.setTabColor(new XSSFColor(new java.awt.Color(250,243,72), colorMap));
 					// 요약 시트에 데이터 표기
 //					summaryRow = sheet2.createRow(3);
 //					summaryRow.createCell(0).setCellValue("폐기 도서수");
@@ -502,6 +519,7 @@ public class BookHeldList {
 					workbook.createSheet("등록도서");
 					sheet = workbook.getSheetAt(3);
 					workbook.setSheetName(3, "장서증가량_"+bookHeldList.size()+"권");
+					sheet.setTabColor(new XSSFColor(new java.awt.Color(120,229,52), colorMap));
 					// 요약 시트에 데이터 표기
 //					summaryRow = sheet2.createRow(2);
 //					summaryRow.createCell(0).setCellValue("등록 도서수");
@@ -521,19 +539,11 @@ public class BookHeldList {
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("출판년도");
 				curCol++;
-				titleRow.createCell(curCol).setCellValue("가격");
-				curCol++;
-				titleRow.createCell(curCol).setCellValue("ISBN10");
-				curCol++;
 				titleRow.createCell(curCol).setCellValue("ISBN13");
-				curCol++;
-				titleRow.createCell(curCol).setCellValue("카테고리");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("서가");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("등록일");
-				curCol++;
-				titleRow.createCell(curCol).setCellValue("수정일");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("도서등록번호");
 				curCol++;
@@ -549,11 +559,23 @@ public class BookHeldList {
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("복본기호");
 				curCol++;
+				titleRow.createCell(curCol).setCellValue("상품구분");
+				curCol++;
+				if(b==2) {
+					titleRow.createCell(curCol).setCellValue("폐기일");
+				} else {
+					titleRow.createCell(curCol).setCellValue("수정일");
+				}
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("가격");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("ISBN10");
+				curCol++;
+				titleRow.createCell(curCol).setCellValue("카테고리");
+				curCol++;
 				titleRow.createCell(curCol).setCellValue("태그");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("RF ID");
-				curCol++;
-				titleRow.createCell(curCol).setCellValue("상품구분");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("페이지");
 				curCol++;
@@ -563,6 +585,11 @@ public class BookHeldList {
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("국가");
 				curCol++;
+				// 최상단 제목 셀의 배경색 회색으로 바꿔주기.
+				for(int cs=0; cs<curCol; cs++) {
+					titleCell = titleRow.getCell(cs);
+					titleCell.setCellStyle(topRowStyle);
+				}
 				
 				for(int i=1; i<=bookHeldList.size(); i++) {
 					int j = i-1;
@@ -576,7 +603,7 @@ public class BookHeldList {
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPublisher());
 					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPubDate());
+					row.createCell(curValueCol).setCellValue(util.getSqlDateToNormalDateStr(bookHeldList.get(j).getPubDate()));
 					curValueCol++;
 					if(bookHeldList.get(j).getPubDate() != null ) {
 						String tempDate = bookHeldList.get(j).getPubDate();
@@ -584,19 +611,11 @@ public class BookHeldList {
 						row.createCell(curValueCol).setCellValue(pubYear);
 					}
 					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPrice());
-					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn10());
-					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn13());
-					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCategory());
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookShelf());
 					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRegDate());
-					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getEditDate());
+					row.createCell(curValueCol).setCellValue(util.getSqlDateToNormalDateStr(bookHeldList.get(j).getRegDate()));
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getLocalIdBarcode());
 					curValueCol++;
@@ -612,11 +631,19 @@ public class BookHeldList {
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCopyCode());
 					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookOrNot());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(util.getSqlDateToNormalDateStr(bookHeldList.get(j).getEditDate()));
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPrice());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getIsbn10());
+					curValueCol++;
+					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getCategory());
+					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getTag());
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getRfId());
-					curValueCol++;
-					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getBookOrNot());
 					curValueCol++;
 					row.createCell(curValueCol).setCellValue(bookHeldList.get(j).getPage());
 					curValueCol++;
