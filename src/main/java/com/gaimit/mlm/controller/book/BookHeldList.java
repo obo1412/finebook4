@@ -491,6 +491,7 @@ public class BookHeldList {
 					workbook.createSheet("당해 보유량");
 					sheet = workbook.getSheetAt(1);
 					workbook.setSheetName(1, onlyYear+"년기준보유량_"+bookHeldList.size()+"권");
+					// 보라색
 					sheet.setTabColor(new XSSFColor(new java.awt.Color(175,3,253), colorMap));
 //					summaryRow = sheet2.createRow(0);
 //					summaryRow.createCell(0).setCellValue("기준연도");
@@ -506,6 +507,7 @@ public class BookHeldList {
 					workbook.createSheet("폐기도서");
 					sheet = workbook.getSheetAt(2);
 					workbook.setSheetName(2, onlyYear+"년폐기수량_"+bookHeldList.size()+"권");
+					// 노란색
 					sheet.setTabColor(new XSSFColor(new java.awt.Color(250,243,72), colorMap));
 					// 요약 시트에 데이터 표기
 //					summaryRow = sheet2.createRow(3);
@@ -519,6 +521,7 @@ public class BookHeldList {
 					workbook.createSheet("등록도서");
 					sheet = workbook.getSheetAt(3);
 					workbook.setSheetName(3, "장서증가량_"+bookHeldList.size()+"권");
+					// 초록색
 					sheet.setTabColor(new XSSFColor(new java.awt.Color(120,229,52), colorMap));
 					// 요약 시트에 데이터 표기
 //					summaryRow = sheet2.createRow(2);
