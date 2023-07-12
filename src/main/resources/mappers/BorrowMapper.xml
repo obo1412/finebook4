@@ -582,7 +582,7 @@
 		WHERE id_lib_brw = #{idLibBrw}
 		AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
 		AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)
-		ORDER BY name ASC
+		ORDER BY name ASC, start_date_brw ASC
 	</select>
 	
 	<!-- 통계 기간별 대출이용자수 -->
