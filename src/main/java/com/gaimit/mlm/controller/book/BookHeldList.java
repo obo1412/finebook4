@@ -476,21 +476,21 @@ public class BookHeldList {
 			for(int b=0; b<4; b++) {
 				if(b==0) {
 					// 2023년 기준 2022년 자료
-					bookHeld.setRegDate(Integer.toString(onlyYear-1));
+					bookHeld.setRegDate(Integer.toString(onlyYear));
 					bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
 					// 전체 시트 이름 변경
 					sheet = workbook.getSheetAt(0);
-					workbook.setSheetName(0, (onlyYear-1)+"년기준보유량_"+bookHeldList.size()+"권");
+					workbook.setSheetName(0, (onlyYear)+"년기준보유량_"+bookHeldList.size()+"권");
 					// 빨간색
 					sheet.setTabColor(new XSSFColor(new java.awt.Color(220,20,60), colorMap));
 				} else if(b == 1) {
 					// 2023년이면 
-					bookHeld.setRegDate(Integer.toString(onlyYear));
+					bookHeld.setRegDate(Integer.toString(onlyYear-1));
 					bookHeldList = bookHeldService.selectBookHeldListToExcel(bookHeld);
 					// 전체 시트 이름 변경
 					workbook.createSheet("당해 보유량");
 					sheet = workbook.getSheetAt(1);
-					workbook.setSheetName(1, onlyYear+"년기준보유량_"+bookHeldList.size()+"권");
+					workbook.setSheetName(1, (onlyYear-1)+"년기준보유량_"+bookHeldList.size()+"권");
 					// 보라색
 					sheet.setTabColor(new XSSFColor(new java.awt.Color(175,3,253), colorMap));
 //					summaryRow = sheet2.createRow(0);
