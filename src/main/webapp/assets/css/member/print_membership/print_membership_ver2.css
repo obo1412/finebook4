@@ -1,0 +1,250 @@
+/* :root {
+	--name-lib-size: ${tag.marginLeft};
+} */
+
+@media print {
+	.sidebar {
+		display: none;
+	}
+	.sticky-footer {
+		display: none;
+	}
+	.prtNone {
+		display: none;
+	}
+}
+
+/* 화면에 띄우기만, 인쇄는 적용 안됨. */
+@media screen {
+	/* 이거 왜 안되냐? */
+	/* .a4_size:first-child {
+		border-top: 1px solid black;
+	} */
+
+	.a4_size {
+		border-top: 1px solid black;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+	}
+}
+
+@media all {
+	@page {
+		size: A4; /* A4 */
+		margin: 0;
+	}
+	html, body {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		font-family: '굴림';
+		box-sizing: border-box;
+		width: 210mm;
+	}
+	
+	
+	
+	
+	
+	.content__box {
+		box-sizing: border-box;
+		width: 210mm;
+	}
+	
+	.start__box {
+		box-sizing: border-box;
+		display: block;
+		float:left;
+		width: 100%;
+	
+		height: 9.75mm;
+	
+	}
+	
+	.item__box {
+		box-sizing: border-box;
+		width:49mm;
+/* 		margin-left: 6mm; */
+	
+		height: 31mm;
+		margin-bottom: 0.05mm;
+		float: left;
+	
+		font-size: 3.5mm;
+	}
+	
+	/* .item__box:nth-of-type(2n+1) {
+		margin-left: 3mm;
+	} */
+	
+	.div__title {
+		box-sizing: border-box;
+		float: left;
+		display: block;
+		width: 100%;
+		height: 2mm;
+	}
+	
+	.div__title>span {
+		box-sizing: border-box;
+		display: block;
+		float: left;
+		overflow: hidden;
+		width: 100%;
+		height: 3mm;
+		font-size: 2mm;
+		line-height: 2mm;
+	}
+	
+	.data__box {
+		box-sizing: border-box;
+		float: left;
+		width:100%;
+		height: 29mm;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+	
+	}
+	
+	.left__box {
+		float: left;
+		width: 49mm;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content:center;
+		align-items: center;
+	}
+	
+	.left__box>div {
+		margin-left: 1mm;
+	}
+	
+	.name__lib {
+		font-size: var(--a4-fontsize-namelib);
+		height: 6mm;
+		margin-bottom: 8px;
+		margin-top: 2mm;
+	}
+	
+	.barcode__on {
+		font-size: var(--a4-fontsize-barcode);
+		font-family:'Free 3 of 9';
+		font-size: 10mm;
+		transform:scale(1,1.5);
+	}
+	
+	.barcode__num {
+		font-size: var(--a4-fontsize-barcode-num);
+		height: 6mm;
+		margin-top: 10px;
+	}
+	
+	
+	
+	.right__box {
+		float: right;
+		width: 49mm;
+		height: 100%;
+	
+		display: flex;
+		justify-content: space-evenly;
+	}
+	
+	.r__in__left {
+		width: 12mm;
+		height: 100%;
+	
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+	}
+	
+	.r__in__left> img {
+		width: 8mm;
+		height: auto;
+		margin-top: 20px;
+		padding-left: 2.5mm;
+	}
+	
+	
+	.r__in__center {
+		width: 23mm;
+		height: 100%;
+	
+		font-size: 10px;
+	
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: left;
+	}
+	
+	.r__in__center>span {
+		display: block;
+		transform: rotate(90deg);
+	}
+	
+	.r__in__center .code__box {
+		font-size: var(--a4-fontsize-codes);
+		padding-left: 14px;
+		padding-top: 6px;
+		white-space: nowrap;
+		overflow: hidden;
+		line-height: 100%;
+	}
+	
+	.r__in__center .barcode {
+		font-size: var(--a4-fontsize-code-barcode);
+		margin: 0 auto;
+		margin-top: 8px;
+		text-align: center;
+		font-size: 12px;
+	
+		font-weight: bold;
+	}
+	
+	.r__in__right {
+		font-size: var(--a4-fontsize-class-num);
+		width: 14mm;
+		height: 100%;
+	
+		color: white;
+	
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	
+	}
+	
+	.r__in__right>span {
+		font-size: 8mm;
+		font-weight: bold;
+		font-family: 'hy견고딕';
+		transform: rotate(90deg);
+		padding-top: 1.5mm;
+		padding-left: 0mm;
+	}
+	
+	
+	.data__box> .barcode {
+		margin: 0 auto;
+		margin-top: 10px;
+		font-weight: bold;
+	}
+	
+	.div__empty__data {
+		visibility:hidden;
+	}
+	
+	.over__page__sheet__gap {
+		display: block;
+		box-sizing: border-box;
+		clear:both;
+		width: 100%;
+		height: 17.55mm;
+	}
+	
+	
+}

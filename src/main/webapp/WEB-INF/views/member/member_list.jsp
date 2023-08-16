@@ -94,6 +94,8 @@
 									<hr />
 									<a class="dropdown-item" href="#" onclick="printMembershipA4()">A4용지</a>
 									<!-- <a class="dropdown-item" href="#">카드(현재 미지원)</a> -->
+									<hr />
+									<a class="dropdown-item" href="#" onclick="printMembershipVer2()">ver.2 용지</a>
 								</div>
 							</div>
 						</div>

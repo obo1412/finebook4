@@ -64,7 +64,7 @@ public class PrintMembership {
 	
 	
 	
-	/** 라벨출력 페이지 */
+	/** 라벨출력 페이지 A4 용지 */
 	@RequestMapping(value = "/member/print_membership.do", method = RequestMethod.GET)
 	public ModelAndView printMembership(Locale locale, Model model) {
 		
@@ -126,6 +126,71 @@ public class PrintMembership {
 		
 		
 		return new ModelAndView("member/print_member/print_membership");
+	}
+	
+	
+	/** 라벨출력 페이지 ver2 용지 - 파인북 전용 라벨지, 18칸 통합라벨 */
+	@RequestMapping(value = "/member/print_membership_ver2.do", method = RequestMethod.GET)
+	public ModelAndView printMembershipVer2(Locale locale, Model model) {
+		
+		/** 1) WebHelper 초기화 및 파라미터 처리 */
+		web.init();
+		
+		/** 로그인 여부 검사 */
+		// 로그인중인 회원 정보 가져오기
+		Manager loginInfo = (Manager) web.getSession("loginInfo");
+		// 로그인 중이 아니라면 이 페이지를 동작시켜서는 안된다.
+		if (loginInfo == null) {
+			return web.redirect(web.getRootPath() + "/index.do", "로그인 후에 이용 가능합니다.");
+		}
+		
+		//url get방식으로 string 하나로 가져옴.
+		String MemberIdString = web.getString("chkBoxArr");
+		String[] memberIdArr = null;
+		
+		if(MemberIdString!=null&&!"".equals(MemberIdString)) {
+			//전체 인쇄
+			memberIdArr = MemberIdString.split(",");
+		}
+		
+		//System.out.println("memberidstr: ["+MemberIdString+"]");
+		//여기서 arr 저런식으로 쓰면, 변수주소를 알려준다. 
+		//java.lang.String;@12312 이딴식으로
+		//문자그대로 'null' 표기가 되는건 아닌듯.
+		//System.out.println("memberIdArr: ["+memberIdArr+"]");
+		
+		/** 3) Service를 통한 SQL 수행 */
+		// 조회 결과를 저장하기 위한 객체
+		Member member = new Member();
+		member.setIdLib(loginInfo.getIdLibMng());
+		
+		//하나씩 조회한 도서 정보를 넣을 리스트
+		List<Member> memberList = new ArrayList<Member>();
+		
+		try {
+			//arr 길이가 0이상이면 시행.
+			if(memberIdArr!=null) {
+				//arr에 담긴 member id 만큼 회원 정보 도출
+				for(int i=0; i<memberIdArr.length; i++) {
+					member.setId(Integer.parseInt(memberIdArr[i]));
+					Member item = new Member();
+					item = memberService.selectMember(member);
+					memberList.add(item);
+					item = null;
+				}
+				
+			} else {
+				memberList = memberService.selectMemberListAllForPrint(member);
+			}
+			/** 4) View 처리하기 */
+			// 조회 결과를 View에게 전달한다.
+			model.addAttribute("memberList", memberList);
+		} catch (Exception e) {
+			return web.redirect(null, e.getLocalizedMessage());
+		}
+		
+		
+		return new ModelAndView("member/print_member/print_membership_ver2");
 	}
 	
 }

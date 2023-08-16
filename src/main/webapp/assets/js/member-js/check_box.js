@@ -60,6 +60,19 @@ function printMembershipA4() {
 
 }
 
+function printMembershipVer2() {
+	event.preventDefault();
+	
+	console.log('체크박스배열: '+chkBoxArr);
+
+	var url = '/member/print_membership_ver2.do';
+	if(chkBoxArr.length > 0){
+		url = url + '?chkBoxArr='+chkBoxArr;
+	}
+	window.open(url, '_blank', 'width=1080,height=800,scrollbars=yes');
+
+}
+
 //체크박스 전체 체크
 function checkAll() {
 	//배열 초기화
