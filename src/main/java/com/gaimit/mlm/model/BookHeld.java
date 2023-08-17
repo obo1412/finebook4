@@ -51,6 +51,23 @@ public class BookHeld extends Book{
 	//바코드 수정을 위해 변경바코드 임시빈즈
 	private String modiBarcode;
 	
+	// 분류기호별 정리표를 위한 변수
+	private String classCodeRange;
+	private int count;
+	
+	
+	public String getClassCodeRange() {
+		return classCodeRange;
+	}
+	public void setClassCodeRange(String classCodeRange) {
+		this.classCodeRange = classCodeRange;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	
 	public String getModiBarcode() {
 		return modiBarcode;

@@ -57,6 +57,10 @@
 		
 		<!-- tag 관련 -->
 		<result property="tag" column="tag"/>
+		
+		<!-- 분류기호 정리표를 위한 값 -->
+		<result property="classCodeRange" column="classCodeRange"/>
+		<result property="count" column="count"/>
 
 		
 		
@@ -1083,8 +1087,29 @@
 			AND local_id_barcode=#{localIdBarcode}
 	</update>
 	
-	
-	
+	<!-- 분류기호 별 요약 테이블 -->
+	<select id="selectOrganizationTableByClassCode" parameterType="com.gaimit.mlm.model.BookHeld" resultMap="bookHeld">
+		SELECT 
+		  CASE
+		    WHEN CAST(classification_code AS FLOAT) >= 0.0 AND CAST(classification_code AS FLOAT) &lt; 100.0 THEN '000'
+		    WHEN CAST(classification_code AS FLOAT) >= 100.0 AND CAST(classification_code AS FLOAT) &lt; 200.0 THEN '100'
+		    WHEN CAST(classification_code AS FLOAT) >= 200.0 AND CAST(classification_code AS FLOAT) &lt; 300.0 THEN '200'
+		    WHEN CAST(classification_code AS FLOAT) >= 300.0 AND CAST(classification_code AS FLOAT) &lt; 400.0 THEN '300'
+		    WHEN CAST(classification_code AS FLOAT) >= 400.0 AND CAST(classification_code AS FLOAT) &lt; 500.0 THEN '400'
+		    WHEN CAST(classification_code AS FLOAT) >= 500.0 AND CAST(classification_code AS FLOAT) &lt; 600.0 THEN '500'
+		    WHEN CAST(classification_code AS FLOAT) >= 600.0 AND CAST(classification_code AS FLOAT) &lt; 700.0 THEN '600'
+		    WHEN CAST(classification_code AS FLOAT) >= 700.0 AND CAST(classification_code AS FLOAT) &lt; 800.0 THEN '700'
+		    WHEN CAST(classification_code AS FLOAT) >= 800.0 AND CAST(classification_code AS FLOAT) &lt; 900.0 THEN '800'
+		    WHEN CAST(classification_code AS FLOAT) >= 900.0 AND CAST(classification_code AS FLOAT) &lt; 1000.0 THEN '900'
+		    ELSE '미분류'
+		  END AS classCodeRange,
+		  COUNT(*) AS count
+		FROM book_held
+		WHERE library_id_lib = #{libraryIdLib}
+		AND (available = 0 OR available = 1)
+		GROUP BY classCodeRange
+		ORDER BY classCodeRange;
+	</select>
 	
 	
 	

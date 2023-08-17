@@ -775,6 +775,20 @@ public class BookHeldServiceImpl implements BookHeldService {
 		}
 	}
 
-	
+	@Override
+	public List<BookHeld> selectOrganizationTableByClassCode(BookHeld bookHeld) throws Exception {
+		List<BookHeld> result = null;
+		try {
+			result = sqlSession.selectList("BookHeldMapper.selectOrganizationTableByClassCode", bookHeld);
+			if (result == null) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("분류기호 정리표 결과값(selectOrganizationTableByClassCode)이 없습니다.");
+		} catch (Exception e) {
+			throw new Exception("분류기호 정리표 결과 조회(selectOrganizationTableByClassCode)에 실패했습니다.");
+		}
+		return result;
+	}
 
 }

@@ -134,6 +134,35 @@
 					<!-- card body 끝 -->
 				</div>
 				<!-- card 끝 -->
+				<div>
+					<table class="table table-sm table-bordered" style="margin-top: 10px; width:300px;">
+							<caption>분류기호별 구성표</caption>
+							<thead>
+								<tr class="text-center">
+									<th>구분</th>
+									<th>수량</th>
+									<th>백분율</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="bg-warning">
+									<td>전체수량</td>
+									<td class="text-right">${wholeCount}</td>
+									<td class="text-right"></td>
+								</tr>
+								<c:forEach var="item" items="${dataList}" varStatus="status">
+									<tr>
+										<td>${item.classCodeRange}</td>
+										<td class="text-right">${item.count}</td>
+										<td class="text-right">
+											<fmt:formatNumber value="${item.count/wholeCount*100}" minFractionDigits="1" maxFractionDigits="1" />
+											%
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+				</div>
 			</div>
 			<!-- container-fluid 끝 -->
 			<%@ include file="/WEB-INF/inc/footer.jsp"%>

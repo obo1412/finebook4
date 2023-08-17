@@ -391,7 +391,13 @@ public interface BookHeldService {
 	 */
 	public void updateBookRfIdByBarcode(BookHeld bookHeld) throws Exception;
 	
-	
+	/**
+	 * 분류기호별 정리표
+	 * @param bookHeld
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BookHeld> selectOrganizationTableByClassCode(BookHeld bookHeld) throws Exception;
 	
 	
 	

@@ -80,12 +80,21 @@ public class Statistics {
 			return web.redirect(web.getRootPath() + "/index.do", "로그인 후에 이용 가능합니다.");
 		}
 		
+		BookHeld bookHeld = new BookHeld();
+		bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
+		
+		int wholeCount = 0;
+		List<BookHeld> dataList = null;
 		
 		try {
-			
+			wholeCount = bookHeldService.selectBookCountForPage(bookHeld);
+			dataList = bookHeldService.selectOrganizationTableByClassCode(bookHeld);
 		} catch (Exception e) {
 			return web.redirect(null, e.getLocalizedMessage());
 		}
+		
+		model.addAttribute("wholeCount", wholeCount);
+		model.addAttribute("dataList", dataList);
 		
 		/** 4) View 처리하기 */
 		// 조회 결과를 View에게 전달한다.
