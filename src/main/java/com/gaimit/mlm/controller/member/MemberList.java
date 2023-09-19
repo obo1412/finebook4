@@ -125,7 +125,7 @@ public class MemberList {
 		}
 		
 		// 페이지 번호에 대한 연산 수행 후 조회조건값 지정을 위한 Beans에 추가하기
-		page.pageProcess(nowPage, totalCount, 20, 5);
+		page.pageProcess(nowPage, totalCount, 36, 5);
 		member.setLimitStart(page.getLimitStart());
 		member.setListCount(page.getListCount());
 		
