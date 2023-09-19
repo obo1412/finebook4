@@ -154,10 +154,10 @@
 						</choose>
 					</if>
 				
-				ORDER BY volume_code*1 ASC, title ASC
+				ORDER BY title ASC, volume_code*1 ASC, local_id_barcode DESC
 			</when>
 			<otherwise>
-				ORDER BY id DESC
+				ORDER BY local_id_barcode DESC, id DESC
 			</otherwise>
 		</choose>
 		LIMIT #{limitStart}, #{listCount}

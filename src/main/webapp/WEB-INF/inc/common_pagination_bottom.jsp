@@ -21,6 +21,10 @@
 				<c:if test="${bookShelf ne null}">
 					<c:param name="bookShelf" value="${bookShelf}"></c:param>
 				</c:if>
+				<!-- 별치기호 분류처리 -->
+				<c:if test="${addiCode ne null}">
+					<c:param name="addiCode" value="${addiCode}"></c:param>
+				</c:if>
 				<%-- <c:param name="page" value=""></c:param> --%>
 				<!-- 회원도서 조회용 파라미터 -->
 					<c:if test="${stringKeyLib ne null}">
@@ -53,6 +57,10 @@
 					<c:if test="${bookShelf ne null}">
 						<c:param name="bookShelf" value="${bookShelf}"></c:param>
 					</c:if>
+					<!-- 별치기호 분류처리 -->
+				<c:if test="${addiCode ne null}">
+					<c:param name="addiCode" value="${addiCode}"></c:param>
+				</c:if>
 					<c:param name="page" value="${page.prevPage}"></c:param>
 					<!-- 회원도서 조회용 파라미터 -->
 					<c:if test="${stringKeyLib ne null}">
@@ -88,6 +96,10 @@
 				<!-- 서가 분류처리 -->
 				<c:if test="${bookShelf ne null}">
 					<c:param name="bookShelf" value="${bookShelf}"></c:param>
+				</c:if>
+				<!-- 별치기호 분류처리 -->
+				<c:if test="${addiCode ne null}">
+					<c:param name="addiCode" value="${addiCode}"></c:param>
 				</c:if>
 				<c:param name="page" value="${i}"></c:param>
 				<!-- 회원도서 조회용 파라미터 -->
@@ -128,6 +140,10 @@
 					<c:if test="${bookShelf ne null}">
 						<c:param name="bookShelf" value="${bookShelf}"></c:param>
 					</c:if>
+					<!-- 별치기호 분류처리 -->
+				<c:if test="${addiCode ne null}">
+					<c:param name="addiCode" value="${addiCode}"></c:param>
+				</c:if>
 					<c:param name="page" value="${page.nextPage}"></c:param>
 					<!-- 회원도서 조회용 파라미터 -->
 					<c:if test="${stringKeyLib ne null}">
