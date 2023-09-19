@@ -174,6 +174,25 @@ public class BrwServiceImpl implements BrwService {
 	}
 	
 	@Override
+	public void updateExtendBorrowDueDate(Borrow borrow) throws Exception {
+		try {
+			int result = sqlSession.update("BorrowMapper.updateExtendBorrowDueDate", borrow);
+			if (result == 0) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			// sqlSession.rollback();
+			throw new Exception("이미 반납된 도서입니다.");
+		} catch (Exception e) {
+			// sqlSession.rollback();
+			logger.error(e.getLocalizedMessage());
+			throw new Exception("도서 반납기한 연장에 실패했습니다.");
+		} finally {
+			// sqlSession.commit();
+		}		
+	}
+	
+	@Override
 	public void selectBorrowCountBySortingIndex(Borrow borrow) throws Exception {
 		try {
 			int result = sqlSession.selectOne("BorrowMapper.selectBorrowCountBySortingIndex", borrow);

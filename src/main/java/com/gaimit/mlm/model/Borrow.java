@@ -15,7 +15,8 @@ public class Borrow extends BookHeld {
 	private String pickDateBrw;
 	// 다독자, 다대출에 사용할 카운트
 	private int count;
-	
+	// 대출 기한 연장을 위한 변수
+	private int extendDay;
 	
 	public int getIdBrw() {
 		return idBrw;
@@ -88,6 +89,12 @@ public class Borrow extends BookHeld {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+	public int getExtendDay() {
+		return extendDay;
+	}
+	public void setExtendDay(int extendDay) {
+		this.extendDay = extendDay;
 	}
 	
 	@Override

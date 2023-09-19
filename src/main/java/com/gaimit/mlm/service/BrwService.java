@@ -69,6 +69,13 @@ public interface BrwService {
 	public void getBorrowCountByBarcodeBook(Borrow borrow) throws Exception;
 	
 	/**
+	 * dueDate 오늘 기준으로 숫자일 만큼 반납일 연장하기
+	 * @param borrow
+	 * @throws Exception
+	 */
+	public void updateExtendBorrowDueDate(Borrow borrow) throws Exception;
+	
+	/**
 	 * 책 대여중인지 체크 sorting index로 판별
 	 * @param borrow
 	 * @throws Exception

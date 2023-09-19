@@ -18,6 +18,8 @@
 		<result property="brwNow" column="brw_now"/>
 		<result property="pickDateBrw" column="pick_date_brw"/>
 		<result property="count" column="count"/>
+		<!-- 대출 연장을 위한 일수 변수 -->
+		<result property="extendDay" column="extendDay"/>
 		
 		<!-- member beans -->
 		<result property="name" column="name"/>
@@ -294,6 +296,17 @@
 			AND (available=0 OR available=1)
 			AND local_id_barcode = #{localIdBarcode}
 	</select>
+	
+	<!-- ReturnCancelBookOk.java - 책반납 업데이트 -->
+	<update id="updateExtendBorrowDueDate" parameterType="com.gaimit.mlm.model.Borrow">
+		UPDATE borrow r
+		<!-- INNER JOIN book_held h on r.book_held_id = h.id -->
+		SET due_date_brw = DATE_FORMAT(DATE_ADD(now(), INTERVAL (#{extendDay}) DAY), '%Y-%m-%d 23:59:59')
+		WHERE id_lib_brw=#{idLibBrw} AND book_held_id=#{bookHeldId}
+			AND (end_date_brw IS NULL OR end_date_brw = '')
+			AND id_brw=#{idBrw}
+			<!-- 필수 개중요 헷갈리지말자, idBrw 없으면 bookHeldid 전부다 수정됨 -->
+	</update>
 	
 	<!-- sorting index로 도서가 대출중인지 판별 -->
 	<select id="selectBorrowCountBySortingIndex"  parameterType="com.gaimit.mlm.model.Borrow" resultType="int">

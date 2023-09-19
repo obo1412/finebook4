@@ -383,7 +383,77 @@ public class ReturnBookOk {
 		}
 	}
 	
-	
+	/** 도서 반납 처리 비동기 */
+	@ResponseBody
+	@RequestMapping(value = "/book/extend_book_due_date.do", method = RequestMethod.POST)
+	public void extendBookDueDate(Locale locale, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("application/json");
+		
+		web.init();
+		/** 로그인 여부 검사 */
+		// 로그인중인 회원 정보 가져오기
+		Manager loginInfo = (Manager) web.getSession("loginInfo");
+		// 로그인 중이 아니라면 이 페이지를 동작시켜서는 안된다.
+		if (loginInfo == null) {
+			web.printJsonRt("로그인 후 이용 가능합니다.");
+		}
+		
+		// 관리자/일반회원 로그인 분기를 위한 처리
+		int idLib = 0;
+		if(loginInfo.getIdLibMng()!=0) {
+			idLib = loginInfo.getIdLibMng();
+		} else {
+			idLib = loginInfo.getIdLib();
+		}
+		
+		String barcodeBook = web.getString("barcodeBook","");
+		int extendDay = web.getInt("extendDay",3);
+		
+		if("".equals(barcodeBook)) {
+			web.printJsonRt("반납하시려는 도서등록번호를 입력하세요.");
+		}
+		
+		BookHeld bookHeld = new BookHeld();
+		bookHeld.setLibraryIdLib(idLib);
+		
+		Borrow borrow = new Borrow();
+		borrow.setIdLibBrw(idLib);
+		borrow.setLocalIdBarcode(barcodeBook);
+		
+		int memberId = 0;
+		
+		try {
+			borrow = brwService.getBorrowItemByBarcodeBook(borrow);
+			borrow.setExtendDay(extendDay);
+			
+			// 기한 연장 기능 실행
+			brwService.updateExtendBorrowDueDate(borrow);
+		} catch (Exception e) {
+			web.printJsonRt(e.getLocalizedMessage());
+		}
+		
+		// --> import java.util.HashMap;
+		// --> import java.util.Map;
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("rt", "OK");
+		data.put("memberId", memberId);
+		
+		// --> import com.fasterxml.jackson.databind.ObjectMapper;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValue(response.getWriter(), data);
+		} catch (Exception e) {
+			web.printJsonRt(e.getLocalizedMessage());
+		}
+	}
 	
 	
 	

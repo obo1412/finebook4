@@ -195,11 +195,10 @@
 							<table class="table table-sm table-fixed">
 								<thead>
 									<tr>
-										<th class="table-info text-center" style="width:25%;">도서명</th>
-										<th class="table-info text-center" style="width:20%;">등록번호</th>
-										<th class="table-info text-center" style="width:20%;">대출일</th>
-										<th class="table-info text-center" style="width:20%;">반납일</th>
-										<th class="table-info text-center" style="width:15%;">상태</th>
+										<th class="table-info text-center" style="width:25%; vertical-align:middle;">도서명</th>
+										<th class="table-info text-center" style="width:20%; vertical-align:middle;">등록번호</th>
+										<th class="table-info text-center" style="width:20%; vertical-align:middle;" rowspan="2">대출일<br />반납일</th>
+										<th class="table-info text-center" style="vertical-align:middle;">기간연장/상태</th>
 									</tr>
 								</thead>
 								<tbody class="returnRmnListClass" style="font-size:12px;">
@@ -292,8 +291,9 @@
 			var parentRow = event.target.parentNode.parentNode;
 			var children = parentRow.childNodes;
 			var barcodeBookRtn = children[1].innerText;
-			var endDateBrw = children[3].innerText;
-			if(endDateBrw==null||endDateBrw==''){
+			var dateRow = children[2].childNodes;
+			var endDateBrw = dateRow[2].innerText;
+			if(endDateBrw==null||endDateBrw==''||endDateBrw=='대출중'){
 				//반납시간이 비어있으면, 반납 처리
 				clickedReturnBook(barcodeBookRtn);
 			} else {
@@ -301,8 +301,6 @@
 				clickedReturnCancelBook(barcodeBookRtn);
 			}
 		}
-		
-	
 		
 		//반납 취소 버튼 클릭시 작동 함수
 		function clickedReturnCancelBook(barcodeBookRtn) {
@@ -325,6 +323,48 @@
 						}).then(() => {
 							//도서 반납 처리 후, 해당 회원의 남아있는 대출 도서 조회
 							selectBrwRmnListByMemberId(data.memberId);
+						}).then(() => {
+							//도서 반납 처리 후, 해당 회원 정보 업데이트
+							brwPickMember(data.memberId);
+						});
+						
+						document.getElementById('barcodeBookRtn').focus();
+					}
+				}
+			});
+		}
+		
+		// 기간 연장기능 버튼
+		function clickedExtendDateBook(barcodeBook) {
+			var parentRow = event.target.parentNode.parentNode;
+			var children = parentRow.childNodes;
+			var barcodeBook = children[1].innerText;
+			var extendDay = event.target.previousElementSibling.value;
+			
+			extendDayBookDueDate(barcodeBook, extendDay);
+		}
+		
+		// 기간 연장 기능 동작 함수
+		// ReturnBookOk.java 에서 사용 
+		function extendDayBookDueDate(barcodeBook, extendDay) {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/book/extend_book_due_date.do",
+				type:'POST',
+				data: {
+					barcodeBook,
+					extendDay
+				},
+				success: function(data) {
+					if(data.rt != 'OK') {
+						alert(data.rt);
+					} else {
+						new Promise((resolve)=> {
+							//도서 반납 처리 후, 오늘의 대출/반납 현황 업데이트
+							selectBrwListDday();
+							resolve();
+						}).then(() => {
+							//도서 반납 처리 후, 해당 회원의 남아있는 대출 도서 조회
+							/* selectBrwRmnListByMemberId(data.memberId); */
 						}).then(() => {
 							//도서 반납 처리 후, 해당 회원 정보 업데이트
 							brwPickMember(data.memberId);
@@ -360,9 +400,19 @@
 								btn.classList.add('btn');
 								btn.classList.add('btn-sm');
 								btn.setAttribute('onclick','clickedReturnOrCancelThisBook()');
+								var inputExtend = document.createElement('input');
+								inputExtend.style.width = '34px';
+								inputExtend.value = 3;
+								var btnExtend = document.createElement('button');
+								btnExtend.classList.add('btn');
+								btnExtend.classList.add('btn-sm');
+								btnExtend.classList.add('btn-info');
+								btnExtend.classList.add('mr-1');
+								btnExtend.innerHTML = '기간연장';
+								btnExtend.setAttribute('onclick', 'clickedExtendDateBook()');
 								//반복할 필요 없는 변수 처리 끝
 								row = tbody.insertRow();
-								for(var j=0; j<5; j++){
+								for(var j=0; j<4; j++){
 									cell = row.insertCell(j);
 									cell.classList.add('text-center');
 								}
@@ -372,8 +422,16 @@
 								children[0].setAttribute('title',brwRmnList[i].title);
 								children[0].innerText = brwRmnList[i].title;
 								children[1].innerText = brwRmnList[i].localIdBarcode;
-								children[2].innerText = dateFormChange(brwRmnList[i].startDateBrw);
-								children[3].innerText = dateFormChange(brwRmnList[i].endDateBrw);
+								let endDateView = dateFormChange(brwRmnList[i].endDateBrw);
+								if(endDateView === null || endDateView === '') {
+									endDateView = '대출중';
+								}
+								children[2].innerHTML = 
+									'<span>'+dateFormChange(brwRmnList[i].startDateBrw)+'</span>'
+									+'<br />'
+									+ '<span>'+endDateView+"</span>";
+								// 기간연장 / 상태버튼 하나로 통합
+								children[3].appendChild(inputExtend);
 								var endDateBrw = brwRmnList[i].endDateBrw;
 								if(endDateBrw!=null&&endDateBrw!=''){
 									btn.classList.remove('btn-warning');
@@ -384,7 +442,8 @@
 									btn.classList.add('btn-warning');
 									btn.innerHTML = '대출중';
 								}
-								children[4].appendChild(btn);
+								children[3].appendChild(btnExtend)
+								children[3].appendChild(btn);
 							}
 						} else {
 							row = tbody.insertRow();
