@@ -99,6 +99,14 @@
 					</div>
 					
 					<div class="form-group mb-2">
+						<label for="profileImg" class="col-12">프로필이미지</label>
+						<div class="col-8">
+							<input type="file" name="profileImg" id="profileImg" class="form-control form-control-sm"
+								value="${memberItem.profileImg}"/>
+						</div>
+					</div>
+					
+					<div class="form-group mb-2">
 						<label for='idMbrClass' class="col-12">회원분류</label>
 						<div class="col-8">
 							<select name="idMbrClass" class="form-control form-control-sm">
@@ -115,14 +123,6 @@
 							</select>
 						</div>
 					</div>
-					
-					<%-- <div class="form-group mb-2">
-						<label for="profileImg" class="col-12">프로필이미지</label>
-						<div class="col-8">
-							<input type="file" name="profileImg" id="profileImg" class="form-control form-control-sm"
-								value="${memberItem.profileImg}"/>
-						</div>
-					</div> --%>
 					
 					<div class="form-group mb-2">
 						<label for="rfuid" class="col-12">RF-UID</label>

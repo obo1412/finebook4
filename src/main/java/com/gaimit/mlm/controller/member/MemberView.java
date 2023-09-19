@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.gaimit.helper.FileInfo;
+import com.gaimit.helper.FileInfo;
 import com.gaimit.helper.UploadHelper;
 import com.gaimit.helper.WebHelper;
 
@@ -270,13 +270,16 @@ public class MemberView {
 		if (web.getSession("loginInfo") == null) {
 			return web.redirect(web.getRootPath() + "/index.do", "로그인이 필요합니다.");
 		}
+		
+		int idLib = loginInfo.getIdLibMng();
+		String memberImgDir = "/memberImg/libNo"+idLib;
 
 		/** (4) 파일이 포함된 POST 파라미터 받기 */
 		// <form>태그 안에 <input type="file">요소가 포함되어 있고,
 		// <form>태그에 enctype="multipart/form-data"가 정의되어 있는 경우
 		// WebHelper의 getString()|getInt() 메서드는 더 이상 사용할 수 없게 된다.
 		try {
-			upload.multipartRequest();
+			upload.multipartRequest(memberImgDir);
 		} catch (Exception e) {
 			return web.redirect(null, "multipart 데이터가 아닙니다.");
 		}
@@ -323,21 +326,35 @@ public class MemberView {
 		
 		int memberId = Integer.parseInt(id);
 		int gradeEdit = Integer.parseInt(gradeStr);
-
+		
 		/** (6) 업로드 된 파일 정보 추출 */
-		/*List<FileInfo> fileList = upload.getFileList();
+		List<FileInfo> fileList = upload.getFileList();
 		// 업로드 된 프로필 사진 경로가 저장될 변수
 		String profileImg = null;
-
+		
+		try {
+			// 이전 이미지 삭제를 위한 정보 불러오기
+			Member prevMember = new Member();
+			prevMember.setIdLib(idLib);
+			prevMember.setId(memberId);
+			prevMember = memberService.selectMember(prevMember);
+			if (fileList.size() > 0) {
+				// 파일 업로드가 되어있으면 삭제
+				upload.removeFile(prevMember.getProfileImg());
+			}
+		} catch (Exception e) {
+			return web.redirect(null, e.getLocalizedMessage());
+		}
+		
 		// 업로드 된 파일이 존재할 경우만 변수값을 할당한다.
 		if (fileList.size() > 0) {
 			// 단일 업로드이므로 0번째 항목만 가져온다.
 			FileInfo info = fileList.get(0);
 			profileImg = info.getFileDir() + "/" + info.getFileName();
 		}
-
+		
 		// 파일경로를 로그로 기록
-		logger.debug("profileImg=" + profileImg);*/
+		/* logger.debug("profileImg=" + profileImg); */
 
 		/** (7) 전달받은 파라미터를 Beans 객체에 담는다. */
 		Member member = new Member();
@@ -352,7 +369,7 @@ public class MemberView {
 		member.setAddr1(addr1);
 		member.setAddr2(addr2);
 		/*member.setRemarks(remarks);*/
-		/*member.setProfileImg(profileImg);*/
+		member.setProfileImg(profileImg);
 		member.setRfUid(rfuid);
 		member.setGradeId(gradeEdit);
 		member.setClassId(idMbrClass);
