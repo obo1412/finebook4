@@ -604,6 +604,20 @@ public class BookHeldServiceImpl implements BookHeldService {
 			throw new Exception("도서 데이터 수정(updateAddiCodeByBarcodeNum)에 실패했습니다.");
 		} 
 	}
+	
+	@Override
+	public void updatePurOrDonBatchByBarcodeNum(BookHeld bookHeld) throws Exception {
+		try {
+			int result = sqlSession.update("BookHeldMapper.updatePurOrDonBatchByBarcodeNum", bookHeld);
+			if (result == 0) {
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			throw new Exception("변경된 도서 데이터(updatePurOrDonBatchByBarcodeNum)가 없습니다.");
+		} catch (Exception e) {
+			throw new Exception("도서 데이터 수정(updatePurOrDonBatchByBarcodeNum)에 실패했습니다.");
+		} 
+	}
 
 	@Override
 	public int selectCountImportExcelData(BookHeld bookHeld) throws Exception {

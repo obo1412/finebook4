@@ -480,6 +480,15 @@ public class BookHeldView {
 			}
 			bookHeld.setCopyCode(tempNum);
 			break;
+		case "purOrDon" :
+			int numPod = 0;
+			if("".equals(codeValue)||codeValue==null) {
+				numPod = 1;
+			} else {
+				numPod = Integer.parseInt(codeValue);
+			}
+			bookHeld.setPurchasedOrDonated(numPod);
+			break;
 		}
 		
 		String resultMsg = "도서정보 일괄 수정이 완료되었습니다.";
@@ -615,10 +624,21 @@ public class BookHeldView {
 						if(nullChecker>0) {
 							resultMsg += " 도서정보를 찾을 수 없습니다.)";
 						}
-					} else {
-						//바코드 자리수 수정아닐 경우
+					} else if("purOrDon".equals(codeType)) {
+						// 구입/기증 부분 수정 처리
 						while((line = brFile.readLine()) != null) {
 							bookHeld.setLocalIdBarcode(line);
+							//copyCode 기본값 0인 것 때문에 조건 분기처리 못하므로 따로 뺌.
+							bookHeldService.updatePurOrDonBatchByBarcodeNum(bookHeld);
+							bookHeld.setLocalIdBarcode("");
+						}
+					} else {
+						//바코드 자리수 수정아닐 경우
+						// ******** 모든기호 다 수정할수있도록 맵퍼만 변경.
+						// copycode는 기본적으로 0이라 mapper when 조건에 != null 이조건으로 분리 불가. 
+						while((line = brFile.readLine()) != null) {
+							bookHeld.setLocalIdBarcode(line);
+							
 							//함수만든게 별치기호로 만든거라, 이름은 따로 수정안하겠음.
 							//모든기호 다 수정할수있도록 맵퍼만 변경.
 							bookHeldService.updateAddiCodeByBarcodeNum(bookHeld);

@@ -48,10 +48,14 @@
 										<option value="barcode">바코드자리수 변경</option>
 										<option value="discard">도서 일괄 폐기</option>
 										<option value="bookRfId">도서RFID수정(엑셀)</option>
+										<option value="purOrDon">구입/기증</option>
 									</select>
 									
 									<div class="div__same__value__control">
-										<label for="chgValue">변경값(바코드자리수일 경우 자리수 숫자 기입)</label>
+										<label for="chgValue">
+											<span class="common__label">변경값(바코드자리수일 경우 자리수 숫자 기입)</span>
+											<span class="purOrDon__label div__hidden">변경값(구입 : 1 / 기증 : 0)</span>
+										</label>
 										<input type="text" name="chgValue" id="chgValue" class="form-control form-control-sm"/>
 										
 										

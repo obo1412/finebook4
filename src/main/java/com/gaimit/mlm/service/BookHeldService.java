@@ -286,6 +286,13 @@ public interface BookHeldService {
 	 * @throws Exception
 	 */
 	public void updateAddiCodeByBarcodeNum(BookHeld bookHeld) throws Exception;
+	
+	/**
+	 * 도서 구입/기증 일괄 수정 서비스
+	 * @param bookHeld
+	 * @throws Exception
+	 */
+	public void updatePurOrDonBatchByBarcodeNum(BookHeld bookHeld) throws Exception;
 
 	/**
 	 * 등록시작시간 기준으로 몇권의 데이터가 이동했는지 확인 하기 위함

@@ -886,6 +886,13 @@
 		WHERE library_id_lib=#{libraryIdLib} AND local_id_barcode=#{localIdBarcode}
 	</update>
 	
+		<!-- 별치기호 text파일 읽어들여서 수정하기 -->
+	<update id="updatePurOrDonBatchByBarcodeNum" parameterType="com.gaimit.mlm.model.BookHeld">
+		UPDATE book_held SET
+		purchased_or_donated = #{purchasedOrDonated}
+		WHERE library_id_lib=#{libraryIdLib} AND local_id_barcode=#{localIdBarcode}
+	</update>
+	
 	<!-- 도서정보 엑셀에서 가져오는 값 현재 상황 파악을 위해서, db에 요청 몇개 등록되었는지 가져오기 -->
 	<select id="selectCountImportExcelData" parameterType="com.gaimit.mlm.model.BookHeld" resultType="int">
 		SELECT COUNT(id) FROM book_held
