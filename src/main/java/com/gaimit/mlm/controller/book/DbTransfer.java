@@ -526,6 +526,8 @@ public class DbTransfer {
 									break;
 								case "수입구분":
 								case "purOrDon":
+								case "구입/기증":
+								case "구매/기증":
 									// 구입 1 / 기증 0
 									bookHeld.setPurchasedOrDonated(util.getPurOrDon(cellValue));
 									break;
