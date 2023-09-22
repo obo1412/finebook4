@@ -69,32 +69,18 @@
 					<div class="form-inline mb-2">
 						<label for="pubDate" class="col-3">출판일</label>
 						<div class="col-9">
+							<fmt:parseDate var="parsePubDate" value="${bookHeldItem.pubDate}" pattern="yyyy-MM-dd"/>
+							<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
 							<input name="pubDate" id="pubDate" class="form-control form-control-sm" 
-								value="${bookHeldItem.pubDate}" />
+								value="${pubDate}" />
 						</div>
 					</div>
 					
 					<div class="form-inline mb-2">
-						<label for="price" class="col-3">도서가격</label>
+						<label for="localIdBarcode" class="col-3">도서등록번호</label>
 						<div class="col-9">
-							<input name="price" id="price" class="form-control form-control-sm" 
-								value="${bookHeldItem.price}" />
-						</div>
-					</div>
-					
-					<div class="form-inline mb-2">
-						<label for="isbn13" class="col-3">ISBN 13</label>
-						<div class="col-9">
-							<input name="isbn13" id="isbn13" class="form-control form-control-sm" 
-								value="${bookHeldItem.isbn13}" />
-						</div>
-					</div>
-					
-					<div class="form-inline mb-2">
-						<label for="isbn10" class="col-3">ISBN 10</label>
-						<div class="col-9">
-							<input name="isbn10" id="isbn10" class="form-control form-control-sm" 
-								value="${bookHeldItem.isbn10}" />
+							<input name="localIdBarcode" id="localIdBarcode" class="form-control form-control-sm"
+								value="${bookHeldItem.localIdBarcode}"/>
 						</div>
 					</div>
 					
@@ -111,25 +97,6 @@
 						<div class="col-9">
 							<input name="bookShelf" id="bookShelf" class="form-control form-control-sm"
 								value="${bookHeldItem.bookShelf}"/>
-						</div>
-					</div>
-					
-					<div class="form-inline mb-2">
-						<label for="localIdBarcode" class="col-3">바코드</label>
-						<div class="col-9">
-							<input name="localIdBarcode" id="localIdBarcode" class="form-control form-control-sm"
-								value="${bookHeldItem.localIdBarcode}"/>
-						</div>
-					</div>
-					
-					<div class="form-inline mb-2">
-						<label for="purchasedOrDonated" class="col-3">구입/기증</label>
-						<div class="col-9">
-							<select name="purchasedOrDonated" id="purchasedOrDonated"
-								class="form-control form-control-sm">
-								<option value="1" <c:if test="${bookHeldItem.purchasedOrDonated == 1}">selected</c:if>>구입</option>
-								<option value="0"<c:if test="${bookHeldItem.purchasedOrDonated == 0}">selected</c:if>>기증</option>
-							</select>
 						</div>
 					</div>
 					
@@ -174,18 +141,26 @@
 					</div>
 					
 					<div class="form-inline mb-2">
-						<label for="tag" class="col-3">태그(메모)</label>
+						<label for="isbn13" class="col-3">ISBN 13</label>
 						<div class="col-9">
-							<input name="tag" id="tag" class="form-control form-control-sm"
-								value="${bookHeldItem.tag}"/>
+							<input name="isbn13" id="isbn13" class="form-control form-control-sm" 
+								value="${bookHeldItem.isbn13}" />
 						</div>
 					</div>
 					
 					<div class="form-inline mb-2">
-						<label for="rfId" class="col-3">RF ID</label>
+						<label for="isbn10" class="col-3">ISBN 10</label>
 						<div class="col-9">
-							<input name="rfId" id="rfId" class="form-control form-control-sm"
-								value="${bookHeldItem.rfId}"/>
+							<input name="isbn10" id="isbn10" class="form-control form-control-sm" 
+								value="${bookHeldItem.isbn10}" />
+						</div>
+					</div>
+					
+					<div class="form-inline mb-2">
+						<label for="price" class="col-3">도서가격</label>
+						<div class="col-9">
+							<input name="price" id="price" class="form-control form-control-sm" 
+								value="${bookHeldItem.price}" />
 						</div>
 					</div>
 					
@@ -194,6 +169,17 @@
 						<div class="col-9">
 							<input name="page" id="page" class="form-control form-control-sm"
 								value="${bookHeldItem.page}"/>
+						</div>
+					</div>
+					
+					<div class="form-inline mb-2">
+						<label for="purchasedOrDonated" class="col-3">구입/기증</label>
+						<div class="col-9">
+							<select name="purchasedOrDonated" id="purchasedOrDonated"
+								class="form-control form-control-sm">
+								<option value="1" <c:if test="${bookHeldItem.purchasedOrDonated == 1}">selected</c:if>>구입</option>
+								<option value="0"<c:if test="${bookHeldItem.purchasedOrDonated == 0}">selected</c:if>>기증</option>
+							</select>
 						</div>
 					</div>
 					
@@ -212,6 +198,30 @@
 								<option value="EBOOK" <c:if test="${bookHeldItem.bookOrNot eq 'EBOOK'}">selected</c:if>>
 									전자책</option>
 							</select>
+						</div>
+					</div>
+					
+					<div class="form-inline mb-2">
+						<label for="rfId" class="col-3">도서크기</label>
+						<div class="col-9">
+							<input name="bookSize" id="bookSize" class="form-control form-control-sm"
+								value="${bookHeldItem.bookSize}"/>
+						</div>
+					</div>
+					
+					<div class="form-inline mb-2">
+						<label for="rfId" class="col-3">RF ID</label>
+						<div class="col-9">
+							<input name="rfId" id="rfId" class="form-control form-control-sm"
+								value="${bookHeldItem.rfId}"/>
+						</div>
+					</div>
+					
+					<div class="form-inline mb-2">
+						<label for="tag" class="col-3">태그(메모)</label>
+						<div class="col-9">
+							<input name="tag" id="tag" class="form-control form-control-sm"
+								value="${bookHeldItem.tag}"/>
 						</div>
 					</div>
 					
@@ -255,15 +265,11 @@
 									<td>${bookHeldItem.id}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">카테고리</th>
-									<td>${bookHeldItem.category}</td>
-								</tr>
-								<tr>
 									<th class="table-info text-center">도서제목</th>
 									<td>${bookHeldItem.title}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">저자</th>
+									<th class="table-info text-center">저자명</th>
 									<td>${bookHeldItem.writer}</td>
 								</tr>
 								<tr>
@@ -271,8 +277,22 @@
 									<td>${bookHeldItem.publisher}</td>
 								</tr>
 								<tr>
+									<fmt:parseDate var="parsePubDate" value="${bookHeldItem.pubDate}" pattern="yyyy-MM-dd"/>
+									<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
 									<th class="table-info text-center">출판일</th>
-									<td>${bookHeldItem.pubDate}</td>
+									<td>${pubDate}</td>
+								</tr>
+								<tr>
+									<th class="table-info text-center">도서등록번호</th>
+									<td>${bookHeldItem.localIdBarcode}</td>
+								</tr>
+								<tr>
+									<th class="table-info text-center">카테고리</th>
+									<td>${bookHeldItem.category}</td>
+								</tr>
+								<tr>
+									<th class="table-info text-center">서가</th>
+									<td>${bookHeldItem.bookShelf}</td>
 								</tr>
 								<tr>
 									<th class="table-info text-center">별치기호</th>
@@ -295,36 +315,81 @@
 									<td>C${bookHeldItem.copyCode}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">가격</th>
-									<td>${bookHeldItem.price}</td>
+									<th class="table-info text-center">ISBN 13</th>
+									<td>${bookHeldItem.isbn13}</td>
 								</tr>
 								<tr>
 									<th class="table-info text-center">ISBN 10</th>
 									<td>${bookHeldItem.isbn10}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">ISBN 13</th>
-									<td>${bookHeldItem.isbn13}</td>
+									<fmt:parseDate var="parseRegDate" value="${bookHeldItem.regDate}" pattern="yyyy-MM-dd"/>
+									<fmt:formatDate var="regDate" value="${parseRegDate}" pattern="yyyy-MM-dd" />
+									<th class="table-info text-center">등록일</th>
+									<td>${regDate}</td>
+								</tr>
+								<tr>
+									<fmt:parseDate var="parseEditDate" value="${bookHeldItem.editDate}" pattern="yyyy-MM-dd"/>
+									<fmt:formatDate var="editDate" value="${parseEditDate}" pattern="yyyy-MM-dd" />
+									<th class="table-info text-center">수정일</th>
+									<td>${editDate}</td>
+								</tr>
+								<tr>
+									<th class="table-info text-center">가격</th>
+									<fmt:formatNumber var="won" value="${bookHeldItem.price}" maxFractionDigits="3" />
+									<td>${won}</td>
 								</tr>
 								<tr>
 									<th class="table-info text-center">페이지</th>
 									<td>${bookHeldItem.page}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">등록일</th>
-									<td>${bookHeldItem.regDate}</td>
+									<th class="table-info text-center">구입/기증</th>
+									<td>
+										<c:choose>
+											<c:when test="${bookHeldItem.purchasedOrDonated eq 1}">
+												구입
+											</c:when>
+											<c:otherwise>
+												기증
+											</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">수정일</th>
-									<td>${bookHeldItem.editDate}</td>
+									<th class="table-info text-center">도서/비도서</th>
+									<c:choose>
+										<c:when test="${bookHeldItem.bookOrNot eq 'BOOK'}">
+											<td>국내도서</td>
+										</c:when>
+										<c:when test="${bookHeldItem.bookOrNot eq 'MUSIC'}">
+											<td>음반</td>
+										</c:when>
+										<c:when test="${bookHeldItem.bookOrNot eq 'DVD'}">
+											<td>DVD</td>
+										</c:when>
+										<c:when test="${bookHeldItem.bookOrNot eq 'FOREIGN'}">
+											<td>외국도서</td>
+										</c:when>
+										<c:when test="${bookHeldItem.bookOrNot eq 'EBOOK'}">
+											<td>전자책</td>
+										</c:when>
+										<c:otherwise>
+											<td>기타</td>
+										</c:otherwise>
+									</c:choose>
 								</tr>
 								<tr>
-									<th class="table-info text-center">바코드번호</th>
-									<td>${bookHeldItem.localIdBarcode}</td>
+									<th class="table-info text-center">도서크기</th>
+									<td>${bookHeldItem.bookSize}</td>
 								</tr>
 								<tr>
-									<th class="table-info text-center">구매/기증</th>
-									<td>${bookHeldItem.purchasedOrDonated}</td>
+									<th class="table-info text-center">RF ID</th>
+									<td>${bookHeldItem.rfId}</td>
+								</tr>
+								<tr>
+									<th class="table-info text-center">메모(태그)</th>
+									<td>${bookHeldItem.tag}</td>
 								</tr>
 								<tr>
 									<th class="table-info text-center">도서 국가</th>

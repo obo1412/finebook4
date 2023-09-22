@@ -776,7 +776,7 @@
 			additional_code=#{additionalCode}, classification_code=#{classificationCode},
 			author_code=#{authorCode}, volume_code=#{volumeCode}, copy_code=#{copyCode},
 			tag=#{tag}, rf_id=#{rfId}, page=#{page}, book_or_not=#{bookOrNot},
-			image_link=#{imageLink}
+			book_size=#{bookSize}, image_link=#{imageLink}
 		WHERE library_id_lib=#{libraryIdLib} AND id=#{id}
 	</update>
 	

@@ -59,19 +59,11 @@
 							<td>${bookHeldItem.id}</td>
 						</tr>
 						<tr>
-							<th class="table-info text-center">카테고리</th>
-							<td>${bookHeldItem.category}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">서가</th>
-							<td>${bookHeldItem.bookShelf}</td>
-						</tr>
-						<tr>
 							<th class="table-info text-center">도서제목</th>
 							<td>${bookHeldItem.title}</td>
 						</tr>
 						<tr>
-							<th class="table-info text-center">저자</th>
+							<th class="table-info text-center">저자명</th>
 							<td>${bookHeldItem.writer}</td>
 						</tr>
 						<tr>
@@ -83,6 +75,18 @@
 							<fmt:formatDate var="pubDate" value="${parsePubDate}" pattern="yyyy-MM-dd" />
 							<th class="table-info text-center">출판일</th>
 							<td>${pubDate}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">도서등록번호</th>
+							<td>${bookHeldItem.localIdBarcode}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">카테고리</th>
+							<td>${bookHeldItem.category}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">서가</th>
+							<td>${bookHeldItem.bookShelf}</td>
 						</tr>
 						<tr>
 							<th class="table-info text-center">별치기호</th>
@@ -119,6 +123,26 @@
 							</c:choose>
 						</tr>
 						<tr>
+							<th class="table-info text-center">ISBN 13</th>
+							<td>${bookHeldItem.isbn13}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">ISBN 10</th>
+							<td>${bookHeldItem.isbn10}</td>
+						</tr>
+						<tr>
+							<fmt:parseDate var="parseRegDate" value="${bookHeldItem.regDate}" pattern="yyyy-MM-dd"/>
+							<fmt:formatDate var="regDate" value="${parseRegDate}" pattern="yyyy-MM-dd" />
+							<th class="table-info text-center">등록일</th>
+							<td>${regDate}</td>
+						</tr>
+						<tr>
+							<fmt:parseDate var="parseEditDate" value="${bookHeldItem.editDate}" pattern="yyyy-MM-dd"/>
+							<fmt:formatDate var="editDate" value="${parseEditDate}" pattern="yyyy-MM-dd" />
+							<th class="table-info text-center">수정일</th>
+							<td>${editDate}</td>
+						</tr>
+						<tr>
 							<th class="table-info text-center">가격</th>
 							<fmt:formatNumber var="won" value="${bookHeldItem.price}" maxFractionDigits="3" />
 							<td>
@@ -126,43 +150,15 @@
 							</td>
 						</tr>
 						<tr>
-							<th class="table-info text-center">ISBN 10</th>
-							<td>${bookHeldItem.isbn10}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">ISBN 13</th>
-							<td>${bookHeldItem.isbn13}</td>
-						</tr>
-						<tr>
 							<th class="table-info text-center">페이지</th>
 							<td>${bookHeldItem.page}</td>
 						</tr>
 						<tr>
-							<th class="table-info text-center">등록일</th>
-							<td>${bookHeldItem.regDate}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">수정일</th>
-							<td>${bookHeldItem.editDate}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">바코드번호</th>
-							<td>${bookHeldItem.localIdBarcode}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">RF ID</th>
-							<td>${bookHeldItem.rfId}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">상품 종류</th>
-							<td>${bookHeldItem.bookOrNot}</td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">구매/기증</th>
+							<th class="table-info text-center">구입/기증</th>
 							<td>
 								<c:choose>
 									<c:when test="${bookHeldItem.purchasedOrDonated eq 1}">
-										구매
+										구입
 									</c:when>
 									<c:otherwise>
 										기증
@@ -171,16 +167,47 @@
 							</td>
 						</tr>
 						<tr>
+							<th class="table-info text-center">도서/비도서</th>
+							<c:choose>
+								<c:when test="${bookHeldItem.bookOrNot eq 'BOOK'}">
+									<td>국내도서</td>
+								</c:when>
+								<c:when test="${bookHeldItem.bookOrNot eq 'MUSIC'}">
+									<td>음반</td>
+								</c:when>
+								<c:when test="${bookHeldItem.bookOrNot eq 'DVD'}">
+									<td>DVD</td>
+								</c:when>
+								<c:when test="${bookHeldItem.bookOrNot eq 'FOREIGN'}">
+									<td>외국도서</td>
+								</c:when>
+								<c:when test="${bookHeldItem.bookOrNot eq 'EBOOK'}">
+									<td>전자책</td>
+								</c:when>
+								<c:otherwise>
+									<td>기타</td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+						<tr>
+							<th class="table-info text-center">도서 크기</th>
+							<td>${bookHeldItem.bookSize}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">RF ID</th>
+							<td>${bookHeldItem.rfId}</td>
+						</tr>
+						<tr>
+							<th class="table-info text-center">메모(태그)</th>
+							<td>${bookHeldItem.tag}</td>
+						</tr>
+						<tr>
 							<th class="table-info text-center">도서 국가</th>
 							<td>${bookHeldItem.nameCountry}</td>
 						</tr>
 						<tr>
 							<th class="table-info text-center">표지</th>
 							<td><img name="bookCover" src="${bookHeldItem.imageLink}" /></td>
-						</tr>
-						<tr>
-							<th class="table-info text-center">도서 크기</th>
-							<td>${bookHeldItem.bookSize}</td>
 						</tr>
 						<tr>
 							<th class="table-info text-center">도서 설명</th>

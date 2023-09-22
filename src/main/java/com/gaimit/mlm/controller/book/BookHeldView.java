@@ -290,6 +290,7 @@ public class BookHeldView {
 		String rfId = web.getString("rfId");
 		int page = web.getInt("page");
 		String bookOrNot = web.getString("bookOrNot");
+		String bookSize = web.getString("bookSize");
 		String imageLink = web.getString("imageLink");
 		int copyCode = web.getInt("copyCode");
 		
@@ -319,6 +320,7 @@ public class BookHeldView {
 		bookHeld.setRfId(rfId);
 		bookHeld.setPage(page);
 		bookHeld.setBookOrNot(bookOrNot);
+		bookHeld.setBookSize(bookSize);
 		bookHeld.setImageLink(imageLink);
 		bookHeld.setCopyCode(copyCode);
 		
