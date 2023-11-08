@@ -491,7 +491,7 @@ public class DbTransferMember {
 				//db 삭제처리
 				bbsFileService.deleteFile(file);
 				//모든 데이터가 등록된 메시지
-				curStepMsg = "모든 도서 데이터 등록이 완료되었습니다.";
+				curStepMsg = "모든 회원 데이터 등록이 완료되었습니다.";
 			}
 			
 			
