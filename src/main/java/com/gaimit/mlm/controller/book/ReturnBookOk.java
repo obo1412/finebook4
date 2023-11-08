@@ -240,7 +240,7 @@ public class ReturnBookOk {
 		}
 	}
 	
-	/** 도서 반납 처리 비동기 */
+	/** 도서 반납 취소 처리 비동기 */
 	@ResponseBody
 	@RequestMapping(value = "/book/return_book_cancel.do", method = RequestMethod.POST)
 	public void rtnBookCancel(Locale locale, Model model,

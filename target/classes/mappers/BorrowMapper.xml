@@ -210,6 +210,12 @@
 		INNER JOIN member m on r.id_member_brw = m.id
 		WHERE id_lib_brw=#{idLibBrw}
 			AND (
+				IF (
+					local_id_barcode REGEXP '[A-Za-z]' > 0,
+					CONCAT(REGEXP_REPLACE(local_id_barcode, '[0-9]+', ''),REGEXP_REPLACE(local_id_barcode, '^[A-Z]+0+', '')),
+					REGEXP_REPLACE(local_id_barcode, '^0+', '')
+				) = #{localIdBarcode}
+				OR
 				local_id_barcode=#{localIdBarcode}
 				<!-- 아래 조건은, 비슷한 제목이 두개 이상일 경우, 마지막으로 빌린
 					도서가 자동으로 반납됨. 조건이 얼마 없음. 그래서 탈락. -->

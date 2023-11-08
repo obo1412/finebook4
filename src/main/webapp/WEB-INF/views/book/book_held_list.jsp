@@ -221,7 +221,7 @@
 								</tr>
 								<tr>
 									<th class="table-info text-center" style="width:50px;">상태</th>
-									<th class="table-info text-center" style="width:70px;">출판사</th>
+									<th class="table-info text-center" style="width:70px;">출판사명</th>
 									<th class="table-info text-center" style="width:80px;">등록일</th>
 									<th class="table-info text-center" style="width:60px;">등록번호</th>
 									<th class="table-info text-center" style="width:60px;">복본기호</th>
