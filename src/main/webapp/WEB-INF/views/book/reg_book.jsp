@@ -90,7 +90,7 @@
 								</div>
 								<div class="form-inline" style="margin-left:10px;">
 									<input type="checkbox" id="chkBoxVolumeCodeAlarm" name="chkBoxVolumeCodeAlarm"
-										value="checked" />
+									 value="checked" />
 									<label for="chkBoxVolumeCodeAlarm">권차경고</label>
 								</div>
 								<div class="form-inline" style="margin-left:10px;">
@@ -149,7 +149,7 @@
 									<div class="form-group col-12">
 										<div class="col-2 control-label">
 											<label for='classificationCode' class="control-label">
-											분류기호</label>
+											십진분류</label>
 											<!-- 아래 분류기호 출처 -->
 											<div class="text-center" id="srcClassCode" style="font-size:10px;">
 												(출처)
@@ -212,7 +212,7 @@
 								<div class="form-inline mb-1">
 									<div class="form-group col-12">
 										<div class="col-2 ">
-											<label for='bookCateg' class="control-label">도서분류</label>
+											<label for='bookCateg' class="control-label">카테고리</label>
 										</div>
 										<div class="col-10">
 											<input type="text" name="bookCateg" id="bookCateg"

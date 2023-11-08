@@ -112,27 +112,27 @@
 						<table class="no-border" style="margin-top:1mm; width:100%; text-align:center;">
 							<tbody>
 								<tr>
-									<td>도서대출</td>
+									<td>대출</td>
 									<td>- 권</td>
-									<td>현재대출중인도서</td>
+									<td>대출중도서</td>
 									<td>- 권</td>
-									<td>반입도서</td>
+									<td>신규등록</td>
 									<td>- 권</td>
 									<td colspan="2"></td>
 								</tr>
 								<tr>
-									<td>도서반납</td>
+									<td>반납</td>
 									<td>- 권</td>
-									<td>현재연체중인도서</td>
+									<td>연체중도서</td>
 									<td>- 권</td>
-									<td>반출도서</td>
+									<td>폐기도서</td>
 									<td>- 권</td>
 									<td>현재등록도서</td>
 									<td>0000 권</td>
 								</tr>
 								<tr>
-									<td>현재고객현황</td>
-									<td colspan="4">(신규등록 --명, 제적고객 --명, 현재 총 고객수 00명)</td>
+									<td>이용자현황</td>
+									<td colspan="4">(신규등록 --명, 제적 --명, 현재 등록자 00명)</td>
 									<td colspan="3"></td>
 								</tr>
 							</tbody>
@@ -147,7 +147,7 @@
 									<th style="width:40px;">구분</th>
 									<th style="width:300px;">
 											도서명/저자명<br>
-											출판사명/도서고유번호
+											출판사/등록번호
 									</th>
 									<th style="width:200px;">고객성명/연락처<br>고객고유번호</th>
 									<th style="width:90px;">대출일자<br>반납기일</th>
