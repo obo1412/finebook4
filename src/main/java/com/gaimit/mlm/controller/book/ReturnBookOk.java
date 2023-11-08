@@ -294,7 +294,7 @@ public class ReturnBookOk {
 			
 			//도서 상태 다시 대출중으로 변경
 			bookHeld.setId(borrow.getBookHeldId());
-			bookHeld.setAvailable(1);
+			bookHeld.setAvailable(0);
 			bookHeldService.updateAvailableById(bookHeld);
 		} catch (Exception e) {
 			web.printJsonRt(e.getLocalizedMessage());
