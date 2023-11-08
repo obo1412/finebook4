@@ -34,7 +34,7 @@ window.addEventListener('load', function() {
 		console.log('파라미터가 없는 상태');
 		//파라미터가 없는 것은 최초 접속 아무것도 하지 않는다.
 		//체크되어 있어야하는 것들 체크
-		chkBoxVolumeCodeAlarm.checked = true;
+		chkBoxVolumeCodeAlarm.checked = false;
 		chkBoxSoundEff.checked = true;
 	} else {
 		var params = curUrl.split('&');
