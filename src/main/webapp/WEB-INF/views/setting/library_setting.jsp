@@ -37,6 +37,16 @@
 									<div class="form-group row">
 										<label class="col-form-label">조회Key</label>
 										<input class="form-control" name="skl" value="${libInfo.stringKeyLib}" readonly/>
+										<div>
+											<label for="">검색용 접속주소</label>
+											<c:url var="viewUrl" value="/blook_around.do">
+												<c:param name="lib" value="${libInfo.idLib}" />
+												<c:param name="skl" value="${libInfo.stringKeyLib}" />
+											</c:url>
+											<a href="${viewUrl}" onclick="window.open(this.href, '_blank','width=550,height=600,scrollbars=yes');return false;">
+												${pageContext.request.contextPath}/blook_around.do?lib=${libInfo.idLib}&skl=${libInfo.stringKeyLib}
+											</a>
+										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label">만료일</label>
@@ -46,9 +56,9 @@
 										<label class="col-form-label">등록번호자리수</label>
 										<div class="input-group">
 											<input class="form-control" name="nodBarcode" id="nodBarcode" value="${libInfo.numOfDigitBarcode}" />
-											<div class="input-group-append">
+											<!-- <div class="input-group-append">
 												<input type="button" class="btn btn-secondary" value="수정" onclick="clickedChangeNod()"/>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
@@ -56,7 +66,8 @@
 							
 							<div class="form-group">
 								<div class="col-md-offset-2 col-md-6">
-									<button type="submit" class="btn btn-primary">수정하기</button>
+									<!-- <button type="submit" class="btn btn-primary">수정하기</button> -->
+									<input type="button" class="btn btn-primary" value="수정하기" onclick="clickedChangeNod()"/>
 									<a class="btn btn-warning" href="${pageContext.request.contextPath}/index.do">기본화면으로</a>
 								</div>
 							</div>
