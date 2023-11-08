@@ -2,6 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page trimDirectiveWhitespaces="true"%>
 
+<style>
+	.pageMove::placeholder {
+		color: #e5e5e5;
+	}
+</style>
+
 <!-- 페이지 번호 시작 -->
 <nav class="text-center">
 	<ul class="pagination" style="justify-content:center; margin-bottom:0px;">
@@ -34,7 +40,7 @@
 					<!-- 도서 조회용 파라미터 -->
 			</c:url>
 			
-			<input type="text" id="inputTargetPage" class="form-control" onKeyDown="enterTargetPage()" />
+			<input type="text" id="inputTargetPage" class="form-control pageMove" onKeyDown="enterTargetPage()" placeholder="${page.totalPage}" style="::placeholder" />
 			<div class="input-group-append">
 				<a class="btn btn-secondary text-white" id="btnTargetPageUrl" href="${targetUrl}">이동</a>
 			</div>
