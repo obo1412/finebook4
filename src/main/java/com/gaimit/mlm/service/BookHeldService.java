@@ -53,6 +53,7 @@ public interface BookHeldService {
 	 * @throws Exception
 	 */
 	public int selectRegTodayBookCountForPage(BookHeld bookHeld) throws Exception;
+	
 	/**
 	 * 
 	 * @param book id_book
@@ -406,7 +407,21 @@ public interface BookHeldService {
 	 */
 	public List<BookHeld> selectOrganizationTableByClassCode(BookHeld bookHeld) throws Exception;
 	
+	/**
+	 * 타겟 날짜에 등록된 도서 수 구하기
+	 * @param bookHeld
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectBookCountByRegDatePick(BookHeld bookHeld) throws Exception;
 	
+	/**
+	 * 타겟 날짜에 폐기된 도서 수 구하기
+	 * @param bookHeld
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectBookDiscardCountByEditDatePick(BookHeld bookHeld) throws Exception;
 	
 	
 	

@@ -118,7 +118,7 @@
 									<td>대출중도서</td>
 									<td>${totalBrw} 권</td>
 									<td>신규등록</td>
-									<td>- 권</td>
+									<td>${newBookCount} 권</td>
 									<td colspan="2"></td>
 								</tr>
 								<tr>
@@ -127,9 +127,9 @@
 									<td>연체중도서</td>
 									<td>${totalOverDue} 권</td>
 									<td>폐기도서</td>
-									<td>- 권</td>
+									<td>${discardBookCount} 권</td>
 									<td>현재등록도서</td>
-									<td>0000 권</td>
+									<td>${totalBookCount} 권</td>
 								</tr>
 								<tr>
 									<td>이용자현황</td>

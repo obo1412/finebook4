@@ -804,5 +804,30 @@ public class BookHeldServiceImpl implements BookHeldService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int selectBookCountByRegDatePick(BookHeld bookHeld) throws Exception {
+		int result = 0;
+		try {
+			result = sqlSession.selectOne("BookHeldMapper.selectBookCountByRegDatePick", bookHeld);
+		} catch (Exception e) {
+			throw new Exception("해당 날짜에 등록된 도서수 조회(selectBookCountByRegDatePick)에 실패했습니다.");
+		}
+		return result;
+	}
+	
+	@Override
+	public int selectBookDiscardCountByEditDatePick(BookHeld bookHeld) throws Exception {
+		int result = 0;
+		try {
+			result = sqlSession.selectOne("BookHeldMapper.selectBookDiscardCountByEditDatePick", bookHeld);
+		} catch (Exception e) {
+			throw new Exception("해당 날짜에 폐기된 도서수 조회(selectBookDiscardCountByEditDatePick)에 실패했습니다.");
+		}
+		return result;
+	}
+	
+	
+	
 
 }

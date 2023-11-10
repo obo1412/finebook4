@@ -1118,10 +1118,29 @@
 		ORDER BY classCodeRange;
 	</select>
 	
+	<!-- 타겟날짜에 등록된 도서수 -->
+	<select id="selectBookCountByRegDatePick" parameterType="com.gaimit.mlm.model.BookHeld" resultType="int">
+		SELECT
+			COUNT(id)
+		FROM book_held
+		WHERE library_id_lib=#{libraryIdLib} AND (available = 0 OR available = 1)
+			AND (
+				(DATE_FORMAT(reg_date, '%Y-%m-%d') &gt; DATE_ADD(#{regDate}, INTERVAL -1 DAY))
+				AND (DATE_FORMAT(reg_date, '%Y-%m-%d') &lt; DATE_ADD(#{regDate}, INTERVAL 1 DAY))
+			)
+	</select>
 	
-	
-	
-	
+	<!-- 타겟날짜에 폐기된 도서수 -->
+	<select id="selectBookDiscardCountByEditDatePick" parameterType="com.gaimit.mlm.model.BookHeld" resultType="int">
+		SELECT
+			COUNT(id)
+		FROM book_held
+		WHERE library_id_lib=#{libraryIdLib} AND available = 2
+			AND (
+				(DATE_FORMAT(edit_date, '%Y-%m-%d') &gt; DATE_ADD(#{editDate}, INTERVAL -1 DAY))
+				AND (DATE_FORMAT(edit_date, '%Y-%m-%d') &lt; DATE_ADD(#{editDate}, INTERVAL 1 DAY))
+			)
+	</select>
 	
 	
 	

@@ -278,6 +278,11 @@ public class Statistics {
 		
 		String[][] dataList = util.stringTo2DArray(dataListStr, dataRow, dataCol);
 		
+		BookHeld bookHeld = new BookHeld();
+		bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
+		bookHeld.setRegDate(pickDate);
+		bookHeld.setEditDate(pickDate);
+		
 		Borrow borrow = new Borrow();
 		borrow.setIdLibBrw(loginInfo.getIdLibMng());
 		borrow.setPickDateBrw(pickDate);
@@ -291,6 +296,18 @@ public class Statistics {
 		int totalBrw = 0;
 		// 연체 총 권수
 		int totalOverDue = 0;
+		// 신규등록 도서
+		int newBookCount = 0;
+		// 폐기 도서수
+		int discardBookCount = 0;
+		// 현재 도서 총수
+		int totalBookCount = 0;
+		// 신규등록회원
+		int newMemberCount = 0;
+		// 제적회원
+		int discardMemberCount = 0;
+		// 총회원수
+		int totalMemberCount = 0;
 		
 		try {
 			brwRtnList = brwService.selectBrwRtnList(borrow);
@@ -311,6 +328,12 @@ public class Statistics {
 				totalBrw = brwService.selectBorrowListCount(borrow);
 				// 연체 총권수 불러오기
 				totalOverDue = brwService.selectOverDueCountByLib(borrow);
+				// 도서 총권수 불러오기
+				totalBookCount = bookHeldService.selectBookCountForPage(bookHeld);
+				// 타겟 날짜에 등록된 도서수
+				newBookCount = bookHeldService.selectBookCountByRegDatePick(bookHeld);
+				// 타겟 날짜에 폐기된 도서수
+				discardBookCount = bookHeldService.selectBookDiscardCountByEditDatePick(bookHeld);
 				
 			}
 		} catch (Exception e) {
@@ -328,6 +351,9 @@ public class Statistics {
 		model.addAttribute("pickDate", pickDate);
 		model.addAttribute("totalBrw", totalBrw);
 		model.addAttribute("totalOverDue", totalOverDue);
+		model.addAttribute("totalBookCount", totalBookCount);
+		model.addAttribute("newBookCount", newBookCount);
+		model.addAttribute("discardBookCount", discardBookCount);
 		
 		String urlTail = "";
 		if(tCaption.equals("일일대출반납보고서")) {
