@@ -710,11 +710,28 @@ public class MemberServiceImpl implements MemberService {
 			throw new Exception("회원전체 삭제에 실패했습니다(deleteMemberAllDatas).");
 		}
 	}
-
 	
-
-
-
+	@Override
+	public int selectNewMemberCountByRegDatePick(Member member) throws Exception {
+		int result = 0;
+		try {
+			result = sqlSession.selectOne("MemberMapper.selectNewMemberCountByRegDatePick", member);
+		} catch (Exception e) {
+			throw new Exception("해당 날짜에 등록된 회원수 조회(selectNewMemberCountByRegDatePick)에 실패했습니다.");
+		}
+		return result;
+	}
+	
+	@Override
+	public int selectInactiveMemberCountByRegDatePick(Member member) throws Exception {
+		int result = 0;
+		try {
+			result = sqlSession.selectOne("MemberMapper.selectInactiveMemberCountByRegDatePick", member);
+		} catch (Exception e) {
+			throw new Exception("해당 날짜에 제적된 회원수 조회(selectInactiveMemberCountByRegDatePick)에 실패했습니다.");
+		}
+		return result;
+	}
 	
 	
 	
@@ -722,7 +739,5 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	
-
 	
 }

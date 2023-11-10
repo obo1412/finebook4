@@ -133,7 +133,7 @@
 								</tr>
 								<tr>
 									<td>이용자현황</td>
-									<td colspan="4">(신규등록 --명, 제적 --명, 현재 등록자 00명)</td>
+									<td colspan="4">(신규등록 ${newMemberCount} 명, 제적 ${discardMemberCount} 명, 현재 등록자 ${totalMemberCount} 명)</td>
 									<td colspan="3"></td>
 								</tr>
 							</tbody>

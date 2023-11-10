@@ -535,9 +535,29 @@
 		WHERE id_lib=#{idLib}
 	</delete>
 	
+	<!-- 타겟날짜에 신규등록된 회원 -->
+	<select id="selectNewMemberCountByRegDatePick" parameterType="com.gaimit.mlm.model.Member"
+		resultType="int">
+		SElECT count(id)
+		FROM member
+		WHERE id_lib=#{idLib} AND status = 1
+			AND (
+				(DATE_FORMAT(reg_date, '%Y-%m-%d') &gt; DATE_ADD(#{regDate}, INTERVAL -1 DAY))
+				AND (DATE_FORMAT(reg_date, '%Y-%m-%d') &lt; DATE_ADD(#{regDate}, INTERVAL 1 DAY))
+			)
+	</select>
 	
-	
-	
+	<!-- 타겟날짜에 제적(회원삭제)된 회원 -->
+	<select id="selectInactiveMemberCountByRegDatePick" parameterType="com.gaimit.mlm.model.Member"
+		resultType="int">
+		SElECT count(id)
+		FROM member
+		WHERE id_lib=#{idLib} AND status = 2
+			AND (
+				(DATE_FORMAT(edit_date, '%Y-%m-%d') &gt; DATE_ADD(#{editDate}, INTERVAL -1 DAY))
+				AND (DATE_FORMAT(edit_date, '%Y-%m-%d') &lt; DATE_ADD(#{editDate}, INTERVAL 1 DAY))
+			)
+	</select>
 	
 	
 	

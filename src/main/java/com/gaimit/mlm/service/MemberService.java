@@ -321,9 +321,21 @@ public interface MemberService {
 	 */
 	public void deleteMemberAllDatas(Member member) throws Exception;
 	
+	/**
+	 * 타겟 날짜에 신규등록된 회원수 조회
+	 * @param member
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectNewMemberCountByRegDatePick(Member member) throws Exception;
 	
-	
-	
+	/**
+	 * 타겟 날짜에 제적(삭제)된 회원수 조회
+	 * @param member
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectInactiveMemberCountByRegDatePick(Member member) throws Exception;
 	
 	
 	

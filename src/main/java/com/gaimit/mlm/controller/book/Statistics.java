@@ -35,9 +35,11 @@ import com.gaimit.mlm.controller.FrequentlyFunction;
 import com.gaimit.mlm.model.BookHeld;
 import com.gaimit.mlm.model.Borrow;
 import com.gaimit.mlm.model.Manager;
+import com.gaimit.mlm.model.Member;
 import com.gaimit.mlm.service.BookHeldService;
 import com.gaimit.mlm.service.BrwService;
 import com.gaimit.mlm.service.ManagerService;
+import com.gaimit.mlm.service.MemberService;
 
 @Controller
 public class Statistics {
@@ -58,6 +60,9 @@ public class Statistics {
 	
 	@Autowired
 	BookHeldService bookHeldService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@Autowired
 	BrwService brwService;
@@ -283,6 +288,11 @@ public class Statistics {
 		bookHeld.setRegDate(pickDate);
 		bookHeld.setEditDate(pickDate);
 		
+		Member member = new Member();
+		member.setIdLib(loginInfo.getIdLibMng());
+		member.setRegDate(pickDate);
+		member.setEditDate(pickDate);
+		
 		Borrow borrow = new Borrow();
 		borrow.setIdLibBrw(loginInfo.getIdLibMng());
 		borrow.setPickDateBrw(pickDate);
@@ -330,10 +340,18 @@ public class Statistics {
 				totalOverDue = brwService.selectOverDueCountByLib(borrow);
 				// 도서 총권수 불러오기
 				totalBookCount = bookHeldService.selectBookCountForPage(bookHeld);
+				
 				// 타겟 날짜에 등록된 도서수
 				newBookCount = bookHeldService.selectBookCountByRegDatePick(bookHeld);
 				// 타겟 날짜에 폐기된 도서수
 				discardBookCount = bookHeldService.selectBookDiscardCountByEditDatePick(bookHeld);
+				
+				// 회원 총수
+				totalMemberCount = memberService.getMemberCount(member);
+				// 타겟날짜 신규등록 회원수
+				newMemberCount = memberService.selectNewMemberCountByRegDatePick(member);
+				// 타겟날짜 제적 회원수
+				discardMemberCount = memberService.selectInactiveMemberCountByRegDatePick(member);
 				
 			}
 		} catch (Exception e) {
@@ -354,6 +372,9 @@ public class Statistics {
 		model.addAttribute("totalBookCount", totalBookCount);
 		model.addAttribute("newBookCount", newBookCount);
 		model.addAttribute("discardBookCount", discardBookCount);
+		model.addAttribute("totalMemberCount", totalMemberCount);
+		model.addAttribute("newMemberCount", newMemberCount);
+		model.addAttribute("discardMemberCount", discardMemberCount);
 		
 		String urlTail = "";
 		if(tCaption.equals("일일대출반납보고서")) {
