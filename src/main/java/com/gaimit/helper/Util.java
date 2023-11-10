@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -1029,5 +1028,33 @@ public class Util {
 		String nextStr = str.substring(firstIndex+1);
 		int secondIndex = nextStr.indexOf(".");
 		return secondIndex >= 0 ;
+	}
+	
+	/**
+	 * 날짜 오늘인지 판별하는 함수
+	 * @param dateString
+	 * @return
+	 */
+	public boolean isToday(String dateString, String targetDay) {
+		if (dateString == null) {
+            return false;
+        }
+		
+		boolean result = false;
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		try {
+			Date date1 = dateFormatter.parse(targetDay);
+			Date date2 = dateFormatter.parse(dateString);
+			
+			if(date1.equals(date2)) {
+				result = true;
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        return result;
 	}
 }

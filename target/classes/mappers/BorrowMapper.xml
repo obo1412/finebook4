@@ -431,6 +431,16 @@
 			AND (due_date_brw &lt; curdate())
 	</select>
 	
+	<!-- 해당 도서관의 연체중 도서 총권수 -->
+	<select id="selectOverDueCountByLib" parameterType="com.gaimit.mlm.model.Borrow" resultType="int">
+		SELECT
+			COUNT(id_brw)
+		FROM borrow
+		WHERE id_lib_brw=#{idLibBrw}
+			AND (end_date_brw is NULL  OR end_date_brw = '')
+			AND (due_date_brw &lt; curdate())
+	</select>
+	
 	<!-- 연체도서를 반납하였다면 -->
 	<select id="selectRestrictDate" parameterType="com.gaimit.mlm.model.Borrow" resultMap="borrow">
 		SELECT

@@ -155,6 +155,14 @@ public interface BrwService {
 	public int selectOverDueCountByMemberId(Borrow borrow) throws Exception;
 	
 	/**
+	 * 도서관의 연체중 도서 총권수
+	 * @param borrow
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectOverDueCountByLib(Borrow borrow) throws Exception;
+	
+	/**
 	 * 반납된 연체도서가 있는 경우 반납일로부터 연체일수만큼 대출 제한됨.
 	 * @param borrow
 	 * @return

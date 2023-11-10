@@ -6,7 +6,8 @@
 <%@ page trimDirectiveWhitespaces="true"%>
 <!-- 오늘날짜 만들고, 날짜패턴 아래와같이 바꾸기 -->
 <jsp:useBean id="currDate" class="java.util.Date" />
-<fmt:formatDate var="currentDate" value="${currDate}" pattern="yyyy년MM월dd일" />
+<fmt:parseDate var="pickDateParse" value="${pickDate}" pattern="yyyy-MM-dd" />
+<fmt:formatDate var="pickDatePattern" value="${pickDateParse}" pattern="yyyy년MM월dd일" />
 <!-- 오늘날짜 관련 끝 -->
 <!doctype html>
 <html>
@@ -104,7 +105,7 @@
 				<div style="width:94%; height:260mm; box-sizing:border-box; margin:auto;">
 					<!-- 상단 업무보고 칸 -->
 					<div class="background-grey" style="float:left; width:100%; height:10mm; box-sizing:border-box; border:1px solid black;">
-						${currentDate} 업무 보고
+						${pickDatePattern} 업무 보고
 					</div>
 					<!-- 상단 업무보고 칸 -->
 					<!-- 통계 현황 칸 -->
@@ -113,18 +114,18 @@
 							<tbody>
 								<tr>
 									<td>대출</td>
-									<td>- 권</td>
+									<td>${brwCount} 권</td>
 									<td>대출중도서</td>
-									<td>- 권</td>
+									<td>${totalBrw} 권</td>
 									<td>신규등록</td>
 									<td>- 권</td>
 									<td colspan="2"></td>
 								</tr>
 								<tr>
 									<td>반납</td>
-									<td>- 권</td>
+									<td>${rtnCount} 권</td>
 									<td>연체중도서</td>
-									<td>- 권</td>
+									<td>${totalOverDue} 권</td>
 									<td>폐기도서</td>
 									<td>- 권</td>
 									<td>현재등록도서</td>

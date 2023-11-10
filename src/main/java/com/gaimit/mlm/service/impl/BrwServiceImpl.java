@@ -313,6 +313,19 @@ public class BrwServiceImpl implements BrwService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int selectOverDueCountByLib(Borrow borrow) throws Exception {
+		int result = 0;
+		try {
+			// 연체된 도서가 없는 경우도 있으니, 0 체크하지 않는다.
+			result = sqlSession.selectOne("BorrowMapper.selectOverDueCountByLib", borrow);
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+			throw new Exception("도서관별 연체도서수(selectOverDueCountByLib) 조회에 실패했습니다.");
+		}
+		return result;
+	}
 
 	@Override
 	public Borrow selectRestrictDate(Borrow borrow) throws Exception {

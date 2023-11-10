@@ -5,6 +5,8 @@
 	const tbody = document.getElementById('tbody');
 	
 	function clickedDataListPrint() {
+		const dayBrwRtnDate = document.getElementById("dayBrwRtnDate").value;
+		const pickDate = dayBrwRtnDate;
 		var targetYear = document.getElementById('yearOptionBookHeldList').value;
 		var tcaption = document.getElementById('tcaption').innerText;
 		var dataRowVal = dataRow.value;
@@ -19,6 +21,12 @@
 		form.setAttribute("method","post");
 		form.setAttribute("action","/statistics_print_report.do");
 		document.body.appendChild(form);
+		
+		var inputDate = document.createElement('input');
+		inputDate.setAttribute("type","hidden");
+		inputDate.setAttribute("name","pickDate");
+		inputDate.setAttribute("value", pickDate);
+		form.appendChild(inputDate);
 		
 		//아래 tcaption 제목으로 페이지 분기.
 		var insert1 = document.createElement('input');

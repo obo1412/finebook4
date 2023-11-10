@@ -264,6 +264,8 @@ public class Statistics {
 		
 		String nameLib = loginInfo.getNameLib();
 		
+		String pickDate = web.getString("pickDate");
+		
 		String targetYear = web.getString("targetYear");
 		String tCaption = web.getString("tcaption");
 		if(tCaption == null) {
@@ -276,6 +278,44 @@ public class Statistics {
 		
 		String[][] dataList = util.stringTo2DArray(dataListStr, dataRow, dataCol);
 		
+		Borrow borrow = new Borrow();
+		borrow.setIdLibBrw(loginInfo.getIdLibMng());
+		borrow.setPickDateBrw(pickDate);
+		List<Borrow> brwRtnList = null;
+		
+		// 오늘 대출 권수
+		int brwCount = 0;
+		// 오늘 반납 권수
+		int rtnCount = 0;
+		// 대출 총 권수
+		int totalBrw = 0;
+		// 연체 총 권수
+		int totalOverDue = 0;
+		
+		try {
+			brwRtnList = brwService.selectBrwRtnList(borrow);
+			for(int i=0; i<brwRtnList.size(); i++) {
+				// 오늘 빌린도서라면 대출도서 카운팅
+				String thisStartDate = brwRtnList.get(i).getStartDateBrw();
+				String thisEndDate = brwRtnList.get(i).getEndDateBrw();
+				
+				// 타겟날짜의 대출도서 카운팅
+				if(util.isToday(thisStartDate, pickDate)) {
+					brwCount = brwCount+1;
+				}
+				// 다켓날짜의 반납도서 카운팅
+				if(util.isToday(thisEndDate, pickDate)) {
+					rtnCount = rtnCount+1;
+				}
+				// 대출 총권수 불러오기
+				totalBrw = brwService.selectBorrowListCount(borrow);
+				// 연체 총권수 불러오기
+				totalOverDue = brwService.selectOverDueCountByLib(borrow);
+				
+			}
+		} catch (Exception e) {
+			return web.redirect(null, e.getLocalizedMessage());
+		}
 		
 		model.addAttribute("nameLib", nameLib);
 		model.addAttribute("targetYear", targetYear);
@@ -283,6 +323,11 @@ public class Statistics {
 		model.addAttribute("dataRow", dataRow);
 		model.addAttribute("dataCol", dataCol);
 		model.addAttribute("dataList", dataList);
+		model.addAttribute("brwCount", brwCount);
+		model.addAttribute("rtnCount", rtnCount);
+		model.addAttribute("pickDate", pickDate);
+		model.addAttribute("totalBrw", totalBrw);
+		model.addAttribute("totalOverDue", totalOverDue);
 		
 		String urlTail = "";
 		if(tCaption.equals("일일대출반납보고서")) {
