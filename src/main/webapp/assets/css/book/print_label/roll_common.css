@@ -64,4 +64,9 @@
 	.left__nameLib {
 		font-size: var(--a4-fontsize-namelib);
 	}
+	
+	/* 오른쪽 qr코드 근처 바코드 숫자 */
+	.right__code__barcode {
+		font-size: var(--a4-fontsize-code-barcode);
+	}
 }

@@ -61,7 +61,7 @@
 	<c:forEach var="item" items="${bookHeldList}" varStatus="status">
 		<div style="width:103mm; height:34mm;">
 			<div style="padding-left:1mm; padding-top:1mm; width:100%; height:100%;">
-				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; font-size:2mm; overflow:hidden;">
+				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; font-size:2.5mm; overflow:hidden;">
 					${item.title}
 				</div>
 				<div class="tagSection" style="padding-top:${tag.titleTagGap}mm; width:100%; height:30mm;">
@@ -101,7 +101,7 @@
 							<div id="qrImg" style="float:left; width:10mm;">
 								<img style="width:8mm; margin-top:5mm;" src="${pageContext.request.contextPath}/filesMapping/upload/finebook4/qrcode/libNo${loginInfo.idLibMng}/${item.localIdBarcode}.png" />
 							</div>
-							<div style="float:left; width:3mm; font-weight:bold; font-size:2mm; transform:rotate(90deg);">
+							<div class="right__code__barcode" style="float:left; width:3mm; font-weight:bold; transform:rotate(90deg);">
 								<div style="transform:translate(7mm, -1mm);">
 									${item.localIdBarcode}
 								</div>
