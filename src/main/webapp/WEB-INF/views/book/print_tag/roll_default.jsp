@@ -61,7 +61,7 @@
 	<c:forEach var="item" items="${bookHeldList}" varStatus="status">
 		<div style="width:103mm; height:34mm;">
 			<div style="padding-left:1mm; padding-top:1mm; width:100%; height:100%;">
-				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; font-size:2.5mm; overflow:hidden;">
+				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; font-size:2.5mm; overflow:hidden; transform:translate(0mm,1mm)">
 					${item.title}
 				</div>
 				<div class="tagSection" style="padding-top:${tag.titleTagGap}mm; width:100%; height:30mm;">
