@@ -47,7 +47,7 @@
 		<%@ include file="/WEB-INF/inc/sidebar_left.jsp"%>
 		<div id="content-wrapper">
 
-			<div class="container-fluid">
+			<div class="container-fluid border" style="max-width:768px">
 
 				<h1 class="prtNone">인쇄 설정 페이지</h1>
 					<a class="btn btn-secondary"
@@ -65,13 +65,12 @@
 				<%-- <form class="form-horizontal search-box prtNone"
 					name="search-mbr-form" id="search-mbr-form" method="get"
 					action="${pageContext.request.contextPath}/book/print_tag_page.do"> --%>
-				<div>
-					<a class="btn btn-primary text-white" style="margin-top:10px;"
+				<div class="d-flex justify-content-start align-items-center my-1">
+					<a class="btn btn-primary text-white mr-1"
 						id="btnLabelCollapse" onclick="modalLabelsOpenClose()">
 						라벨 타입 선택
 					</a>
-					<div id="divPickedLabel" style="height:120px;">
-						<img id="imgPickedLabel" style="width:300px;" src=""/>
+					<div>
 						<a href="#" class="btn btn-danger btn__color__set__16 modal_hidden">16라벨색상관리</a>
 						<div class="div__color__set__16 modal__hidden">
 							<div class="div__16__btn">
@@ -88,6 +87,10 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<!-- 선택된 라벨 이미지 -->
+				<div id="divPickedLabel" style="height:120px;">
+					<img id="imgPickedLabel" style="width:300px;" src=""/>
 				</div>
 				
 				<div class="tagTypeClass modal__hidden" id="divLabels">
