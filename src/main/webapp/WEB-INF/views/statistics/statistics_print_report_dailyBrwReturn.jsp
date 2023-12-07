@@ -147,8 +147,8 @@
 									<th style="width:40px;">번호</th>
 									<th style="width:40px;">구분</th>
 									<th style="width:300px;">
-											도서명/저자명<br>
-											출판사/등록번호
+											도서명<br>
+											등록번호
 									</th>
 									<th style="width:200px;">고객성명/연락처<br>고객고유번호</th>
 									<th style="width:90px;">대출일자<br>반납기일</th>
@@ -168,11 +168,11 @@
 												<tr>
 													<td style="text-align:center;">${dataList[firStat.index][0]}</td>
 													<td style="text-align:center;">${dataList[firStat.index][1]}</td>
-													<td>
-														${dataList[firStat.index][2]}/${dataList[firStat.index][3]}<br>
-														${dataList[firStat.index][4]}/${dataList[firStat.index][5]}
+													<td style="padding-left:6px;">
+														${dataList[firStat.index][2]}<br>
+														${dataList[firStat.index][5]}
 													</td>
-													<td>
+													<td style="padding-left:6px;">
 														${dataList[firStat.index][6]}/${dataList[firStat.index][7]}<br>
 														${dataList[firStat.index][8]}
 													</td>
