@@ -80,6 +80,9 @@ public class RegBookOk {
 		String authorCode = web.getString("authorCode");
 		String publisher = web.getString("publisher");
 		String pubDate = web.getString("pubDate");
+		if(pubDate.length() == 4) {
+			pubDate = pubDate+"-01-01";
+		}
 		String bookCateg = web.getString("bookCateg");
 		String bookShelf = web.getString("bookShelf");
 		int page = web.getInt("itemPage");
