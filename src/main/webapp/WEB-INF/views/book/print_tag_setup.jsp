@@ -246,7 +246,7 @@
 							</span>
 						</label>
 						<label class="label__item">
-							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt6.PNG" />
+							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt7.png" />
 							<span>
 								<c:set var="labelSelect17" value="" />
 								<c:if test="${tag.labelType eq 17}">

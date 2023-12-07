@@ -515,6 +515,8 @@ public class Util {
 			result = "book/print_tag/roll_default_no_qrcode";
 		} else if(tagType ==16) {
 			result = "book/print_tag/roll_opt6_bookshelf_addicode";
+		} else if(tagType ==17) {
+			result = "book/print_tag/roll_opt7_blackAndWhite";
 		}
 		return result;
 	}
