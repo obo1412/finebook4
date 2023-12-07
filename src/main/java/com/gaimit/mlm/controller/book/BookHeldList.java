@@ -550,9 +550,9 @@ public class BookHeldList {
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("도서등록번호");
 				curCol++;
-				titleRow.createCell(curCol).setCellValue("구매/기증");
+				titleRow.createCell(curCol).setCellValue("수입구분");
 				curCol++;
-				titleRow.createCell(curCol).setCellValue("부가기호");
+				titleRow.createCell(curCol).setCellValue("별치기호");
 				curCol++;
 				titleRow.createCell(curCol).setCellValue("십진분류");
 				curCol++;

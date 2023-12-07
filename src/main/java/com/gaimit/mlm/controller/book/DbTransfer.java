@@ -537,10 +537,12 @@ public class DbTransfer {
 									bookHeld.setAvailable(util.getAvailableFromString(cellValue));
 									break;
 								case "별치기호":
+								case "부가기호":
 								case "additionalCode":
 									bookHeld.setAdditionalCode(cellValue);
 									break;
 								case "분류기호":
+								case "십진분류":
 								case "classificationCode":
 									bookHeld.setClassificationCode(cellValue);
 									break;

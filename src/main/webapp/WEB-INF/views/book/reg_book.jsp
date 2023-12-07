@@ -278,6 +278,7 @@
 											<select name="purOrDon" class="form-control form-control-sm select__input">
 												<option value="1" selected>구입</option>
 												<option value="0">기증</option>
+												<option value="2">자체발행</option>
 											</select>
 										</div>
 									</div>
