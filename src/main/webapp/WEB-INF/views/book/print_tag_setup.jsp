@@ -47,7 +47,7 @@
 		<%@ include file="/WEB-INF/inc/sidebar_left.jsp"%>
 		<div id="content-wrapper">
 
-			<div class="container-fluid border" style="max-width:768px">
+			<div class="border pt-4 pl-4" style="max-width:768px">
 
 				<h1 class="prtNone">인쇄 설정 페이지</h1>
 					<a class="btn btn-secondary"
@@ -71,7 +71,7 @@
 						라벨 타입 선택
 					</a>
 					<div>
-						<a href="#" class="btn btn-danger btn__color__set__16 modal_hidden">16라벨색상관리</a>
+						<a href="#" class="btn btn-danger btn__color__set__16 modal__hidden">16라벨색상관리</a>
 						<div class="div__color__set__16 modal__hidden">
 							<div class="div__16__btn">
 								<a href="#" class="btn btn-warning btn__change__color__set">변경적용</a>
@@ -245,13 +245,23 @@
 									id="tag_16" value="16" ${labelSelect16}/>Roll_서가_별치기호(16)
 							</span>
 						</label>
+						<label class="label__item">
+							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt6.PNG" />
+							<span>
+								<c:set var="labelSelect17" value="" />
+								<c:if test="${tag.labelType eq 17}">
+									<c:set var="labelSelect17" value="checked" />
+								</c:if>
+								<input type="radio" name="tagType"
+									id="tag_17" value="17" ${labelSelect17}/>Roll_흑백_신형(17)
+							</span>
+						</label>
 					</div>
 				</div>
 				
 				<div class="form-group mb-3" style="width:600px;">
 					<label for="rangeSorting">범위 출력(등록번호)</label>
-					<div class="col-12">
-					
+					<div>
 						<div class="col-12 input__range">
 							<select name="rangeStart" id="rangeStart" class="form-control">
 								<c:forEach var="start" items="${bookHeldList}" varStatus="startStatus">
@@ -367,13 +377,13 @@
 						<div class="form-group">
 							<div class="input-group">
 								<input type="file" name="batchFile" id="batchFile"
-									class="form-control form-control-sm input-clear"
+									class="form-control input-clear"
 									placeholder="파일 로드" />
 								<input type="hidden" name="tagTypeTxtBatch" id="tagTypeTxtBatch" value="${tag.labelType}"/>
 								<input type="hidden" name="startPointTxtBatch" id="startPointTxtBatch" value="1" />
 								<span class="input-group-append">
-									<button class="btn btn-primary btn-sm" formaction="${pageContext.request.contextPath}/book/print_label_text_batch_check.do">출력하기</button>
-									<input type="button" class="btn btn-danger btn-sm" onclick="clearInput()" value="다시작성" />
+									<button class="btn btn-primary" formaction="${pageContext.request.contextPath}/book/print_label_text_batch_check.do">출력하기</button>
+									<input type="button" class="btn btn-danger" onclick="clearInput()" value="다시작성" />
 								</span>
 							</div>
 						</div>
