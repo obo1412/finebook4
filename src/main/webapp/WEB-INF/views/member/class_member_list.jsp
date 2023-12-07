@@ -62,7 +62,7 @@
 						<table class="table table-sm">
 							<thead>
 								<tr>
-									<th class="info text-center" style="width:30px;">번호</th>
+									<th class="info text-center" style="width:50px;">번호</th>
 									<th class="info text-center" style="width:60px;">분류명</th>
 								</tr>
 							</thead>
