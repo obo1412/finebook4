@@ -80,7 +80,10 @@ public class RegBookOk {
 		String authorCode = web.getString("authorCode");
 		String publisher = web.getString("publisher");
 		String pubDate = web.getString("pubDate");
-		if(pubDate.length() == 4) {
+		if(pubDate != null && pubDate.length()<4) {
+			return web.redirect(null, "출판년도 최소 4자리를 기입해야합니다.");
+		}
+		if(pubDate != null && pubDate.length() == 4) {
 			pubDate = pubDate+"-01-01";
 		}
 		String bookCateg = web.getString("bookCateg");
