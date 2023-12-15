@@ -53,7 +53,7 @@
 				tagTypeTxtBatch.value = tagTypeByName[i].value;
 				
 				//특수 태그색상 관리 버튼 보이게/안보이게 토글버튼
-				colorSetupBtnPop(tagTypeByName[i].value);
+				/*colorSetupBtnPop(tagTypeByName[i].value);*/
 				
 				//선택한 태그 이미지 보이기
 				let pickedLabel = tagTypeByName[i].parentNode.parentNode.childNodes;

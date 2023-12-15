@@ -71,7 +71,7 @@
 						라벨 타입 선택
 					</a>
 					<div>
-						<a href="#" class="btn btn-danger btn__color__set__16 modal__hidden">16라벨색상관리</a>
+						<a href="#" class="btn btn-danger btn__color__set__16">16라벨색상관리</a>
 						<div class="div__color__set__16 modal__hidden">
 							<div class="div__16__btn">
 								<a href="#" class="btn btn-warning btn__change__color__set">변경적용</a>
