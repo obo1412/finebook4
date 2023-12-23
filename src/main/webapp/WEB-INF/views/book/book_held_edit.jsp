@@ -398,7 +398,16 @@
 								</tr>
 								<tr>
 									<th class="table-info text-center">표지</th>
-									<td><img name="bookCover" src="${bookHeldItem.imageLink}" /></td>
+									<td>
+										<c:choose>
+											<c:when test="${fn:contains(bookHeldItem.imageLink, '/var/packages/Tomcat7')}">
+												<img name="bookCover" style="width:150px;" src="/filesMapping/upload/finebook4/bookCoverImg/libNo${bookHeldItem.libraryIdLib}/${bookCoverName}" alt="bookCoverImg"/>
+											</c:when>
+											<c:otherwise>
+												<img name="bookCover" style="width:150px;" src="${bookHeldItem.imageLink}" />
+											</c:otherwise>
+										</c:choose>
+									</td>
 								</tr>
 								<tr>
 									<th class="table-info text-center">도서 설명</th>

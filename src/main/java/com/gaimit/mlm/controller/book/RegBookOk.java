@@ -156,10 +156,19 @@ public class RegBookOk {
 		
 		/** (6) 업로드 된 파일 정보 추출 */
 		List<FileInfo> fileList = upload.getFileList();
+		// 업로드된 파일 경로
+		String bookCoverPath = null;
+		// 업로드 된 파일이 존재할 경우만 변수값을 할당한다.
+		if (fileList.size() > 0) {
+			// 단일 업로드이므로 0번째 항목만 가져온다.
+			FileInfo info = fileList.get(0);
+			bookCoverPath = info.getFileDir() + "/" + info.getFileName();
+		}
 		
 		String bookDesc = paramMap.get("bookDesc");
 		bookDesc = util.isBlankToNull(bookDesc);
 		
+		// 도서 국가 사용안하게 됨.
 //		String idCountStr = paramMap.get("idCountry");
 //		int idCountry = Integer.parseInt(idCountStr);
 		
@@ -253,7 +262,9 @@ public class RegBookOk {
 		bookHeld.setVolumeCode(volumeCode);
 		
 		bookHeld.setTag(tagBook);
-		
+		if(bookCoverPath != null) {
+			bookCover = bookCoverPath;
+		}
 		bookHeld.setImageLink(bookCover);
 		bookHeld.setDescription(bookDesc);
 		bookHeld.setAvailable(1);

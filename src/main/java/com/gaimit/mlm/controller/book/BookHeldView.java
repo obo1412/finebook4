@@ -111,6 +111,9 @@ public class BookHeldView {
 		String barcodeBook = web.getString("localIdBarcode");
 		int bookHeldId = web.getInt("bookHeldId");
 		
+		// 파일이 있다면 파일 이름
+		String bookCoverName = null;
+		
 		// 파라미터를 저장할 Beans
 		BookHeld bookHeld = new BookHeld();
 		bookHeld.setLibraryIdLib(idLib);
@@ -122,6 +125,10 @@ public class BookHeldView {
 		BookHeld bookHeldItem = new BookHeld();
 		try {
 			bookHeldItem = bookHeldService.getBookHelditem(bookHeld);
+			String bookCoverPath = bookHeldItem.getImageLink();
+			if(bookCoverPath != null && !"".equals(bookCoverPath)) {
+				bookCoverName = bookCoverPath.substring(bookCoverPath.lastIndexOf("/")+1);
+			}
 		} catch (Exception e) {
 			return web.redirect(null, e.getLocalizedMessage());
 		}
@@ -130,6 +137,7 @@ public class BookHeldView {
 		/** 4) View 처리하기 */
 		// 조회 결과를 View에게 전달한다.
 		model.addAttribute("bookHeldItem", bookHeldItem);
+		model.addAttribute("bookCoverName", bookCoverName);
 		
 		return new ModelAndView("book/book_held_view");
 	}
@@ -224,6 +232,9 @@ public class BookHeldView {
 		//장서점검 기록이 있는지 체크
 		int bookCheckCount = 0;
 		
+		// 파일이 있다면 파일 이름
+		String bookCoverName = null;
+		
 		/** 3) Service를 통한 SQL 수행 */
 		// 조회 결과를 저장하기 위한 객체
 		BookHeld bookHeldItem = new BookHeld();
@@ -231,16 +242,20 @@ public class BookHeldView {
 			bookHeldItem = bookHeldService.getBookHelditem(bookHeld);
 			brwLog = brwService.selectBookBorrowLogByBookHeldId(borrow);
 			bookCheckCount = bookCheckService.selectBookCheckRecordByBookId(bookHeldId);
+			String bookCoverPath = bookHeldItem.getImageLink();
+			if(bookCoverPath != null && !"".equals(bookCoverPath)) {
+				bookCoverName = bookCoverPath.substring(bookCoverPath.lastIndexOf("/")+1);
+			}
 		} catch (Exception e) {
 			return web.redirect(null, e.getLocalizedMessage());
 		}
-		
 		
 		/** 4) View 처리하기 */
 		// 조회 결과를 View에게 전달한다.
 		model.addAttribute("bookHeldItem", bookHeldItem);
 		model.addAttribute("brwLog", brwLog);
 		model.addAttribute("bookCheckCount", bookCheckCount);
+		model.addAttribute("bookCoverName", bookCoverName);
 		
 		return new ModelAndView("book/book_held_edit");
 	}
@@ -324,12 +339,19 @@ public class BookHeldView {
 		bookHeld.setImageLink(imageLink);
 		bookHeld.setCopyCode(copyCode);
 		
+		// 파일이 있다면 파일 이름
+		String bookCoverName = null;
+		
 		/** 3) Service를 통한 SQL 수행 */
 		// 조회 결과를 저장하기 위한 객체
 		BookHeld bookHeldItem = new BookHeld();
 		try {
 			bookHeldService.updateBookHeldItem(bookHeld);
 			bookHeldItem = bookHeldService.getBookHelditem(bookHeld);
+			String bookCoverPath = bookHeldItem.getImageLink();
+			if(bookCoverPath != null && !"".equals(bookCoverPath)) {
+				bookCoverName = bookCoverPath.substring(bookCoverPath.lastIndexOf("/")+1);
+			}
 		} catch (Exception e) {
 			return web.redirect(null, e.getLocalizedMessage());
 		}
@@ -338,6 +360,7 @@ public class BookHeldView {
 		/** 4) View 처리하기 */
 		// 조회 결과를 View에게 전달한다.
 		model.addAttribute("bookHeldItem", bookHeldItem);
+		model.addAttribute("bookCoverName", bookCoverName);
 		
 		return new ModelAndView("book/book_held_view");
 	}

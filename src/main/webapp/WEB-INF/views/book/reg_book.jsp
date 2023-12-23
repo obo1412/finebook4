@@ -382,7 +382,7 @@
 									</div>
 								</div>
 								
-								<div class="form-inline mb-3">
+								<div class="form-inline mb-1">
 									<div class="form-group col-12">
 										<div class="col-2 ">
 											<label for='tagBook' class="control-label">메모(태그)</label>
@@ -391,6 +391,17 @@
 											<input type="text" name="tagBook" id="tagBook"
 												class="form-control form-control-sm input-clear input__long"
 												placeholder="비고" />
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-inline mb-3">
+									<div class="form-group col-12">
+										<div class="col-2 ">
+											<label for='book_cover_img' class="control-label">커버업로드</label>
+										</div>
+										<div class="col-10">
+											<input type="file" name="book_cover_img" id="book_cover_img" class="form-control-file form-control-sm" />
 										</div>
 									</div>
 								</div>
