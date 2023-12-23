@@ -2,6 +2,7 @@ package com.gaimit.mlm.controller.book;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -70,61 +71,107 @@ public class RegBookOk {
 		} else {
 			idLib = loginInfo.getIdLibMng();
 		}
+		
+		String bookCoverImgDir = "/bookCoverImg/libNo"+idLib;
+		
+		/** (4) 파일이 포함된 POST 파라미터 받기 */
+		// <form>태그 안에 <input type="file">요소가 포함되어 있고,
+		// <form>태그에 enctype="multipart/form-data"가 정의되어 있는 경우
+		// WebHelper의 getString()|getInt() 메서드는 더 이상 사용할 수 없게 된다.
+		try {
+			upload.multipartRequest(bookCoverImgDir);
+		} catch (Exception e) {
+			return web.redirect(null, "multipart 데이터가 아닙니다.");
+		}
+		
+		// UploadHelper에서 텍스트 형식의 파라미터를 분류한 Map을 리턴받아서 값을 추출한다.
+		Map<String, String> paramMap = upload.getParamMap();
 
 		logger.info("reg_book_ok 처리 시작합니다.");
 		/** reg_book에서 전달받은 book, bookheld 파라미터를 Beans 객체에 담는다. */
-		String isbn13 = web.getString("isbn13");
-		String isbn10 = web.getString("isbn10");
-		String bookTitle = web.getString("bookTitle");
-		String author = web.getString("author");
-		String authorCode = web.getString("authorCode");
-		String publisher = web.getString("publisher");
-		String pubDate = web.getString("pubDate");
+		String isbn13 = paramMap.get("isbn13");
+		isbn13 = util.isBlankToNull(isbn13);
+		String isbn10 = paramMap.get("isbn10");
+		isbn10 = util.isBlankToNull(isbn10);
+		String bookTitle = paramMap.get("bookTitle");
+		bookTitle = util.isBlankToNull(bookTitle);
+		String author = paramMap.get("author");
+		author = util.isBlankToNull(author);
+		String authorCode = paramMap.get("authorCode");
+		authorCode = util.isBlankToNull(authorCode);
+		String publisher = paramMap.get("publisher");
+		publisher = util.isBlankToNull(publisher);
+		String pubDate = paramMap.get("pubDate");
+		pubDate = util.isBlankToNull(pubDate);
 		if(pubDate != null && pubDate.length()<4) {
 			return web.redirect(null, "출판년도 최소 4자리를 기입해야합니다.");
 		}
 		if(pubDate != null && pubDate.length() == 4) {
 			pubDate = pubDate+"-01-01";
 		}
-		String bookCateg = web.getString("bookCateg");
-		String bookShelf = web.getString("bookShelf");
-		int page = web.getInt("itemPage");
-		String price = web.getString("price");
-		String bookOrNot = web.getString("bookOrNot");
-		int purOrDon = web.getInt("purOrDon");
-		String rfId = web.getString("rfId");
-		String bookSize = web.getString("bookSize");
-		String classificationCode = web.getString("classificationCode");
+		String bookCateg = paramMap.get("bookCateg");
+		bookCateg = util.isBlankToNull(bookCateg);
+		String bookShelf = paramMap.get("bookShelf");
+		bookShelf = util.isBlankToNull(bookShelf);
+		
+		String pageStr = paramMap.get("itemPage");
+		int page = util.isBlankToZero(pageStr);
+		
+		String price = paramMap.get("price");
+		price = util.isBlankToNull(price);
+		String bookOrNot = paramMap.get("bookOrNot");
+		bookOrNot = util.isBlankToNull(bookOrNot);
+		
+		String purOrDonStr = paramMap.get("purOrDon");
+		int purOrDon = Integer.parseInt(purOrDonStr);
+		if(purOrDonStr.trim() == "" || purOrDonStr == null) {
+			purOrDon = 1;
+		}
+		
+		String rfId = paramMap.get("rfId");
+		rfId = util.isBlankToNull(rfId);
+		String bookSize = paramMap.get("bookSize");
+		bookSize = util.isBlankToNull(bookSize);
+		String classificationCode = paramMap.get("classificationCode");
+		classificationCode = util.isBlankToNull(classificationCode);
 		if(util.hasTwoOrMoreDots(classificationCode)) {
 			return web.redirect(null, "분류기호에 소수점이 2개 이상입니다.");
 		}
-		String additionalCode = web.getString("additionalCode");
+		String additionalCode = paramMap.get("additionalCode");
+		additionalCode = util.isBlankToNull(additionalCode);
 		
-		String volumeCode = web.getString("volumeCode");
+		String volumeCode = paramMap.get("volumeCode");
+		volumeCode = util.isBlankToNull(volumeCode);
 		
-		String newBarcode = web.getString("newBarcode");
+		String newBarcode = paramMap.get("newBarcode");
+		newBarcode = util.isBlankToNull(newBarcode);
 		
-		String tagBook = web.getString("tagBook");
+		String tagBook = paramMap.get("tagBook");
+		tagBook = util.isBlankToNull(tagBook);
 		
-		String bookCover = web.getString("bookCover");
-		String bookDesc = web.getString("bookDesc");
+		String bookCover = paramMap.get("bookCover");
+		bookCover = util.isBlankToNull(bookCover);
 		
-		int idCountry = web.getInt("idCountry", 0);
+		String bookDesc = paramMap.get("bookDesc");
+		bookDesc = util.isBlankToNull(bookDesc);
+		
+//		String idCountStr = paramMap.get("idCountry");
+//		int idCountry = Integer.parseInt(idCountStr);
 		
 		//바로 등록 체크박스
-		String chkBoxRegOk = web.getString("chkBoxRegOk");
+		String chkBoxRegOk = paramMap.get("chkBoxRegOk");
 		logger.info("바로 등록 체크 상태 "+chkBoxRegOk);
 		
 		//권차기호 알림을 위한 체크박스
-		String chkBoxVolumeCodeAlarm = web.getString("chkBoxVolumeCodeAlarm");
+		String chkBoxVolumeCodeAlarm = paramMap.get("chkBoxVolumeCodeAlarm");
 		logger.info("현재 권차기호 체크 상태 "+chkBoxVolumeCodeAlarm);
 		
 		//알림소리를 위한 체크박스, 체크시 알리지 않음.
-		String chkBoxSoundEff = web.getString("chk_box_sound_eff");
+		String chkBoxSoundEff = paramMap.get("chk_box_sound_eff");
 		logger.info("알림소리 체크박스 상태 "+chkBoxSoundEff);
 		
 		//십진분류 체킹을 위한 체크박스
-		String chkBoxClassCodeChecker = web.getString("chk_box_class_code_checker");
+		String chkBoxClassCodeChecker = paramMap.get("chk_box_class_code_checker");
 		logger.info("십진분류 체크박스 상태 "+chkBoxClassCodeChecker);
 		
 		
@@ -206,7 +253,7 @@ public class RegBookOk {
 		bookHeld.setDescription(bookDesc);
 		bookHeld.setAvailable(1);
 		
-		bookHeld.setIdCountry(idCountry);
+//		bookHeld.setIdCountry(idCountry);
 		
 		//바코드 번호 생성을 위한 변수 선언
 		int newBarcodeNum = 0; //바코드 번호 빈자리

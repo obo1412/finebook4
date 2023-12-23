@@ -80,7 +80,7 @@
 
 						<!-- 회원정보, 도서정보 수집 시작 -->
 						<form class="form-horizontal info-section" name="formRegBookOk" id="formRegBookOk"
-							method="post" action="${pageContext.request.contextPath}/book/reg_book_ok.do">
+							method="post" enctype="multipart/form-data" action="${pageContext.request.contextPath}/book/reg_book_ok.do">
 							
 							<div class="form-group form-inline" style="margin:0px 50px 10px 50px;">
 								<div class="form-group form-inline classStraightReg">

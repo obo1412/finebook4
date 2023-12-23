@@ -1059,4 +1059,16 @@ public class Util {
 
         return result;
 	}
+	
+	public String isBlankToNull(String str) {
+		String result = null;
+		result = (str != null && str.trim().isEmpty()) ? null : str;
+		return result;
+	}
+	
+	public int isBlankToZero(String str) {
+		int result = 0;
+		result = (str != null && str.trim().isEmpty()) ? 0 : Integer.parseInt(str);
+		return result;
+	}
 }
