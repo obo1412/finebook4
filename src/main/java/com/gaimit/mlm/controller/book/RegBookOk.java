@@ -1,6 +1,7 @@
 package com.gaimit.mlm.controller.book;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gaimit.helper.FileInfo;
 import com.gaimit.helper.RegexHelper;
 import com.gaimit.helper.UploadHelper;
 import com.gaimit.helper.Util;
@@ -151,6 +153,9 @@ public class RegBookOk {
 		
 		String bookCover = paramMap.get("bookCover");
 		bookCover = util.isBlankToNull(bookCover);
+		
+		/** (6) 업로드 된 파일 정보 추출 */
+		List<FileInfo> fileList = upload.getFileList();
 		
 		String bookDesc = paramMap.get("bookDesc");
 		bookDesc = util.isBlankToNull(bookDesc);
