@@ -52,8 +52,8 @@
 	
 	.right__class__num {
 		font-size: var(--a4-fontsize-class-num);
-		font-family : 'HY견고딕';
-		font-weight:bold;
+		font-family : 'ChosunBg';
+		font-weight:700;
 		color:white;
 		
 		height:100%;

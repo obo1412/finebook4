@@ -33,6 +33,12 @@
 		size: A4; /* A4 */
 		margin: 0;
 	}
+	
+	@font-face {
+		font-family: "ChosunBg";
+		src : url("/assets/fonts/ChosunBg.ttf");
+	}
+	
 	html, body {
 		border: 0;
 		margin: 0;
@@ -220,8 +226,8 @@
 	
 	.r__in__right>span {
 		font-size: 8mm;
-		font-weight: bold;
-		font-family: 'hy견고딕';
+		font-weight: 400;
+		font-family: 'ChosunBg';
 		transform: rotate(90deg);
 		padding-top: 1.5mm;
 		padding-left: 0mm;

@@ -1,16 +1,21 @@
 @media all {
 	
+	@font-face {
+		font-family: "ChosunBg";
+		src : url("/assets/fonts/ChosunBg.ttf");
+	}
+	
 	.color__addi__code {
 		color:white;
 		font-size:1.1rem;
-		font-family:HY견고딕;
+		font-family:ChosunBg;
 		white-space:nowrap;
 		text-align:center;
 	}
 	
 	.code__box {
 		font-size: 1.5rem;
-		font-family:HY견고딕;
+		font-family:ChosunBg;
 		font-weight:bold;
 		white-space:nowrap;
 		text-align:center;
@@ -19,7 +24,7 @@
 	.lib__name__fixed {
 		color:white;
 		font-size: 1.1rem;
-		font-family: HY견고딕;
+		font-family: ChosunBg;
 		white-space:nowrap;
 		text-align: center;
 	}

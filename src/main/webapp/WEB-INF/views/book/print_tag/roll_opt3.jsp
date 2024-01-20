@@ -97,7 +97,7 @@
 						</div> --%>
 						<div class="kdc1Section" style="float:left; width:16mm; height:100%; background-color:${item.classCodeColor};">
 							<div style="color:white; text-align:center; position:relative; top:50%; transform:translate(1mm,-50%);">
-								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:HY견고딕;">
+								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:ChosunBg;">
 									<c:choose>
 										<c:when test="${item.classCodeHead gt 0}">
 											<fmt:parseNumber var="clsCodeHead" integerOnly="true" value="${item.classCodeHead}" />

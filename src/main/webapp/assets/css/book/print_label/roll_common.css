@@ -8,6 +8,11 @@
 		--a4-fontsize-class-num: ${tag.a4FontSizeClassNum}mm;
 	}
 	
+	@font-face {
+		font-family: "ChosunBg";
+		src : url("/assets/fonts/ChosunBg.ttf");
+	}
+	
 	.div__empty__data {
 		visibility:hidden;
 	}
@@ -48,7 +53,7 @@
 		위치를 하나씩 잡아줘야되는 불편함이있다. */
 	.call__num__rotate__3digit {
 		transform:rotate(90deg) translate(9.5mm);
-		font-family:HY견고딕;
+		font-family:ChosunBg;
 		padding-top:2mm;
 	}
 	
@@ -57,7 +62,7 @@
 	
 	call__num__rotate__3digit 대신에,
 	transform:rotate(90deg);
-		font-family:HY견고딕;
+		font-family:ChosunBg; 
 		padding-top:2mm; 
 		이렇게 배치되어있었음. 참고 */
 		
@@ -68,5 +73,11 @@
 	/* 오른쪽 qr코드 근처 바코드 숫자 */
 	.right__code__barcode {
 		font-size: var(--a4-fontsize-code-barcode);
+	}
+	
+	/* 도서 제목 부분 전체적으로 적용 */
+	.bookTitleSection {
+		font-size: 2.5mm;
+		transform: translate(0mm,1mm);
 	}
 }
