@@ -62,13 +62,14 @@
 		width:19mm;
 		height:100%;
 		font-size:3.5mm;
-		font-weight:900;
+		font-weight:600;
 		line-height:7mm;
 		transform:rotate(90deg);
+		font-family: HY견고딕;
 	}
 	
 	.callText__opt8__translate {
-		transform:translate(0mm,-2mm);
+		transform:translate(-0.7mm,-2mm);
 		/* 바코드 번호 8자리일 경우엔 x: 1.5mm 정도 주는게 딱 좋다.
 		나중에 자리수에 맞추어 변경 필요할듯. */
 	}
