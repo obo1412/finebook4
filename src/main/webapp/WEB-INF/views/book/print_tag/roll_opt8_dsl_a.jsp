@@ -49,6 +49,31 @@
 		}
 		
 	}
+	
+	.callNoBox__opt8 {
+		float:right;
+		width:33mm;
+		height:100%;
+	}
+	
+	.callText__opt8 {
+		float:left;
+		width:19mm;
+		height:100%;
+		font-size:3.5mm;
+		font-weight:800;
+		line-height:7mm;
+		transform:rotate(90deg);
+	}
+	
+	.callText__opt8__translate {
+		transform:translate(1.5mm,-2mm);
+	}
+	
+	.callText__opt8__lineHeight {
+		line-height:4mm;
+	}
+	
 	</style>
 </head>
 <body>
@@ -116,11 +141,11 @@
 							</div>
 						</div>
 						
-						<div class="callNoBox" style="float:right; width:33mm; height:100%;">
-							<div class="callText" style="float:left; width:19mm; height:100%; font-size:3.5mm; line-height:5mm; transform:rotate(90deg);">
-								<div style="transform:translate(1.5mm,-2mm); font-weight:800;">
+						<div class="callNoBox callNoBox__opt8">
+							<div class="callText callText__opt8">
+								<div class="callText__opt8__translate">
 									
-									<div style="line-height:4mm;">
+									<div class="callText__opt8__lineHeight">
 										<c:choose>
 											<c:when test="${not empty item.additionalCode}">
 												<div class="addi__code">${item.additionalCode}</div>
