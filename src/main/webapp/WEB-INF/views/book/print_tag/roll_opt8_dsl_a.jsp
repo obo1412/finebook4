@@ -54,6 +54,7 @@
 		float:right;
 		width:33mm;
 		height:100%;
+		white-space:nowrap;
 	}
 	
 	.callText__opt8 {
@@ -61,13 +62,15 @@
 		width:19mm;
 		height:100%;
 		font-size:3.5mm;
-		font-weight:800;
+		font-weight:900;
 		line-height:7mm;
 		transform:rotate(90deg);
 	}
 	
 	.callText__opt8__translate {
-		transform:translate(1.5mm,-2mm);
+		transform:translate(0mm,-2mm);
+		/* 바코드 번호 8자리일 경우엔 x: 1.5mm 정도 주는게 딱 좋다.
+		나중에 자리수에 맞추어 변경 필요할듯. */
 	}
 	
 	.callText__opt8__lineHeight {
