@@ -256,6 +256,28 @@
 									id="tag_17" value="17" ${labelSelect17}/>Roll_흑백_신형(17)
 							</span>
 						</label>
+						<label class="label__item">
+							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt7.png" />
+							<span>
+								<c:set var="labelSelect18" value="" />
+								<c:if test="${tag.labelType eq 18}">
+									<c:set var="labelSelect18" value="checked" />
+								</c:if>
+								<input type="radio" name="tagType"
+									id="tag_18" value="18" ${labelSelect18}/>Roll_DSL전용_A(18)
+							</span>
+						</label>
+						<%-- <label class="label__item">
+							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt7.png" />
+							<span>
+								<c:set var="labelSelect19" value="" />
+								<c:if test="${tag.labelType eq 19}">
+									<c:set var="labelSelect19" value="checked" />
+								</c:if>
+								<input type="radio" name="tagType"
+									id="tag_19" value="19" ${labelSelect19}/>Roll_DSL전용_B(19)
+							</span>
+						</label> --%>
 					</div>
 				</div>
 				

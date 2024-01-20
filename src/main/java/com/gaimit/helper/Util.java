@@ -517,6 +517,10 @@ public class Util {
 			result = "book/print_tag/roll_opt6_bookshelf_addicode";
 		} else if(tagType ==17) {
 			result = "book/print_tag/roll_opt7_blackAndWhite";
+		} else if(tagType ==18) {
+			result = "book/print_tag/roll_opt8_dsl_a";
+		} else if(tagType ==19) {
+			result = "book/print_tag/roll_opt9_dsl_b";
 		}
 		return result;
 	}
