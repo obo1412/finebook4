@@ -49,6 +49,35 @@
 		}
 		
 	}
+	
+	.callNoBox__this {
+		float:left;
+		width:33mm;
+		height:100%;
+		white-space:nowrap;
+	}
+	
+	.callText__this {
+		float:left;
+		width:19mm;
+		height:100%;
+		font-size:3.5mm;
+		font-weight:600;
+		line-height:7mm;
+		transform:rotate(90deg);
+		font-family: ChosunBg;
+	}
+	
+	.callText__this__translate {
+		transform:translate(0mm,-9mm);
+		/* 바코드 번호 8자리일 경우엔 x: 1.5mm 정도 주는게 딱 좋다.
+		나중에 자리수에 맞추어 변경 필요할듯. */
+	}
+	
+	.callText__this__lineHeight {
+		line-height:4mm;
+	}
+	
 	</style>
 </head>
 <body>
@@ -62,7 +91,7 @@
 	<c:forEach var="item" items="${bookHeldList}" varStatus="status">
 		<div style="width:103mm; height:34mm;">
 			<div style="padding-left:1mm; padding-top:1mm; width:100%; height:100%;">
-				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; font-size:2mm; overflow:hidden;">
+				<div class="bookTitleSection" style="padding-left:2.5mm; padding-top:0mm; width:90%; height:3mm; overflow:hidden;">
 					${item.title}
 				</div>
 				<div class="tagSection" style="padding-top:${tag.titleTagGap}mm; width:100%; height:30mm;">
@@ -95,32 +124,12 @@
 								</div>
 							</div>
 						</div> --%>
-						<div class="kdc1Section" style="float:left; width:16mm; height:100%; background-color:${item.classCodeColor};">
-							<div style="color:white; text-align:center; position:relative; top:50%; transform:translate(1mm,-50%);">
-								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:ChosunBg;">
-									<c:choose>
-										<c:when test="${item.classCodeHead gt 0}">
-											<fmt:parseNumber var="clsCodeHead" integerOnly="true" value="${item.classCodeHead}" />
-											${clsCodeHead}
-										</c:when>
-										<c:when test="${item.classCodeHead eq 0}">
-											<c:set var="classCode" value="000" />
-											${classCode}
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
-									</c:choose>
-									
-								</div>
-							</div>
-						</div>
 						
-						<div class="callNoBox" style="float:right; width:33mm; height:100%;">
-							<div class="callText" style="float:left; width:19mm; height:100%; font-size:3.5mm; line-height:5mm; transform:rotate(90deg);">
-								<div style="transform:translate(1.5mm,-2mm); font-weight:800;">
+						<div class="callNoBox callNoBox__this">
+							<div class="callText callText__this">
+								<div class="callText__this__translate">
 									
-									<div style="line-height:4mm;">
+									<div class="callText__this__lineHeight">
 										<c:choose>
 											<c:when test="${not empty item.additionalCode}">
 												<div class="addi__code">${item.additionalCode}</div>
@@ -168,6 +177,27 @@
 									</div>
 									
 									<div>${item.localIdBarcode}</div>
+									
+								</div>
+							</div>
+						</div>
+						
+						<div class="kdc1Section" style="float:right; width:16mm; height:100%; background-color:${item.classCodeColor};">
+							<div style="color:white; text-align:center; position:relative; top:50%; transform:translate(-0.5mm,-50%);">
+								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:ChosunBg;">
+									<c:choose>
+										<c:when test="${item.classCodeHead gt 0}">
+											<fmt:parseNumber var="clsCodeHead" integerOnly="true" value="${item.classCodeHead}" />
+											${clsCodeHead}
+										</c:when>
+										<c:when test="${item.classCodeHead eq 0}">
+											<c:set var="classCode" value="000" />
+											${classCode}
+										</c:when>
+										<c:otherwise>
+											
+										</c:otherwise>
+									</c:choose>
 									
 								</div>
 							</div>
