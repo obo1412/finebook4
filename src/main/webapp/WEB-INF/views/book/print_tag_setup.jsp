@@ -267,7 +267,7 @@
 									id="tag_18" value="18" ${labelSelect18}/>Roll_DSL전용_A(18)
 							</span>
 						</label>
-						<%-- <label class="label__item">
+						<label class="label__item">
 							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt7.png" />
 							<span>
 								<c:set var="labelSelect19" value="" />
@@ -277,7 +277,7 @@
 								<input type="radio" name="tagType"
 									id="tag_19" value="19" ${labelSelect19}/>Roll_DSL전용_B(19)
 							</span>
-						</label> --%>
+						</label>
 					</div>
 				</div>
 				
