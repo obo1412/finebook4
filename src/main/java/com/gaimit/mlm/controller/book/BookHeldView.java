@@ -261,7 +261,7 @@ public class BookHeldView {
 	}
 	
 	@RequestMapping(value = "/book/book_held_edit_ok.do", method = RequestMethod.POST)
-	public ModelAndView editBookOk(Locale locale, Model model) {
+	public synchronized ModelAndView editBookOk(Locale locale, Model model) {
 		
 		/** 1) WebHelper 초기화 및 파라미터 처리 */
 		web.init();
@@ -434,7 +434,7 @@ public class BookHeldView {
 	}
 	
 	@RequestMapping(value = "/book/update_addi_code_batch_ok.do")
-	public ModelAndView regBookBatchCheck(Locale locale, Model model, HttpServletRequest request,
+	public synchronized ModelAndView regBookBatchCheck(Locale locale, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		/** (2) 사용하고자 하는 Helper+Service 객체 생성 */
