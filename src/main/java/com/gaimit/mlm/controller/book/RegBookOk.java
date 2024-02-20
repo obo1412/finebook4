@@ -57,7 +57,7 @@ public class RegBookOk {
 	FrequentlyFunction frequentlyFunction;
 
 	@RequestMapping(value = "/book/reg_book_ok.do", method = RequestMethod.POST)
-	public ModelAndView doRun(Locale locale, Model model, HttpServletRequest request,
+	public synchronized ModelAndView doRun(Locale locale, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		/** (2) 사용하고자 하는 Helper+Service 객체 생성 */

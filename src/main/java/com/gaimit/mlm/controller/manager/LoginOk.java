@@ -37,7 +37,7 @@ public class LoginOk {
 	JwtHelper jwtHelper;
 
 	@RequestMapping(value = "/managerFinebook/login_ok.do")
-	public ModelAndView doRun(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public synchronized ModelAndView doRun(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
 
 		/** (2) 사용하고자 하는 Helper+Service 객체 생성 */
 		web.init();
