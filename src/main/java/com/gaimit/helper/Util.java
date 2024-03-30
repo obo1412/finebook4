@@ -330,18 +330,20 @@ public class Util {
 	
 	//date 포멧이 어떤 형식인지 확인하는 함수, 아래에서 사용
 	public boolean dateFormatChecker(String fromFormat, String FromStringDate) {
+		boolean checker = false;
 		try {
-			SimpleDateFormat dateFormat = null;
+			SimpleDateFormat dateFormat = new SimpleDateFormat(fromFormat);
+			dateFormat.setLenient(false); // false 일 경우 엄격한 날짜 형식 검사
 			if("EEE, d MMM yyyy HH:mm:ss Z".equals(fromFormat)) {
 				//형식이 영문자를 포함하면, 로케일 넣어주어야한다.
 				dateFormat = new SimpleDateFormat(fromFormat, Locale.ENGLISH);
+				dateFormat.parse(FromStringDate);
+				checker = true;
 			} else {
-				dateFormat = new SimpleDateFormat(fromFormat);
+				dateFormat.parse(FromStringDate);
+				checker = true;
 			}
-			//타이트하게 검사할 것인가 하는 조건인 것 같다.
-			dateFormat.setLenient(true);
-			dateFormat.parse(FromStringDate);
-			return true;
+			return checker;
 		}catch (ParseException e) {
 			return false;
 		}
@@ -412,6 +414,10 @@ public class Util {
 				} else if(dateFormatChecker("yyyyMMdd", FromStringDate)) {
 					//날짜 형식이 yyyyMMdd 인 경우
 					result = changeDateFormat2(FromStringDate);
+				} else if(dateFormatChecker("yyyy-MM-dd HH:mm:ss", FromStringDate)) {
+					// "yyyy-MM-dd hh:mm:ss"-> "yyyy-MM-dd HH:mm:ss"
+					// hh 가 HH여아만 24시간제로 표시에 문제가 없다.
+					result = getSqlDateToNormalDateStr(FromStringDate);
 				} else if(FromStringDate.indexOf("-")>-1) {
 					String tempDate = FromStringDate.substring(0,4);
 					if(!isNumCheck(tempDate)) {
