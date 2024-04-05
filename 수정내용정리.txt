@@ -59,7 +59,7 @@ root-context.xml 파일에 &amp;zeroDate 구문 추가하므로 에러 해결 - 
 230614
 1. lite 버전에 v2 -> v.2 점포함하는걸로 수정해야함
 2. ckeditor 필요한 곳에서만 호출하는 것으로 처리하기 -- 처리완료
-	공지사항에 글 읽고 수정하기가 되어버리네 ****수정하기
+	공지사항에 글 읽고 수정하기가 되어버리네 - 건드리지말자, 어차피 수정 완료가 안됨.
 
 
 230618
@@ -327,5 +327,10 @@ happy
 **************************************** 수정필요 견적 주기
 
 
-
+240405
+게시글 수정, 등록 페이지에서 ckeditor가 정상작동하지 않는 문제.
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<script src="http://cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script>
+위 구문을 ckeditor 불러오는 곳에 추가하여 해결함
+http 사이트에서 불러오는 것이 안되는 문제였음.
 
