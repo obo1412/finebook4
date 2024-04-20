@@ -262,6 +262,14 @@ public interface MemberService {
 	public void selectClassNameCountForDup(Member member) throws Exception;
 	
 	/**
+	 * 회원 분류명으로 분류id값 가져오기
+	 * @param member
+	 * @return
+	 * @throws Exception
+	 */
+	public Integer selectIdMbrClassByClassNameForImportMember(Member member) throws Exception;
+	
+	/**
 	 * 해당 분류를 삭제함
 	 * @param member
 	 * @throws Exception

@@ -323,6 +323,31 @@ public class FrequentlyFunction {
 		return gradeId;
 	}
 	
+	// 회원분류 id를 분류 이름으로 가져오기, 회원 엑셀 정보 가져오기 사용시
+	public Integer getMbrClassIdByClassName(String className, int idLib) {
+		Integer classId = null;
+		
+		Member member = new Member();
+		member.setIdLib(idLib);
+		member.setClassName(className);
+		
+		try {
+			classId = memberService.selectIdMbrClassByClassNameForImportMember(member);
+			if(classId == null) {
+				//해당 분류가 없다면, 위에 선언된대로 분류를 만든다.
+				memberService.insertClassMember(member);
+				classId = memberService.selectIdMbrClassByClassNameForImportMember(member);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//객체 삭제
+		member = null;
+		
+		return classId;
+	}
+	
 	
 	
 	/**

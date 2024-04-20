@@ -208,7 +208,16 @@
 			class_id
 		) VALUES (
 			#{idLib}, #{name}, #{phone}, #{otherContact}, #{birthdate}, #{email},
-			#{postcode}, #{addr1}, #{addr2}, #{remarks}, now(), now(),
+			#{postcode}, #{addr1}, #{addr2}, #{remarks}, 
+			<choose>
+				<when test="regDate != null">
+					#{regDate}
+				</when>
+				<otherwise>
+					now()
+				</otherwise>
+			</choose>
+			, now(),
 			#{barcodeMbr}, #{rfUid}, #{gradeId}, #{profileImg},
 			#{classId}
 		)
@@ -408,6 +417,15 @@
 			count(id_mbr_class)
 		FROM member_class
 		WHERE id_lib=#{idLib} AND class_name=#{className}
+	</select>
+	
+	<!-- 결과값 id_mbr_class 회원엑셀 import를 위하여, 가져오는 값이 id_mbr_class -->
+	<select id="selectIdMbrClassByClassNameForImportMember" parameterType="com.gaimit.mlm.model.Member" resultType="int">
+		SELECT
+			id_mbr_class
+		FROM member_class
+		WHERE id_lib=#{idLib} AND class_name=#{className}
+		LIMIT 1
 	</select>
 	
 		<!-- 회원분류 정보를 삭제한다 -->

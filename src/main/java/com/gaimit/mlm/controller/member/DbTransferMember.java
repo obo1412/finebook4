@@ -375,31 +375,45 @@ public class DbTransferMember {
 								switch(colList[k]) {
 								case "RF_UID":
 								case "rfUid":
+								case "RF-UID":
 									member.setRfUid(cellValue);
 									break;
 								case "고객등급":
 								case "gradeName":
+								case "회원등급":
 									int gradeIdTemp = frequentlyFunction.getGradeIdByGradeName(cellValue, loginInfo.getIdLibMng());
 									member.setGradeId(gradeIdTemp);
 									break;
+								case "회원분류":
+									int classIdTemp = frequentlyFunction.getMbrClassIdByClassName(cellValue, loginInfo.getIdLibMng());
+									member.setClassId(classIdTemp);
+									break;
 								case "고객등록일자":
 								case "regDate":
-									member.setRegDate(cellValue);
+								case "가입일":
+									member.setRegDate(util.getDateValue(cellValue));
 									break;
 								case "고객바코드번호":
 								case "barcodeMbr":
+								case "회원등록번호":
 									member.setBarcodeMbr(cellValue);
 									break;
 								case "고객성명":
 								case "name":
+								case "회원명":
 									member.setName(cellValue);
 									break;
 								case "핸드폰":
 								case "phone":
+								case "연락처":
 									member.setPhone(cellValue);
+									break;
+								case "추가연락처":
+									member.setOtherContact(cellValue);
 									break;
 								case "이메일주소":
 								case "email":
+								case "이메일":
 									member.setEmail(cellValue);
 									break;
 								case "우편번호":
@@ -412,6 +426,7 @@ public class DbTransferMember {
 									break;
 								case "주소2":
 								case "addr2":
+								case "주소2(상세)":
 									member.setAddr2(cellValue);
 									break;
 								case "추가메모":
@@ -420,6 +435,7 @@ public class DbTransferMember {
 									break;
 								case "생년":
 								case "birthdate":
+								case "생년월일":
 									member.setBirthdate(util.getDateValue(cellValue));
 									break;
 								}

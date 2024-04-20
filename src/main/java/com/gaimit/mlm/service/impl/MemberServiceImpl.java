@@ -583,6 +583,17 @@ public class MemberServiceImpl implements MemberService {
 			throw new Exception("회원 분류명 중복검사에 실패했습니다.");
 		}
 	}
+	
+	@Override
+	public Integer selectIdMbrClassByClassNameForImportMember(Member member) throws Exception {
+		Integer result = null;
+		try {
+			result = sqlSession.selectOne("MemberMapper.selectIdMbrClassByClassNameForImportMember", member);
+		} catch (Exception e) {
+			throw new Exception("분류명으로 분류id 조회에 실패했습니다.");
+		}
+		return result;
+	}
 
 	@Override
 	public void deleteClassMemberItem(Member member) throws Exception {
