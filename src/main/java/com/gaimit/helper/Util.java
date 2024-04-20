@@ -445,13 +445,11 @@ public class Util {
 	// 데이터 형식의 string 그대로 가져와서 한번 변환해서 내뱉기
 	public String normalDateFormatter4(String fromDate) {
 		String result = null;
-		System.out.println("originalDate:"+fromDate);
 		SimpleDateFormat fromFormat = new SimpleDateFormat("dd-MM월-yyyy");
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date itDate = fromFormat.parse(fromDate);
 			result = toFormat.format(itDate);
-			System.out.println("resultDate:"+result);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
