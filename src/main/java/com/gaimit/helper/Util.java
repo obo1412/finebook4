@@ -418,7 +418,7 @@ public class Util {
 					// "yyyy-MM-dd hh:mm:ss"-> "yyyy-MM-dd HH:mm:ss"
 					// hh 가 HH여아만 24시간제로 표시에 문제가 없다.
 					result = getSqlDateToNormalDateStr(FromStringDate);
-				} else if(dateFormatChecker("dd-MM월-yyyy", FromStringDate)) {
+				} else if(dateFormatChecker("dd-MMM-yyyy", FromStringDate)) {
 					result = normalDateFormatter4(FromStringDate);
 				} else if(FromStringDate.indexOf("-")>-1) {
 					String tempDate = FromStringDate.substring(0,4);
@@ -445,7 +445,7 @@ public class Util {
 	// 데이터 형식의 string 그대로 가져와서 한번 변환해서 내뱉기
 	public String normalDateFormatter4(String fromDate) {
 		String result = null;
-		SimpleDateFormat fromFormat = new SimpleDateFormat("dd-MM월-yyyy");
+		SimpleDateFormat fromFormat = new SimpleDateFormat("dd-MMM-yyyy");
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date itDate = fromFormat.parse(fromDate);
