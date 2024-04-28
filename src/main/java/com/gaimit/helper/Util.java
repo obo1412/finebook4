@@ -418,7 +418,9 @@ public class Util {
 					// "yyyy-MM-dd hh:mm:ss"-> "yyyy-MM-dd HH:mm:ss"
 					// hh 가 HH여아만 24시간제로 표시에 문제가 없다.
 					result = getSqlDateToNormalDateStr(FromStringDate);
-				} else if(dateFormatChecker("dd-MMM-yyyy", FromStringDate)) {
+				} else if(dateFormatChecker("yyyy-MM-dd", FromStringDate)) {
+					result = dateEveryTypeToNormalDateStr("yyyy-MM-dd", FromStringDate);
+				}  else if(dateFormatChecker("dd-MMM-yyyy", FromStringDate)) {
 					result = normalDateFormatter4(FromStringDate);
 				} else if(FromStringDate.indexOf("-")>-1) {
 					String tempDate = FromStringDate.substring(0,4);
@@ -473,6 +475,24 @@ public class Util {
 			SimpleDateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 			SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date itDate = fromFormat.parse(sqlDate);
+			result = toFormat.format(itDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public String dateEveryTypeToNormalDateStr(String dateType, String dateString) {
+		String result = null;
+		// 값이 없을 땐 그냥 null 리턴
+		if(dateString == null || "".equals(dateString)) {
+			return result;
+		}
+		
+		try {
+			SimpleDateFormat fromFormat = new SimpleDateFormat(dateType);
+			SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date itDate = fromFormat.parse(dateString);
 			result = toFormat.format(itDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
