@@ -236,7 +236,9 @@
 									<c:otherwise>
 										<c:forEach begin="0" end="22" step="1" varStatus="blankStat">
 											<tr>
-												<td>${blankStat.count}</td>
+												<!-- 원래 숫자 아래 형태로 표기 -->
+												<%-- <td>${blankStat.count}</td> --%>
+												<td></td>
 												<td></td>
 												<td></td>
 												<td></td>

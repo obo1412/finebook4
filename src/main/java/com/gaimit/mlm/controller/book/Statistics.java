@@ -281,7 +281,13 @@ public class Statistics {
 		
 		String dataListStr = web.getString("dataListStr");
 		
-		String[][] dataList = util.stringTo2DArray(dataListStr, dataRow, dataCol);
+		String[][] dataList = null;
+		
+		// 데이터 값이 넘어왔을 경우.
+		if(dataRow > 1) {
+			dataList = util.stringTo2DArray(dataListStr, dataRow, dataCol);
+		}
+		
 		
 		BookHeld bookHeld = new BookHeld();
 		bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
@@ -334,26 +340,26 @@ public class Statistics {
 				if(util.isToday(thisEndDate, pickDate)) {
 					rtnCount = rtnCount+1;
 				}
-				// 대출 총권수 불러오기
-				totalBrw = brwService.selectBorrowListCount(borrow);
-				// 연체 총권수 불러오기
-				totalOverDue = brwService.selectOverDueCountByLib(borrow);
-				// 도서 총권수 불러오기
-				totalBookCount = bookHeldService.selectBookCountForPage(bookHeld);
-				
-				// 타겟 날짜에 등록된 도서수
-				newBookCount = bookHeldService.selectBookCountByRegDatePick(bookHeld);
-				// 타겟 날짜에 폐기된 도서수
-				discardBookCount = bookHeldService.selectBookDiscardCountByEditDatePick(bookHeld);
-				
-				// 회원 총수
-				totalMemberCount = memberService.getMemberCount(member);
-				// 타겟날짜 신규등록 회원수
-				newMemberCount = memberService.selectNewMemberCountByRegDatePick(member);
-				// 타겟날짜 제적 회원수
-				discardMemberCount = memberService.selectInactiveMemberCountByRegDatePick(member);
-				
 			}
+			
+			// 대출여부에 관계없는 데이터 불러오기
+			// 대출 총권수 불러오기
+			totalBrw = brwService.selectBorrowListCount(borrow);
+			// 연체 총권수 불러오기
+			totalOverDue = brwService.selectOverDueCountByLib(borrow);
+			// 도서 총권수 불러오기
+			totalBookCount = bookHeldService.selectBookCountForPage(bookHeld);
+			// 타겟 날짜에 등록된 도서수
+			newBookCount = bookHeldService.selectBookCountByRegDatePick(bookHeld);
+			// 타겟 날짜에 폐기된 도서수
+			discardBookCount = bookHeldService.selectBookDiscardCountByEditDatePick(bookHeld);
+			
+			// 회원 총수
+			totalMemberCount = memberService.getMemberCount(member);
+			// 타겟날짜 신규등록 회원수
+			newMemberCount = memberService.selectNewMemberCountByRegDatePick(member);
+			// 타겟날짜 제적 회원수
+			discardMemberCount = memberService.selectInactiveMemberCountByRegDatePick(member);
 		} catch (Exception e) {
 			return web.redirect(null, e.getLocalizedMessage());
 		}

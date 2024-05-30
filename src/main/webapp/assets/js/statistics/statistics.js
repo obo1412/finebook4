@@ -73,24 +73,28 @@
 	function dataListArray() {
 		/* console.log(tbody); */
 		var tr = tbody.childNodes;
-		//td length를 위하여 선언.
-		var td = tr[0].childNodes;
-		/* console.log('tr데이터'+tr);
-		console.log('tr의 길이'+tr.length);
-		console.log('td데이터'+td[0].innerText);
-		console.log('td의 길이'+td.length); */
-		
-		var arr = new Array(tr.length);
-		for(var i=0; i<tr.length; i++) {
-			arr[i] = new Array(td.length);
-			for(var j=0; j<td.length; j++) {
-				var td = tr[i].childNodes;
-				/* console.log('i: '+i+' j: '+j+' 값: '+td[j].innerText); */
-				arr[i][j] = td[j].innerText;
-			} 
+		if(tr.length > 0) {
+			//td length를 위하여 선언.
+			var td = tr[0].childNodes;
+			/* console.log('tr데이터'+tr);
+			console.log('tr의 길이'+tr.length);
+			console.log('td데이터'+td[0].innerText);
+			console.log('td의 길이'+td.length); */
+			
+			var arr = new Array(tr.length);
+			for(var i=0; i<tr.length; i++) {
+				arr[i] = new Array(td.length);
+				for(var j=0; j<td.length; j++) {
+					var td = tr[i].childNodes;
+					/* console.log('i: '+i+' j: '+j+' 값: '+td[j].innerText); */
+					arr[i][j] = td[j].innerText;
+				} 
+			}
+			
+			return arr;
+		} else {
+			return []; 
 		}
-		
-		return arr;
 	}
 	
 	//일일 대출/반납 정보 호출
@@ -165,7 +169,8 @@
 							rowBody.insertCell(0).innerText = i+1;
 							//대출/반납 구분을 위한 if문
 							var stateBrw = '';
-							if(brwRtnList[i].endDateBrw == null || brwRtnList[i].endDateBrw == ''){
+							console.log(brwRtnList[i].startDateBrw);
+							if(checkSameDate(brwRtnList[i].startDateBrw, pickDate)){
 								stateBrw = '대출';
 							} else {
 								stateBrw = '반납';
@@ -288,7 +293,21 @@ function makeExcelBrwAndMemberByDateDownload() {
 };
 
 
-
+// 날짜 비교 함수
+function checkSameDate(date1Str, date2Str) {
+	let result = false;
+	
+	const date1 = new Date(date1Str);
+	const date2 = new Date(date2Str);
+	
+	if(date1.getFullYear() === date2.getFullYear()
+			&& date1.getMonth() === date2.getMonth()
+			&& date1.getDate() === date2.getDate()) {
+		result = true;
+	}
+	
+	return result;
+}
 
 
 
