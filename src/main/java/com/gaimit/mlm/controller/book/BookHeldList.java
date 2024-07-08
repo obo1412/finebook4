@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +83,8 @@ public class BookHeldList {
 	
 	@Autowired
 	LibraryService libraryService;
+	
+	static ArrayList<Integer> idLibArr = new ArrayList<>();
 	
 	/** 도서 목록 페이지 */
 	@RequestMapping(value = "/book/book_held_list.do", method = RequestMethod.GET)
@@ -421,7 +424,19 @@ public class BookHeldList {
 			/*return web.redirect(web.getRootPath() + "/index.do", "로그인 후에 이용 가능합니다.");*/
 		}
 		
+		// 이미 진행중인 엑셀화 작업인지 체크하기.
+		int idLib = loginInfo.getIdLibMng();
+		for(int i=0; i<idLibArr.size(); i++) {
+			if(idLibArr.get(i) == idLib) {
+				web.printJsonRt("이미 엑셀화 작업중입니다. 동작을 멈추시고, 잠시만 기다려주세요.");
+				return;
+			}
+		}
+		idLibArr.add(idLib);
+		// 진행중인 엑셀화 작업 체크 끝.
+		
 		String targetYear = web.getString("targetYear");
+		
 		// 아래 연도표기만 하기 위함.
 		int onlyYear = Integer.parseInt(targetYear);
 		SimpleDateFormat dformat = new SimpleDateFormat("yyyy-01-01");
@@ -431,13 +446,11 @@ public class BookHeldList {
 		} else {
 			targetYear = targetYear+"-01-01";
 		}
-		
 		String bookShelf = web.getString("bookShelf");
 		
 		BookHeld bookHeld = new BookHeld();
 		bookHeld.setLibraryIdLib(loginInfo.getIdLibMng());
 		bookHeld.setBookShelf(bookShelf);
-		
 		List<BookHeld> bookHeldList = null;
 		
 //		Date now = new Date();
@@ -470,6 +483,7 @@ public class BookHeldList {
 		// 색상 참조용.
 		IndexedColorMap colorMap = workbook.getStylesSource().getIndexedColors();
 		//엑셀로 내보내기 위한 준비
+		
 		
 		try {
 			// 도서 전체 목록
@@ -677,7 +691,13 @@ public class BookHeldList {
 			workbook.close();
 			fos.close();
 			
+			// 엑셀화 진행중인 도서관 리스트에서 삭제
+			idLibArr.remove(Integer.valueOf(idLib));
+			
+			
 		} catch(Exception e) {
+			// 엑셀화 진행중인 도서관 리스트에서 삭제 에러시에도 처리.
+			idLibArr.remove(Integer.valueOf(idLib));
 			e.printStackTrace();
 		}
 		
@@ -692,7 +712,7 @@ public class BookHeldList {
 		try {
 			mapper.writeValue(response.getWriter(), data);
 		} catch (Exception e) {
-			web.printJsonRt(e.getLocalizedMessage());	
+			web.printJsonRt(e.getLocalizedMessage());
 		}
 	}
 	

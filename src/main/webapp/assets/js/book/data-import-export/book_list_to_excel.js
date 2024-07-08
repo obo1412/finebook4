@@ -9,6 +9,7 @@ function clickedBookHeldListToExcel() {
 	$.ajax({
 		url: "/book/book_held_list_to_excel.do",
 		type: 'POST',
+		timeout:60*2*1000,
 		data: {
 			targetYear,
 			bookShelf
