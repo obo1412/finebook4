@@ -106,7 +106,7 @@
 				AND class_name = #{className}
 			</if>
 		</if>
-		ORDER BY m.name ASC
+		ORDER BY m.name ASC, h.title ASC
 		<if test="listCount != 0">
 			LIMIT #{limitStart}, #{listCount}
 		</if>
