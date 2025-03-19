@@ -108,7 +108,7 @@
 						<div style="height:35%; font-family:'Free 3 of 9'; font-size:10mm; line-height:10mm; transform:scale(1,1.5);">
 							*${item.localIdBarcode}*
 						</div>
-						<div style="padding-top:0mm; font-weight:bold; font-size:3mm;">
+						<div class="left__barcode__text" style="padding-top:0mm; font-weight:bold; font-size:3mm;">
 							${item.localIdBarcode}
 						</div>
 					</div>

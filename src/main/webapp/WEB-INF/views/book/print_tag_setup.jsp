@@ -278,6 +278,17 @@
 									id="tag_19" value="19" ${labelSelect19}/>Roll_DSL전용_B(19)
 							</span>
 						</label>
+						<label class="label__item">
+							<img class="tagImg" src="${pageContext.request.contextPath}/assets/img/tagRollOpt10.png" />
+							<span>
+								<c:set var="labelSelect20" value="" />
+								<c:if test="${tag.labelType eq 20}">
+									<c:set var="labelSelect20" value="checked" />
+								</c:if>
+								<input type="radio" name="tagType"
+									id="tag_20" value="20" ${labelSelect20}/>Roll_Opt_10(20)
+							</span>
+						</label>
 					</div>
 				</div>
 				

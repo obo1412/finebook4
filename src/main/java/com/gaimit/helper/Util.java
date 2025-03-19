@@ -564,6 +564,8 @@ public class Util {
 			result = "book/print_tag/roll_opt8_dsl_a";
 		} else if(tagType ==19) {
 			result = "book/print_tag/roll_opt9_dsl_b";
+		} else if(tagType ==20) {
+			result = "book/print_tag/roll_opt10";
 		}
 		return result;
 	}

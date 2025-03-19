@@ -68,6 +68,7 @@
 		
 	.left__nameLib {
 		font-size: var(--a4-fontsize-namelib);
+		font-family: ChosunBg;
 	}
 	
 	/* 오른쪽 qr코드 근처 바코드 숫자 */
@@ -79,5 +80,12 @@
 	.bookTitleSection {
 		font-size: 2.4mm;
 		transform: translate(0mm,1mm);
+		font-family: ChosunBg;
+		font-weight: 600;
+	}
+	
+	.left__barcode__text {
+		font-family: ChosunBg;
+		font-weight: 600;
 	}
 }

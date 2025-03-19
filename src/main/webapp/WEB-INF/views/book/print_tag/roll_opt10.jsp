@@ -50,14 +50,14 @@
 		
 	}
 	
-	.callNoBox__opt8 {
-		float:right;
+	.callNoBox__this {
+		float:left;
 		width:33mm;
 		height:100%;
 		white-space:nowrap;
 	}
 	
-	.callText__opt8 {
+	.callText__this {
 		float:left;
 		width:19mm;
 		height:100%;
@@ -68,13 +68,13 @@
 		font-family: ChosunBg;
 	}
 	
-	.callText__opt8__translate {
-		transform:translate(0mm,-2mm);
+	.callText__this__translate {
+		transform:translate(0mm,-9mm);
 		/* 바코드 번호 8자리일 경우엔 x: 1.5mm 정도 주는게 딱 좋다.
 		나중에 자리수에 맞추어 변경 필요할듯. */
 	}
 	
-	.callText__opt8__lineHeight {
+	.callText__this__lineHeight {
 		line-height:4mm;
 	}
 	
@@ -82,7 +82,7 @@
 </head>
 <body>
 	<div class="prtNone">
-		<span class="prtNone" style="font-size:30pt;">롤프린터 태그 - 옵션8 - DSL전용 라벨A</span>
+		<span class="prtNone" style="font-size:30pt;">롤프린터 태그 - 옵션10</span>
 		<span class="prtNone">
 			<button class="btn btn-danger prtNone" id="btn-print">인쇄</button>
 		</span>
@@ -124,32 +124,12 @@
 								</div>
 							</div>
 						</div> --%>
-						<div class="kdc1Section" style="float:left; width:16mm; height:100%; background-color:${item.classCodeColor};">
-							<div style="color:white; text-align:center; position:relative; top:50%; transform:translate(1mm,-50%);">
-								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:ChosunBg;">
-									<c:choose>
-										<c:when test="${item.classCodeHead gt 0}">
-											<fmt:parseNumber var="clsCodeHead" integerOnly="true" value="${item.classCodeHead}" />
-											${clsCodeHead}
-										</c:when>
-										<c:when test="${item.classCodeHead eq 0}">
-											<c:set var="classCode" value="000" />
-											${classCode}
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
-									</c:choose>
-									
-								</div>
-							</div>
-						</div>
 						
-						<div class="callNoBox callNoBox__opt8">
-							<div class="callText callText__opt8">
-								<div class="callText__opt8__translate">
+						<div class="callNoBox callNoBox__this">
+							<div class="callText callText__this">
+								<div class="callText__this__translate">
 									
-									<div class="callText__opt8__lineHeight">
+									<div class="callText__this__lineHeight">
 										<c:choose>
 											<c:when test="${not empty item.additionalCode}">
 												<div class="addi__code">${item.additionalCode}</div>
@@ -197,6 +177,27 @@
 									</div>
 									
 									<div>${item.localIdBarcode}</div>
+									
+								</div>
+							</div>
+						</div>
+						
+						<div class="kdc1Section" style="float:right; width:16mm; height:100%; background-color:white;">
+							<div style="color:white; text-align:center; position:relative; top:50%; transform:translate(-0.5mm,-50%);">
+								<div style="font-size: 24pt; font-weight:900; transform:rotate(90deg); font-family:ChosunBg;">
+									<c:choose>
+										<c:when test="${item.classCodeHead gt 0}">
+											<fmt:parseNumber var="clsCodeHead" integerOnly="true" value="${item.classCodeHead}" />
+											
+										</c:when>
+										<c:when test="${item.classCodeHead eq 0}">
+											<c:set var="classCode" value="000" />
+											
+										</c:when>
+										<c:otherwise>
+											
+										</c:otherwise>
+									</c:choose>
 									
 								</div>
 							</div>
