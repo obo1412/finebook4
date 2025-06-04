@@ -577,7 +577,7 @@ public class Util {
 	public int qrCodeChecker(int tagType) {
 		int result = 0;
 		
-		if(tagType==0 || tagType==7 || tagType==10 || tagType==12) {
+		if(tagType==0 || tagType==7 || tagType==10 || tagType==12 || tagType == 17) {
 			result = 1;
 		}
 		
