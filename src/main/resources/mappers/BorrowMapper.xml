@@ -178,12 +178,13 @@
 			id_brw, id_lib_brw, book_held_id, title, writer, local_id_barcode,
 			publisher,
 			id_member_brw, m.name, m.phone, m.barcode_mbr, start_date_brw, end_date_brw,
-			due_date_brw, grade_name
+			due_date_brw, grade_name, c.class_name
 		FROM borrow r
 		INNER JOIN book_held h ON r.book_held_id = h.id
 		<!-- INNER JOIN book b ON b.id_book = h.book_id_book -->
 		INNER JOIN member m ON r.id_member_brw = m.id
 		INNER JOIN member_grade g ON m.grade_id = g.grade_id
+		LEFT OUTER JOIN member_class c ON m.class_id = c.id_mbr_class
 		WHERE id_lib_brw = #{idLibBrw}
 		<choose>
 			<when test="pickDateBrw==null || pickDateBrw==''">
@@ -604,10 +605,12 @@
 		SELECT
 			id_brw, start_date_brw, end_date_brw,
 			title, writer, local_id_barcode,
-			name
+			name,
+			c.class_name
 		FROM borrow r
 		INNER JOIN book_held h ON h.id = r.book_held_id
 		INNER JOIN member m ON m.id = r.id_member_brw
+		LEFT OUTER JOIN member_class c ON m.class_id = c.id_mbr_class
 		WHERE id_lib_brw = #{idLibBrw}
 		AND (start_date_brw &gt; #{startDateBrw} + INTERVAL -1 DAY)
 		AND (start_date_brw &lt; #{endDateBrw} + INTERVAL 1 DAY)

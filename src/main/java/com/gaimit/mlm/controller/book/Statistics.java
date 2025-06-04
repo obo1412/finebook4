@@ -568,24 +568,26 @@ public class Statistics {
 			return null;
 		}
 		
-		String[][] result = new String[list.size()+1][7];
+		String[][] result = new String[list.size()+1][8];
 		
 		result[0][0] = "번호";
 		result[0][1] = "도서명";
 		result[0][2] = "저자명";
 		result[0][3] = "도서등록번호";
-		result[0][4] = "회원명";
-		result[0][5] = "대출일";
-		result[0][6] = "반납일";
+		result[0][4] = "회원분류";
+		result[0][5] = "회원명";
+		result[0][6] = "대출일";
+		result[0][7] = "반납일";
 		
 		for(int i=0; i<list.size(); i++) {
 			result[i+1][0] = String.valueOf(i+1);
 			result[i+1][1] = list.get(i).getTitle();
 			result[i+1][2] = list.get(i).getWriter();
 			result[i+1][3] = list.get(i).getLocalIdBarcode();
-			result[i+1][4] = list.get(i).getName();
-			result[i+1][5] = list.get(i).getStartDateBrw();
-			result[i+1][6] = list.get(i).getEndDateBrw();
+			result[i+1][4] = list.get(i).getClassName();
+			result[i+1][5] = list.get(i).getName();
+			result[i+1][6] = util.getSqlDateToNormalDateStr(list.get(i).getStartDateBrw());
+			result[i+1][7] = util.getSqlDateToNormalDateStr(list.get(i).getEndDateBrw());
 		}
 		
 		return result;

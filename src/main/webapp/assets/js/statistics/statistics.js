@@ -127,7 +127,7 @@
 					//데이터 행의 길이 input에 기록.+1 이유는 제목라인을 포함하기 때문에.
 					dataRow.value = brwRtnList.length+1;
 					//데이터 열의 길이 input에 기록 0~11번까지니까, 이런건 직접 기록.
-					dataCol.value = 12;
+					dataCol.value = 13;
 					if(brwRtnList.length > 0) {
 						rowBody = tbody.insertRow();
 						var cell0 = rowBody.insertCell(0); 
@@ -147,23 +147,26 @@
 						cell5.innerText = '등록번호';
 						cell5.style.width = '90px';
 						var cell6 = rowBody.insertCell(6); 
-						cell6.innerText = '고객성명';
+						cell6.innerText = '회원분류';
 						cell6.style.width = '70px';
-						var cell7 = rowBody.insertCell(7);
-						cell7.innerText = '연락처';
-						cell7.style.width = '120px';
+						var cell7 = rowBody.insertCell(7); 
+						cell7.innerText = '고객성명';
+						cell7.style.width = '70px';
 						var cell8 = rowBody.insertCell(8);
-						cell8.innerText = '고객번호';
-						cell8.style.width = '90px';
+						cell8.innerText = '연락처';
+						cell8.style.width = '120px';
 						var cell9 = rowBody.insertCell(9);
-						cell9.innerText = '대출일';
-						cell9.style.width = '100px';
+						cell9.innerText = '고객번호';
+						cell9.style.width = '90px';
 						var cell10 = rowBody.insertCell(10);
-						cell10.innerText = '반납일';
+						cell10.innerText = '대출일';
 						cell10.style.width = '100px';
 						var cell11 = rowBody.insertCell(11);
-						cell11.innerText = '비고';
-						cell11.style.width = '40px';
+						cell11.innerText = '반납일';
+						cell11.style.width = '100px';
+						var cell12 = rowBody.insertCell(12);
+						cell12.innerText = '비고';
+						cell12.style.width = '40px';
 						for(var i=0; i<brwRtnList.length; i++) {
 							rowBody =  tbody.insertRow();
 							rowBody.insertCell(0).innerText = i+1;
@@ -180,12 +183,13 @@
 							rowBody.insertCell(3).innerText = brwRtnList[i].writer;
 							rowBody.insertCell(4).innerText = brwRtnList[i].publisher;
 							rowBody.insertCell(5).innerText = brwRtnList[i].localIdBarcode;
-							rowBody.insertCell(6).innerText = brwRtnList[i].name;
-							rowBody.insertCell(7).innerText = brwRtnList[i].phone;
-							rowBody.insertCell(8).innerText = brwRtnList[i].barcodeMbr;
-							rowBody.insertCell(9).innerText = dateFormChange(brwRtnList[i].startDateBrw);
-							rowBody.insertCell(10).innerText = dateFormChange(brwRtnList[i].endDateBrw);
-							rowBody.insertCell(11).innerText = '';
+							rowBody.insertCell(6).innerText = brwRtnList[i].className;
+							rowBody.insertCell(7).innerText = brwRtnList[i].name;
+							rowBody.insertCell(8).innerText = brwRtnList[i].phone;
+							rowBody.insertCell(9).innerText = brwRtnList[i].barcodeMbr;
+							rowBody.insertCell(10).innerText = dateFormChange(brwRtnList[i].startDateBrw);
+							rowBody.insertCell(11).innerText = dateFormChange(brwRtnList[i].endDateBrw);
+							rowBody.insertCell(12).innerText = '';
 						} //for문 끝
 					} //if문 끝
 				} //성공처리 끝
