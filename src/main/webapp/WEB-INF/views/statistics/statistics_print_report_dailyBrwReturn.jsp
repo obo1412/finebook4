@@ -142,28 +142,56 @@
 					<!-- 통계 현황 칸 -->
 					<div style="float:left; width:100%; height:230mm; box-sizing:border-box;">
 						<table style="width:100%;">
-							<thead>
-								<tr class="background-grey">
-									<th style="width:40px;">번호</th>
-									<th style="width:40px;">구분</th>
-									<th style="width:300px;">
-											도서명<br>
-											등록번호
-									</th>
-									<th style="width:200px;">고객성명/연락처<br>고객고유번호</th>
-									<th style="width:90px;">대출일자<br>반납기일</th>
-									<th>비고</th>
-								</tr>
-							</thead>
+							<%-- <thead>
+								<c:forEach items="${dataList}" varStatus="theadStat">
+									<!-- index21 면 22번째칸의 공간 띄기-->
+									<c:if test="${(theadStat.index ne 0) and ((theadStat.index mod 21) eq 1)}">
+										<tr style="width:100%; height:30mm;"></tr>
+									</c:if>
+									<!-- 22번째 칸 공간 띄기 끝 -->
+								</c:forEach>
+								
+							</thead> --%>
 							<tbody>
 								<c:choose>
 									<c:when test="${fn:length(dataList) > 0}">
 										<c:forEach var="row" items="${dataList}" varStatus="firStat">
-											<!-- index21 면 22번째칸의 공간 띄기-->
-											<c:if test="${(firStat.index ne 1) and ((firStat.index mod 21) eq 1)}">
-												<div style="width:100%; height:30mm;"></div>
-											</c:if>
-											<!-- 이부분 검증 제대로 안했음. 다시 체크하자. -->
+											<c:choose>
+												<c:when test="${(firStat.index < 22) and ((firStat.index mod 21) eq 1)}">
+													<c:if test="${firStat.index ne 1}">
+														<tr style="width:100%; height:30mm;"></tr>
+													</c:if>
+													<tr class="background-grey">
+														<th style="width:40px;">번호</th>
+														<th style="width:40px;">구분</th>
+														<th style="width:300px;">
+																도서명<br>
+																등록번호
+														</th>
+														<th style="width:200px; font-size:14px;">고객분류/고객성명<br>고유번호/연락처</th>
+														<th style="width:90px;">대출일자<br>반납기일</th>
+														<th>비고</th>
+													</tr>
+												</c:when>
+												<c:when test="${((firStat.index - 21)>0) and (((firStat.index - 21) mod 24) eq 1)}">
+													<c:if test="${firStat.index ne 1}">
+														<tr style="width:100%; height:30mm;"></tr>
+													</c:if>
+													<tr class="background-grey">
+														<th style="width:40px;">번호</th>
+														<th style="width:40px;">구분</th>
+														<th style="width:300px;">
+																도서명<br>
+																등록번호
+														</th>
+														<th style="width:200px;">고객분류/고객성명<br>고유번호/연락처</th>
+														<th style="width:90px;">대출일자<br>반납기일</th>
+														<th>비고</th>
+													</tr>
+												</c:when>
+												<c:otherwise>
+												</c:otherwise>
+											</c:choose>
 											<c:if test="${firStat.index gt 0}">
 												<tr>
 													<td style="text-align:center;">${dataList[firStat.index][0]}</td>
@@ -172,20 +200,20 @@
 														${dataList[firStat.index][2]}<br>
 														${dataList[firStat.index][5]}
 													</td>
-													<td style="padding-left:6px;">
+													<td style="padding-left:6px; font-size:15px;">
 														${dataList[firStat.index][6]}/${dataList[firStat.index][7]}<br>
-														${dataList[firStat.index][8]}
+														${dataList[firStat.index][9]}/${dataList[firStat.index][8]}
 													</td>
 														<!-- 아래 대출/반납날짜 글자->날짜 다시 날짜->글자로 파싱 -->
-														<fmt:parseDate var="brwDateStr" value="${dataList[firStat.index][9]}" pattern="yyyy-MM-dd" />
+														<fmt:parseDate var="brwDateStr" value="${dataList[firStat.index][10]}" pattern="yyyy-MM-dd" />
 														<!-- DB에서 가져온 String형 데이터를 Date로 변환 var 변수명, pattern 날짜형식, value 컨트롤러에서 받은값 var에 저장 -->
 														<fmt:formatDate var="brwDateFmt" value="${brwDateStr}" pattern="yyyy-MM-dd" />
 														<!-- Date형으로 저장된 값을 String으로 변환 var변수에 넣고 아래처럼 변수를 사용 -->
-														<fmt:parseDate var="rtnDateStr" value="${dataList[firStat.index][10]}" pattern="yyyy-MM-dd" />
+														<fmt:parseDate var="rtnDateStr" value="${dataList[firStat.index][11]}" pattern="yyyy-MM-dd" />
 														<!-- DB에서 가져온 String형 데이터를 Date로 변환 var 변수명, pattern 날짜형식, value 컨트롤러에서 받은값 var에 저장 -->
 														<fmt:formatDate var="rtnDateFmt" value="${rtnDateStr}" pattern="yyyy-MM-dd" />
 														<!-- Date형으로 저장된 값을 String으로 변환 var변수에 넣고 아래처럼 변수를 사용 -->
-													<td style="text-align:center;">
+													<td style="text-align:center; font-size:14px;">
 														${brwDateFmt}<br>
 														<c:choose>
 															<c:when test="${empty rtnDateFmt}">
@@ -196,14 +224,14 @@
 															</c:otherwise>
 														</c:choose>
 													</td>
-													<td>${dataList[firStat.index][11]}</td>
+													<td>${dataList[firStat.index][12]}</td>
 												</tr>
 											</c:if>
 											
 											<!-- 빈칸 강제로 생성되며, 마지막일 경우에만 작동 -->
-											<c:choose>
-												<c:when test="${(firStat.last)and(fn:length(dataList) < 24)}">
-													<c:forEach begin="0" end="${23-fn:length(dataList)}" step="1" varStatus="under">
+											<%-- <c:choose>
+												<c:when test="${(firStat.last)and(fn:length(dataList) < 23)}">
+													<c:forEach begin="0" end="${21-fn:length(dataList)}" step="1" varStatus="under">
 														<tr>
 															<td></td>
 															<td></td>
@@ -215,9 +243,9 @@
 													</c:forEach>
 												</c:when>
 												<c:when test="${(firStat.last)and(fn:length(dataList)-1)%22 > 0}">
-													<c:forEach begin="0" end="${23-((fn:length(dataList)-1)%22)}" step="1">
+													<c:forEach begin="${(fn:length(dataList)-1)%21}" end="${21-((fn:length(dataList)-1)%21)}" step="1" varStatus="over21">
 														<tr>
-															<td></td>
+															<td>${over21.count}</td>
 															<td></td>
 															<td></td>
 															<td></td>
@@ -228,12 +256,23 @@
 												</c:when>
 												<c:otherwise>
 												</c:otherwise>
-											</c:choose>
+											</c:choose> --%>
 											<!-- 빈칸 강제로 생성 끝-->
 										</c:forEach>
 										
 									</c:when>
 									<c:otherwise>
+										<tr class="background-grey">
+											<th style="width:40px;">번호</th>
+											<th style="width:40px;">구분</th>
+											<th style="width:300px;">
+													도서명<br>
+													등록번호
+											</th>
+											<th style="width:200px; font-size:14px">고객분류/고객성명<br>고유번호/연락처</th>
+											<th style="width:90px;">대출일자<br>반납기일</th>
+											<th>비고</th>
+										</tr>
 										<c:forEach begin="0" end="22" step="1" varStatus="blankStat">
 											<tr>
 												<!-- 원래 숫자 아래 형태로 표기 -->
