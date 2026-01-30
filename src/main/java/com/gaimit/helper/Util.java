@@ -459,6 +459,19 @@ public class Util {
 		return result;
 	}
 	
+	public boolean isValidDate(String sqlDate, String pattern) {
+		SimpleDateFormat fromFormat = new SimpleDateFormat(pattern);
+		fromFormat.setLenient(false);
+		
+		try {
+			fromFormat.parse(sqlDate);
+			return true;
+		} catch(ParseException e) {
+			return false;
+		}
+
+	}
+	
 	/**
 	 * 일반적인 mysql 날짜 형태(yyyy-MM-dd hh:mm:ss.SSS)를 yyyy-MM-dd로 바꿔주기
 	 * @param sqlDate
@@ -472,9 +485,20 @@ public class Util {
 		}
 		
 		try {
-			SimpleDateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			SimpleDateFormat fromFormat;
+			boolean formatOkOrNot = false;
+			formatOkOrNot = isValidDate(sqlDate, "yyyy-MM-dd hh:mm:ss.SSS");
+			Date itDate;
+			if(formatOkOrNot) {
+				fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+				itDate = fromFormat.parse(sqlDate);
+			} else {
+				//isValidDate 바로위에 이 함수를 만들어서 패턴에 따라 from포맷 적용
+				fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				itDate = fromFormat.parse(sqlDate);
+			}
 			SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date itDate = fromFormat.parse(sqlDate);
+			System.out.println(itDate);
 			result = toFormat.format(itDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
